@@ -1,0 +1,20 @@
+# Függőségek
+backend/node_modules/
+
+# Adatbázis
+backend/database.db
+
+# Környezeti változók
+.env
+
+# Operációs rendszer
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logok
+*.log
+npm-debug.log*
