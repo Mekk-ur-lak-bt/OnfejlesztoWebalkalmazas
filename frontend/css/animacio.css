@@ -1,0 +1,251 @@
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-star {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .5;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes progress-glow {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.4);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    left: -50%;
+  }
+
+  13%,
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes halo-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes draw-polygon {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes radar-pulse {
+
+  0%,
+  100% {
+    fill: rgba(224, 57, 90, .10);
+    stroke-opacity: 1;
+  }
+
+  50% {
+    fill: rgba(224, 57, 90, .22);
+    stroke-opacity: .70;
+  }
+}
+
+@keyframes node-breathe {
+
+  0%,
+  100% {
+    r: 2;
+    opacity: 1;
+  }
+
+  50% {
+    r: 2.8;
+    opacity: .70;
+  }
+}
+
+@keyframes radar-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.oszlop-bal {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 0ms both;
+}
+
+.oszlop-kozep {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 80ms both;
+}
+
+.oszlop-jobb {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 160ms both;
+}
+
+.profil-oldalsav {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 80ms both;
+}
+
+.naptar-oldalsav {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 160ms both;
+}
+
+.grafikon-kartya {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 160ms both;
+}
+
+.statisztika-racs {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 280ms both;
+}
+
+.todo-oldalsav {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 200ms both;
+}
+
+.feladat-lista .feladat:nth-child(1) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 280ms both;
+}
+
+.feladat-lista .feladat:nth-child(2) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 370ms both;
+}
+
+.feladat-lista .feladat:nth-child(3) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 460ms both;
+}
+
+.feladat-lista .feladat:nth-child(4) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 550ms both;
+}
+
+.feladat-lista .feladat:nth-child(5) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 630ms both;
+}
+
+.statisztika-racs .mini-kartya:nth-child(1) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 360ms both;
+}
+
+.statisztika-racs .mini-kartya:nth-child(2) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 460ms both;
+}
+
+.statisztika-racs .mini-kartya:nth-child(3) {
+  animation: fade-up var(--ido-lassu) var(--animacio-snap) 560ms both;
+}
+
+.erme-szamlalo span {
+  animation: pulse-star 3s ease-in-out infinite;
+}
+
+.haladasi-sav {
+  animation: progress-glow 3s ease-in-out infinite;
+}
+
+.haladasi-sav::-webkit-progress-value {
+  position: relative;
+  animation: progress-glow 3s ease-in-out infinite;
+}
+
+.profil-oldalsav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .45), transparent);
+  animation: shimmer-sweep 11.5s var(--animacio-finom) infinite;
+  pointer-events: none;
+}
+
+.radar-halo {
+  opacity: 0;
+  animation: halo-fade .6s ease-out forwards;
+}
+
+.radar-halo:nth-child(1) {
+  animation-delay: .10s;
+}
+
+.radar-halo:nth-child(2) {
+  animation-delay: .22s;
+}
+
+.radar-halo:nth-child(3) {
+  animation-delay: .34s;
+}
+
+.radar-terulet {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation:
+    draw-polygon 1.2s var(--animacio-snap) .5s forwards,
+    radar-pulse 4s ease-in-out 1.8s infinite;
+}
+
+.radar-node {
+  animation: node-breathe 3.5s ease-in-out infinite;
+}
+
+.radar-node:nth-child(2) {
+  animation-delay: .4s;
+}
+
+.radar-node:nth-child(3) {
+  animation-delay: .8s;
+}
+
+.radar-node:nth-child(4) {
+  animation-delay: 1.2s;
+}
+
+.radar-node:nth-child(5) {
+  animation-delay: 1.6s;
+}
+
+.radar-scan {
+  transform-origin: 50px 50px;
+  animation: radar-rotate 12s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

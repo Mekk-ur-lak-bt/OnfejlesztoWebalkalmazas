@@ -1,0 +1,278 @@
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--szinatmenet-hatter);
+  background-attachment: fixed;
+  color: var(--szoveg-alap);
+}
+
+h1 {
+  color: var(--szin-sotet);
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li a {
+  border-radius: 8px;
+  color: var(--szoveg-alap);
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: var(--color-srgb-blush);
+  color: var(--szin-tema-kiemelt);
+}
+
+.bejelentkez-menu ul li {
+  border-radius: var(--sugar-lg);
+  background-color: var(--szin-tema-hatter-eltero);
+  border: 1px solid var(--szin-tema-szegely);
+  color: var(--szin-sotet);
+}
+
+.bejelentkez-menu ul li:last-child a {
+  color: var(--szin-sotet);
+}
+
+header h2,
+details summary {
+  color: var(--szin-vilagos);
+  text-shadow: var(--ragyogas);
+}
+
+details {
+  border-radius: var(--sugar-lg);
+  background: var(--szinatmenet);
+  border-right: 1px solid var(--szin-tema-szegely);
+  cursor: pointer;
+}
+
+img {
+  border-radius: var(--sugar-sm);
+}
+
+.naptar {
+  background-color: var(--szin-tema-hatter);
+  border: 1px solid var(--szin-sotet);
+  border-radius: var(--sugar-sm);
+}
+
+.erme-szamlalo {
+  color: var(--szin-sotet);
+  text-shadow: var(--ragyogas);
+}
+
+.erme-szamlalo span {
+  color: var(--szin-sotet);
+  text-shadow: var(--ragyogas);
+}
+
+.cimke {
+  border: 1px solid var(--szin-kozepes);
+  border-radius: var(--sugar-lg);
+  background-color: var(--szin-tema-mely);
+  color: var(--szin-sotet);
+}
+
+.feladat-lista {
+  scrollbar-width: thin;
+  scrollbar-color: var(--szin-tema-szegely) transparent;
+}
+
+.feladat-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.feladat-lista::-webkit-scrollbar-thumb {
+  background: var(--szin-tema-szegely);
+  border-radius: 2px;
+}
+
+.feladat {
+  background: var(--szin-tema-mely);
+  border: 1px solid var(--szin-tema-szegely);
+  border-radius: var(--sugar-sm);
+  cursor: pointer;
+  transition:
+    transform var(--ido-kozep) var(--animacio-snap),
+    border-color var(--ido-kozep) var(--animacio-snap),
+    box-shadow var(--ido-kozep) var(--animacio-snap),
+    background var(--ido-kozep) var(--animacio-snap);
+}
+
+.feladat::before {
+  background: linear-gradient(180deg, transparent, var(--szin-sotet), transparent);
+}
+
+.feladat:hover {
+  border-color: rgba(224, 57, 90, 0.35);
+  background: var(--szin-tema-kiemelt);
+  box-shadow: 0 4px 22px rgba(224, 57, 90, 0.1);
+}
+
+.feladat span {
+  color: var(--szin-kiemelt);
+  cursor: pointer;
+}
+
+.feladat p {
+  color: var(--szin-sotet);
+}
+
+.feladat.kesz {
+  opacity: 0.5;
+  background: var(--szin-tema-hatter-eltero);
+}
+
+.feladat.kesz span {
+  text-decoration-color: var(--szin-sotet);
+  color: var(--szoveg-alap);
+}
+
+.feladat.kesz p {
+  color: var(--szoveg-alcim);
+}
+
+.feladat.kesz::before {
+  background: linear-gradient(180deg, transparent, var(--szin-kiemelt), transparent);
+  border-radius: 0 2px 2px 0;
+  transition: background var(--ido-kozep) var(--animacio-snap);
+}
+
+.feladat.kesz:hover::before {
+  background: linear-gradient(180deg, transparent, var(--szin-vilagos), transparent);
+}
+
+.feladat.kesz::after {
+  color: var(--szin-sotet);
+}
+
+.szint-szoveg {
+  color: var(--szin-sotet);
+  text-shadow: var(--ragyogas);
+}
+
+.aktival-szint {
+  background: linear-gradient(90deg, var(--szin-sotet), var(--szin-vilagos));
+  border-radius: 2px;
+}
+
+.grafikon-kartya {
+  background:
+    radial-gradient(ellipse 70% 70% at center,
+      rgba(224, 57, 90, 0.04) 0%,
+      transparent 70%),
+    linear-gradient(145deg, var(--szin-tema-mely) 0%, var(--szin-tema-hatter-eltero) 100%);
+  border: 1px solid var(--szin-tema-hatter);
+  border-radius: var(--sugar-sm);
+  box-shadow: var(--arnyek-lg);
+  transition: box-shadow var(--ido-kozep) var(--animacio-snap);
+}
+
+.grafikon-kartya:hover {
+  box-shadow: var(--arnyek-lg), var(--ragyogas);
+}
+
+.grafikon-kartya::before,
+.grafikon-kartya::after {
+  border-color: var(--szin-sotet);
+  border-style: solid;
+  opacity: 0.5;
+}
+
+.grafikon-kartya summary {
+  color: var(--szin-sotet);
+  text-shadow: var(--ragyogas);
+}
+
+.radar-halo {
+  stroke: var(--szin-tema-szegely);
+  fill: none;
+  stroke-width: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+.radar-terulet {
+  fill: var(--szin-atlatszo-kozepes);
+  stroke: var(--szin-kozepes);
+  filter: drop-shadow(0 0 5px rgba(224, 57, 90, 0.45));
+}
+
+.mini-kartya {
+  background: var(--szin-tema-hatter-eltero);
+  border: 1px solid var(--szin-tema-szegely);
+  border-radius: var(--sugar-lg);
+  transition:
+    transform var(--ido-kozep) var(--animacio-darabos),
+    box-shadow var(--ido-kozep) var(--animacio-darabos),
+    border-color var(--ido-kozep) var(--animacio-darabos);
+}
+
+.mini-kartya::before {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.45;
+  transition: opacity var(--ido-kozep) var(--animacio-finom);
+  background: radial-gradient(ellipse, var(--szin-kozepes), transparent 70%);
+}
+
+.mini-kartya:hover {
+  border-color: color-mix(in srgb, var(--szin-kozepes) 10%, transparent);
+  box-shadow: var(--ragyogas);
+}
+
+.mini-kartya:hover::before {
+  opacity: 0.85;
+}
+
+.mini-kartya > summary {
+  color: var(--szin-kiemelt);
+}
+
+.mini-kartya p {
+  color: var(--szin-sotet);
+  text-shadow: var(--ragyogas);
+}
+
+progress {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid var(--szin-kiemelt);
+  height: 10px;
+  border-radius: var(--sugar-sm);
+  background-color: var(--szin-tema-mely);
+  overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--szin-tema-mely);
+  border-radius: var(--sugar-sm);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--szin-kiemelt);
+  border-radius: var(--sugar-sm);
+  position: relative;
+  background-image: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  background-size: 200% 100%;
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--szin-kiemelt);
+  border-radius: var(--sugar-sm);
+}

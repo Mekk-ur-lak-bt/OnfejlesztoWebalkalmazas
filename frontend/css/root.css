@@ -1,0 +1,57 @@
+:root {
+  --szin-tema-hatter: #ede2e4;
+  --szin-tema-hatter-eltero: #e3d9f5;
+  --szin-tema-szegely: #bb8a8e;
+  --szin-tema-mely: #efa4af;
+  --szin-tema-kiemelt: #a43953;
+
+  --szin-vilagos: #ff8fab;
+  --szin-kozepes: #fb6f92;
+  --szin-sotet: #5c1111;
+  --szin-halvany: #ffe5ec;
+  --szin-kiemelt: #f12349;
+
+  --szinatmenet: linear-gradient(180deg,
+      rgb(255 255 255 / 97%) 0%,
+      rgb(253 129 154 / 94%) 100%);
+  --szinatmenet-hatter: radial-gradient(circle at center, rgb(222 209 229 / 97%) 90%, rgb(176 160 185 / 94%) 100%);
+
+  --arnyek-sm: 0 1px 3px rgba(180, 140, 150, 0.15), 0 0 0 1px var(--szin-tema-szegely);
+  --arnyek-lg: 0 4px 20px rgba(240, 224, 228, 0.103), 0 0 5px 1px var(--szin-tema-hatter-eltero);
+
+  --ragyogas: 0 0 20px rgba(255, 143, 171, 0.3), 0 0 4px rgba(255, 143, 171, 0.5);
+
+  --szin-atlatszo-kiemelt: color-mix(in srgb, var(--szin-kiemelt) 20%, transparent);
+  --szin-atlatszo-kozepes: color-mix(in srgb, var(--szin-kozepes) 20%, transparent);
+  --szin-atlatszo-mely: color-mix(in srgb, var(--szin-tema-mely) 20%, transparent);
+
+  --szoveg-alap: #5e4349;
+  --szoveg-alcim: #603e45;
+  --szoveg-kiemelt: #680c1f;
+
+  --betu-dekor: "Cinzel Decorative", serif;
+  --betu-serif: "Noto Serif SC", serif;
+  --betu-sans: "Rajdhani", sans-serif;
+  --betu-mono: "Share Tech Mono", monospace;
+
+  --tavolsag-xs: 4px;
+  --tavolsag-sm: 8px;
+  --tavolsag-md: 16px;
+  --tavolsag-lg: 24px;
+  --tavolsag-xl: 32px;
+
+  --sugar-xs: 4px;
+  --sugar-sm: 7px;
+  --sugar-md: 9px;
+  --sugar-lg: 11px;
+  --sugar-xl: 26px;
+
+  --ido-gyors: 160ms;
+  --ido-kozep: 300ms;
+  --ido-lassu: 560ms;
+
+  --animacio-snap: cubic-bezier(0.22, 1, 0.36, 1);
+  --animacio-finom: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --kep-hatter: url("https://fastly.picsum.photos/id/831/200/200.jpg?hmac=AANxS9u4DeDj11ZED76-Rss_Un2ervq4KBoDKOOu4aI");
+}

@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+SC:wght@300;400;600&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap");
+
+h1,
+h2,
+summary,
+nav ul li a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--betu-sans);
+}
+
+h1 {
+  text-align: center;
+}
+
+nav ul li a,
+.mini-kartya summary,
+.todo-oldalsav h2 {
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--betu-sans);
+}
+
+.profil-oldalsav summary,
+.naptar-oldalsav summary,
+.todo-oldalsav summary,
+.grafikon-kartya summary {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: var(--betu-dekor);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+header {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-family: var(--betu-dekor);
+}
+
+.erme-szamlalo,
+.mini-kartya p {
+  font-family: var(--betu-mono);
+}
+
+.erme-szamlalo span {
+  font-size: 20px;
+}
+
+p,
+.cimke {
+  text-transform: uppercase;
+  font-family: var(--betu-mono);
+  white-space: nowrap;
+  letter-spacing: normal;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.feladat label span {
+  font-family: var(--betu-serif);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.feladat.kesz label span {
+  text-decoration: line-through;
+}
+
+.mini-kartya header {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-family: var(--betu-mono);
+  font-size: 9px;
+}
+
+.mini-kartya p {
+  line-height: 1.1;
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+
+  .profil-oldalsav header h2,
+  .todo-oldalsav header h2 {
+    font-size: 11px;
+  }
+
+  .erme-szamlalo {
+    font-size: 11px;
+  }
+
+  .feladat label span {
+    font-size: 12px;
+  }
+
+  .grafikon-kartya header {
+    font-size: 10px;
+  }
+
+  .cimke {
+    font-size: 8px;
+  }
+
+  .szint-sav p {
+    font-size: 10px;
+  }
+
+  .mini-kartya p {
+    font-size: 18px;
+  }
+}
