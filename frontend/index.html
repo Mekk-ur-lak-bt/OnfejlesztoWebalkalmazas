@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dashboard for tracking daily quests and statistics." />
+  <title>Dream Team | Dashboard</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <main>
+
+    <section class="oszlop-bal">
+      <details open class="profil-oldalsav">
+        <summary>User123</summary>
+        <header>
+          <img src="img/avatar.jpg" alt="User123 avatarja" />
+          <div class="szint-sav">
+            <p>LVL 14 EXPLORER</p>
+            <progress class="haladasi-sav" value="70" max="100"></progress>
+          </div>
+          <div class="erme-szamlalo"><span>✧</span>2,450</div>
+        </header>
+      </details>
+
+      <details open class="naptar-oldalsav">
+        <summary>Naptár</summary>
+        <div class="naptar"></div>
+      </details>
+    </section>
+
+    <section class="fo-tartalom oszlop-kozep">
+      <h1>Dream Team Tracker Dashboard</h1>
+      <details open class="grafikon-kartya">
+        <summary>Skillset RadarChart</summary>
+        <div class="chart">
+          <svg class="radar-diagram" viewBox="0 0 100 100">
+            <polygon class="radar-halo" points="50,5 95,38 78,90 22,90 5,38" />
+            <polygon class="radar-halo" points="50,20 80,42 68,75 32,75 20,42" />
+            <polygon class="radar-halo" points="50,35 65,46 59,61 41,61 35,46" />
+            <polygon class="radar-terulet" points="50,15 85,38 70,80 30,75 15,45" />
+          </svg>
+          <span class="cimke logic">LOGIC</span>
+          <span class="cimke creativity">CREATIVITY</span>
+          <span class="cimke health">HEALTH</span>
+          <span class="cimke social">SOCIAL</span>
+          <span class="cimke soul">SOUL</span>
+        </div>
+      </details>
+
+      <div class="statisztika-racs">
+        <details open class="mini-kartya">
+          <summary>STREAK</summary>
+          <p>12 Days</p>
+        </details>
+        <details open class="mini-kartya">
+          <summary>ACHIEVEMENTS</summary>
+          <p>24 / 100</p>
+        </details>
+        <details open class="mini-kartya">
+          <summary>RANK</summary>
+          <p>Top 5%</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="utvonal-szekcio oszlop-jobb">
+      <nav class="bejelentkez-menu">
+        <ul>
+          <li><a href="">Registration</a></li>
+          <li><a href="">Login</a></li>
+          <li class="hidden"><a href="">Log out</a></li>
+          <li><a href="" aria-label="Settings">♥</a></li>
+        </ul>
+      </nav>
+
+      <details open class="todo-oldalsav">
+        <summary>Daily Path</summary>
+        <header>
+          <nav class="oldalso-menu">
+            <ul>
+              <li><a href="">Todo</a></li>
+              <li><a href="">Naptár</a></li>
+              <li><a href="">Achi</a></li>
+            </ul>
+          </nav>
+        </header>
+
+        <article class="todo">
+          <ul class="feladat-lista">
+            <li class="feladat">
+              <label>
+                <input type="checkbox" />
+                <span>Smarter Database Indexing</span>
+              </label>
+              <p>Skill: Logic • +50 XP</p>
+            </li>
+            <li class="feladat">
+              <label>
+                <input type="checkbox" />
+                <span>UI Animation Polish</span>
+              </label>
+              <p>Skill: Aesthetics • +30 XP</p>
+            </li>
+            <li class="feladat kesz">
+              <label>
+                <input type="checkbox" checked />
+                <span>Morning Yoga</span>
+              </label>
+              <p>COMPLETED</p>
+            </li>
+          </ul>
+        </article>
+        <article class="naptar" hidden></article>
+        <article class="achievements" hidden></article>
+
+      </details>
+    </section>
+
+  </main>
+</body>
+
+</html>
