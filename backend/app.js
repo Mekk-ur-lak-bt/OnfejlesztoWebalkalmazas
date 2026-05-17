@@ -1,15 +1,15 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-app.get ('/', (req, res) => {
-    res.json({uzenet: "A szerver fut!"});
+app.get("/", (req, res) => {
+  res.json({ uzenet: "A szerver fut!" });
 });
 
 app.listen(port, () => {
-    console.log(`A szerver fut a ${port} porton!`);
+  console.log(`A szerver fut a ${port} porton!`);
 });
