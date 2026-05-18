@@ -5,6 +5,7 @@ const db = require("./database");
 const feladatRoutes = require("./routes/feladat");
 const felhasznaloRoutes = require("./routes/felhasznalo");
 const kategoriaRoutes = require("./routes/kategoria");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 const port = 3000;
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 app.use("/api/feladatok", feladatRoutes);
 app.use("/api/felhasznalok", felhasznaloRoutes);
 app.use("/api/kategoriak", kategoriaRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`A szerver fut a ${port} porton!`);
