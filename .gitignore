@@ -2,7 +2,7 @@
 backend/node_modules/
 
 # Adatbázis
-backend/database.db
+backend/database.sqlite
 
 # Környezeti változók
 .env
