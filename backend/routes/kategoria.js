@@ -1,62 +1,119 @@
 const express = require("express");
-const Kategoria = require("../models/Kategoria");
+const db = require("../database");
 
 const router = express.Router();
 
-let kategoriak = [
-  new Kategoria(1, "Backend", 120),
-  new Kategoria(2, "Frontend", 80),
-  new Kategoria(3, "Adatbázis", 40),
-];
+function kategoriaSorbolObjektum(sor) {
+  return {
+    id: sor.id,
+    felhasznaloId: sor.felhasznalo_id ?? sor.felhasznaloID,
+    nev: sor.nev,
+    pontok: sor.pontok,
+  };
+}
 
-let kovetkezoId = 4;
+function csillagErtek(pontok) {
+  switch (true) {
+    case pontok >= 1000:
+      return 5;
+    case pontok >= 500:
+      return 4;
+    case pontok >= 250:
+      return 3;
+    case pontok >= 100:
+      return 2;
+    default:
+      return 1;
+  }
+}
 
-// ossz kat lekerese
+//kategoria keresek
 router.get("/", (req, res) => {
-  res.json(kategoriak);
+  const { felhasznaloId } = req.query;
+
+  let kategoriak;
+
+  if (felhasznaloId) {
+    kategoriak = db
+      .prepare(`
+        SELECT id, felhasznalo_id, nev, pontok
+        FROM kategoria
+        WHERE felhasznalo_id = ?
+      `)
+      .all(Number(felhasznaloId));
+  } else {
+    kategoriak = db
+      .prepare(`
+        SELECT id, felhasznalo_id, nev, pontok
+        FROM kategoria
+      `)
+      .all();
+  }
+
+  res.json(kategoriak.map(kategoriaSorbolObjektum));
 });
 
-// Egy kat lekerese id alapjan
+// 1 kategoria lekerese id alapjan
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const kategoria = kategoriak.find((k) => k.id === id);
+  const kategoria = db
+    .prepare(`
+      SELECT id, felhasznalo_id, nev, pontok
+      FROM kategoria
+      WHERE id = ?
+    `)
+    .get(id);
 
   if (!kategoria) {
     return res.status(404).json({ uzenet: "Kategória nem található!" });
   }
 
-  res.json(kategoria);
+  res.json(kategoriaSorbolObjektum(kategoria));
 });
 
-// uj kat letrehoz.
+//uj kategoria letrehozasa
 router.post("/", (req, res) => {
-  const { nev } = req.body;
+  const { felhasznaloId, nev } = req.body;
 
-  if (!nev) {
+  if (!felhasznaloId || !nev) {
     return res.status(400).json({
-      uzenet: "A kategória neve kötelező!",
+      uzenet: "A felhasználó azonosítója és a kategória neve kötelező!",
     });
   }
 
-  const ujKategoria = new Kategoria(kovetkezoId, nev, 0);
-  kovetkezoId++;
+  const felhasznalo = db
+    .prepare("SELECT id FROM felhasznalo WHERE id = ?")
+    .get(Number(felhasznaloId));
 
-  kategoriak.push(ujKategoria);
+  if (!felhasznalo) {
+    return res.status(404).json({
+      uzenet: "A megadott felhasználó nem található!",
+    });
+  }
 
-  res.status(201).json(ujKategoria);
+  const eredmeny = db
+    .prepare(`
+      INSERT INTO kategoria (felhasznalo_id, nev, pontok)
+      VALUES (?, ?, 0)
+    `)
+    .run(Number(felhasznaloId), nev);
+
+  const ujKategoria = db
+    .prepare(`
+      SELECT id, felhasznalo_id, nev, pontok
+      FROM kategoria
+      WHERE id = ?
+    `)
+    .get(eredmeny.lastInsertRowid);
+
+  res.status(201).json(kategoriaSorbolObjektum(ujKategoria));
 });
 
-// kat pont frissitese
+//kategoria pont frissitese
 router.patch("/:id/pont", (req, res) => {
   const id = Number(req.params.id);
   const { mennyiseg } = req.body;
-
-  const kategoria = kategoriak.find((k) => k.id === id);
-
-  if (!kategoria) {
-    return res.status(404).json({ uzenet: "Kategória nem található!" });
-  }
 
   if (typeof mennyiseg !== "number") {
     return res.status(400).json({
@@ -64,26 +121,50 @@ router.patch("/:id/pont", (req, res) => {
     });
   }
 
-  kategoria.pontotAd(mennyiseg);
+  const kategoria = db
+    .prepare("SELECT * FROM kategoria WHERE id = ?")
+    .get(id);
 
-  res.json({
-    uzenet: "Kategória pont frissítve!",
-    kategoria,
-    csillag: kategoria.csillagErtek(),
-  });
-});
-
-// kat torlese
-router.delete("/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  const index = kategoriak.findIndex((k) => k.id === id);
-
-  if (index === -1) {
+  if (!kategoria) {
     return res.status(404).json({ uzenet: "Kategória nem található!" });
   }
 
-  kategoriak.splice(index, 1);
+  db.prepare(`
+    UPDATE kategoria
+    SET pontok = pontok + ?
+    WHERE id = ?
+  `).run(mennyiseg, id);
+
+  const frissitett = db
+    .prepare(`
+      SELECT id, felhasznalo_id, nev, pontok
+      FROM kategoria
+      WHERE id = ?
+    `)
+    .get(id);
+
+  const kategoriaObjektum = kategoriaSorbolObjektum(frissitett);
+
+  res.json({
+    uzenet: "Kategória pont frissítve!",
+    kategoria: kategoriaObjektum,
+    csillag: csillagErtek(kategoriaObjektum.pontok),
+  });
+});
+
+//kategoria torlese
+router.delete("/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const kategoria = db
+    .prepare("SELECT id FROM kategoria WHERE id = ?")
+    .get(id);
+
+  if (!kategoria) {
+    return res.status(404).json({ uzenet: "Kategória nem található!" });
+  }
+
+  db.prepare("DELETE FROM kategoria WHERE id = ?").run(id);
 
   res.json({ uzenet: "Kategória törölve!" });
 });
