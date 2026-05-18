@@ -1,109 +1,105 @@
 import { Felhasznalo } from "./Felhasznalo.js";
 
+const API_URL = "http://localhost:3000/api";
+
 export class Auth {
-  static FELHASZNALOK_KULCS = "felhasznalok";
   static AKTUALIS_FELHASZNALO_KULCS = "aktualisFelhasznaloId";
 
-  static felhasznalokBetolt() {
-    const adatok =
-      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
+  static async regisztral(nev, jelszo, avatar = "img/avatar.jpg") {
+    const valasz = await fetch(`${API_URL}/auth/regisztracio`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nev,
+        jelszo,
+        avatar,
+      }),
+    });
 
-    return adatok.map((adat) => Felhasznalo.fromJSON(adat));
-  }
+    const adat = await valasz.json();
 
-  static felhasznalokMent(felhasznalok) {
+    if (!valasz.ok) {
+      throw new Error(adat.uzenet || "Sikertelen regisztráció!");
+    }
+
+    const felhasznalo = Felhasznalo.fromJSON(adat.felhasznalo);
+
     localStorage.setItem(
-      Auth.FELHASZNALOK_KULCS,
-      JSON.stringify(felhasznalok.map((felhasznalo) => felhasznalo.toJSON())),
+      Auth.AKTUALIS_FELHASZNALO_KULCS,
+      felhasznalo.id
     );
+
+    return felhasznalo;
   }
 
-  static regisztral(nev, jelszo, avatar = "img/avatar.jpg") {
-    const felhasznalok = Auth.felhasznalokBetolt();
+  static async bejelentkezik(nev, jelszo) {
+    const valasz = await fetch(`${API_URL}/auth/bejelentkezes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nev,
+        jelszo,
+      }),
+    });
 
-    const letezik = felhasznalok.some(
-      (felhasznalo) => felhasznalo.nev.toLowerCase() === nev.toLowerCase(),
-    );
+    const adat = await valasz.json();
 
-    if (letezik) {
-      throw new Error("Ez a felhasználónév már foglalt!");
+    if (!valasz.ok) {
+      throw new Error(adat.uzenet || "Sikertelen bejelentkezés!");
     }
 
-    const ujFelhasznalo = new Felhasznalo(
-      Date.now().toString(),
-      nev,
-      0,
-      0,
-      1,
-      avatar,
+    const felhasznalo = Felhasznalo.fromJSON(adat.felhasznalo);
+
+    localStorage.setItem(
+      Auth.AKTUALIS_FELHASZNALO_KULCS,
+      felhasznalo.id
     );
 
-    const mentendo = ujFelhasznalo.toJSON();
-    mentendo.jelszo = jelszo;
-
-    const nyersAdatok =
-      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
-    nyersAdatok.push(mentendo);
-
-    localStorage.setItem(Auth.FELHASZNALOK_KULCS, JSON.stringify(nyersAdatok));
-    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, ujFelhasznalo.id);
-
-    return ujFelhasznalo;
-  }
-
-  static bejelentkezik(nev, jelszo) {
-    const adatok =
-      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
-
-    const adat = adatok.find(
-      (felhasznalo) =>
-        felhasznalo.nev.toLowerCase() === nev.toLowerCase() &&
-        felhasznalo.jelszo === jelszo,
-    );
-
-    if (!adat) {
-      throw new Error("Hibás felhasználónév vagy jelszó!");
-    }
-
-    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, adat.id);
-
-    return Felhasznalo.fromJSON(adat);
+    return felhasznalo;
   }
 
   static kijelentkezik() {
     localStorage.removeItem(Auth.AKTUALIS_FELHASZNALO_KULCS);
   }
 
-  static aktualisFelhasznalo() {
-    const aktualisId = localStorage.getItem(Auth.AKTUALIS_FELHASZNALO_KULCS);
+  static aktualisFelhasznaloId() {
+    return localStorage.getItem(Auth.AKTUALIS_FELHASZNALO_KULCS);
+  }
+
+  static async aktualisFelhasznalo() {
+    const aktualisId = Auth.aktualisFelhasznaloId();
 
     if (!aktualisId) {
       return null;
     }
 
-    const felhasznalok = Auth.felhasznalokBetolt();
+    const valasz = await fetch(`${API_URL}/felhasznalok/${aktualisId}`);
 
-    return (
-      felhasznalok.find((felhasznalo) => felhasznalo.id === aktualisId) || null
-    );
+    const adat = await valasz.json();
+
+    if (!valasz.ok) {
+      Auth.kijelentkezik();
+      return null;
+    }
+
+    return Felhasznalo.fromJSON(adat);
   }
 
   static beVanJelentkezve() {
-    return Auth.aktualisFelhasznalo() !== null;
+    return Auth.aktualisFelhasznaloId() !== null;
   }
 
-  static aktualisFelhasznaloFrissit(felhasznalo) {
-    const felhasznalok = Auth.felhasznalokBetolt();
+  static async aktualisFelhasznaloFrissit() {
+    const felhasznalo = await Auth.aktualisFelhasznalo();
 
-    const index = felhasznalok.findIndex(
-      (aktualis) => aktualis.id === felhasznalo.id,
-    );
-
-    if (index === -1) {
-      throw new Error("A felhasználó nem található!");
+    if (!felhasznalo) {
+      throw new Error("Nincs bejelentkezett felhasználó!");
     }
 
-    felhasznalok[index] = felhasznalo;
-    Auth.felhasznalokMent(felhasznalok);
+    return felhasznalo;
   }
 }

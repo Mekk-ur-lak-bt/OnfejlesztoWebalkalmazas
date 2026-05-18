@@ -1,6 +1,6 @@
 import { Auth } from "./Auth.js";
 
-export function authUiInicializal() {
+export async function authUiInicializal() {
   const regisztracioLink = document.getElementById("regisztracio-link");
   const bejelentkezesLink = document.getElementById("bejelentkezes-link");
   const kijelentkezesLink = document.getElementById("kijelentkezes-link");
@@ -45,12 +45,12 @@ export function authUiInicializal() {
     authModal.showModal();
   });
 
-  kijelentkezesLink.addEventListener("click", (event) => {
+  kijelentkezesLink.addEventListener("click", async (event) => {
     event.preventDefault();
 
     Auth.kijelentkezik();
 
-    profilFrissit();
+    await profilFrissit();
     menuFrissit();
   });
 
@@ -58,7 +58,7 @@ export function authUiInicializal() {
     authModal.close();
   });
 
-  authUrlap.addEventListener("submit", (event) => {
+  authUrlap.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const nev = authNev.value.trim();
@@ -77,16 +77,16 @@ export function authUiInicializal() {
 
     try {
       if (authMod.value === "registration") {
-        Auth.regisztral(nev, jelszo, avatar);
+        await Auth.regisztral(nev, jelszo, avatar);
         alert("Sikeres regisztráció!");
       }
 
       if (authMod.value === "login") {
-        Auth.bejelentkezik(nev, jelszo);
+        await Auth.bejelentkezik(nev, jelszo);
         alert("Sikeres bejelentkezés!");
       }
 
-      profilFrissit();
+      await profilFrissit();
       menuFrissit();
 
       authModal.close();
@@ -95,12 +95,12 @@ export function authUiInicializal() {
     }
   });
 
-  profilFrissit();
+  await profilFrissit();
   menuFrissit();
 }
 
-export function profilFrissit() {
-  const felhasznalo = Auth.aktualisFelhasznalo();
+export async function profilFrissit() {
+  const felhasznalo = await Auth.aktualisFelhasznalo();
 
   const profilNev = document.getElementById("profil-nev");
   const profilAvatar = document.getElementById("profil-avatar");

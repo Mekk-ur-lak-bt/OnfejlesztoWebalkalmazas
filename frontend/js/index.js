@@ -1,6 +1,5 @@
-import { Feladat, FeladatLista, FeladatModal } from './feladat.js';
-import { authUiInicializal, profilFrissit } from './auth-ui.js';
-import { Auth } from './Auth.js';
+import { Feladat, FeladatLista, FeladatModal } from "./feladat.js";
+import { authUiInicializal } from "./auth-ui.js";
 authUiInicializal();
 
 const modal = new FeladatModal('feladat-modal', 'feladat-urlap', (adatok) => {
