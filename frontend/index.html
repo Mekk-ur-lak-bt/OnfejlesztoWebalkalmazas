@@ -1,146 +1,177 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Dashboard for tracking daily quests and statistics."
+    />
+    <title>Dream Team | Dashboard</title>
+    <link rel="stylesheet" href="css/main.css?v=2" />
+    <script type="module" src="js/index.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Dashboard for tracking daily quests and statistics." />
-  <title>Dream Team | Dashboard</title>
-  <link rel="stylesheet" href="css/main.css?v=2" />
-  <script type="module" src="js/index.js"></script>
-</head>
+  <body>
+    <main>
+      <section class="oszlop-bal">
+        <details open class="profil-oldalsav">
+          <summary id="profil-nev">Vendég</summary>
+          <header>
+            <img
+              id="profil-avatar"
+              src="img/avatar.jpg"
+              alt="Vendég avatarja"
+            />
+            <div class="szint-sav">
+              <p id="profil-szint">LVL 1 EXPLORER</p>
+              <progress
+                id="profil-progress"
+                class="haladasi-sav"
+                value="0"
+                max="100"
+              ></progress>
+            </div>
+            <div class="erme-szamlalo">
+              <span>✧</span><span id="profil-coin">0</span>
+            </div>
+          </header>
+        </details>
 
-<body>
-  <main>
+        <details open class="naptar-oldalsav">
+          <summary>Naptár</summary>
+          <div class="naptar"></div>
+        </details>
+      </section>
 
-    <section class="oszlop-bal">
-      <details open class="profil-oldalsav">
-        <summary>User123</summary>
-        <header>
-          <img src="img/avatar.jpg" alt="User123 avatarja" />
-          <div class="szint-sav">
-            <p>LVL 14 EXPLORER</p>
-            <progress class="haladasi-sav" value="70" max="100"></progress>
+      <section class="fo-tartalom oszlop-kozep">
+        <h1>Dream Team Tracker Dashboard</h1>
+        <details open class="grafikon-kartya">
+          <summary>Skillset RadarChart</summary>
+          <div class="chart">
+            <svg class="radar-diagram" viewBox="0 0 100 100">
+              <polygon
+                class="radar-halo"
+                points="50,5 95,38 78,90 22,90 5,38"
+              />
+              <polygon
+                class="radar-halo"
+                points="50,20 80,42 68,75 32,75 20,42"
+              />
+              <polygon
+                class="radar-halo"
+                points="50,35 65,46 59,61 41,61 35,46"
+              />
+              <polygon
+                class="radar-terulet"
+                points="50,15 85,38 70,80 30,75 15,45"
+              />
+            </svg>
+            <span class="cimke logic">LOGIC</span>
+            <span class="cimke creativity">CREATIVITY</span>
+            <span class="cimke health">HEALTH</span>
+            <span class="cimke social">SOCIAL</span>
+            <span class="cimke soul">SOUL</span>
           </div>
-          <div class="erme-szamlalo"><span>✧</span>2,450</div>
-        </header>
-      </details>
+        </details>
 
-      <details open class="naptar-oldalsav">
-        <summary>Naptár</summary>
-        <div class="naptar"></div>
-      </details>
-    </section>
-
-    <section class="fo-tartalom oszlop-kozep">
-      <h1>Dream Team Tracker Dashboard</h1>
-      <details open class="grafikon-kartya">
-        <summary>Skillset RadarChart</summary>
-        <div class="chart">
-          <svg class="radar-diagram" viewBox="0 0 100 100">
-            <polygon class="radar-halo" points="50,5 95,38 78,90 22,90 5,38" />
-            <polygon class="radar-halo" points="50,20 80,42 68,75 32,75 20,42" />
-            <polygon class="radar-halo" points="50,35 65,46 59,61 41,61 35,46" />
-            <polygon class="radar-terulet" points="50,15 85,38 70,80 30,75 15,45" />
-          </svg>
-          <span class="cimke logic">LOGIC</span>
-          <span class="cimke creativity">CREATIVITY</span>
-          <span class="cimke health">HEALTH</span>
-          <span class="cimke social">SOCIAL</span>
-          <span class="cimke soul">SOUL</span>
+        <div class="statisztika-racs">
+          <details open class="mini-kartya">
+            <summary>STREAK</summary>
+            <p>12 Days</p>
+          </details>
+          <details open class="mini-kartya">
+            <summary>ACHIEVEMENTS</summary>
+            <p>24 / 100</p>
+          </details>
+          <details open class="mini-kartya">
+            <summary>RANK</summary>
+            <p>Top 5%</p>
+          </details>
         </div>
-      </details>
+      </section>
 
-      <div class="statisztika-racs">
-        <details open class="mini-kartya">
-          <summary>STREAK</summary>
-          <p>12 Days</p>
-        </details>
-        <details open class="mini-kartya">
-          <summary>ACHIEVEMENTS</summary>
-          <p>24 / 100</p>
-        </details>
-        <details open class="mini-kartya">
-          <summary>RANK</summary>
-          <p>Top 5%</p>
-        </details>
-      </div>
-    </section>
-
-    <section class="utvonal-szekcio oszlop-jobb">
-      <nav class="bejelentkez-menu">
-        <ul>
-          <li><a href="">Registration</a></li>
-          <li><a href="">Login</a></li>
-          <li class="hidden"><a href="">Log out</a></li>
-          <li><a href="" aria-label="Settings">♥</a></li>
-        </ul>
-      </nav>
-
-      <details open class="todo-oldalsav">
-        <summary>Daily Path</summary>
-        <header>
-          <nav class="oldalso-menu">
-            <ul>
-              <li><a href="">Todo</a></li>
-              <li><a href="">Naptár</a></li>
-              <li><a href="">Achi</a></li>
-            </ul>
-          </nav>
-          <button id="uj-feladat-gomb" aria-label="Add New Quest">+ New Quest</button>
-        </header>
-
-        <article class="todo">
-          <ul class="feladat-lista">
-            <!-- A JavaScript ide generálja a feladatokat -->
+      <section class="utvonal-szekcio oszlop-jobb">
+        <nav class="bejelentkez-menu">
+          <ul>
+            <li id="regisztracio-li">
+              <a href="#" id="regisztracio-link">Registration</a>
+            </li>
+            <li id="bejelentkezes-li">
+              <a href="#" id="bejelentkezes-link">Login</a>
+            </li>
+            <li id="kijelentkezes-li" class="hidden">
+              <a href="#" id="kijelentkezes-link">Log out</a>
+            </li>
+            <li>
+              <a href="#" aria-label="Settings">♥</a>
+            </li>
           </ul>
-        </article>
-        <article class="naptar" hidden></article>
-        <article class="achievements" hidden></article>
+        </nav>
 
-      </details>
-    </section>
-  </main>
-  <dialog id="feladat-modal">
-        <form method="dialog" id="feladat-urlap">
-          <h3 id="modal-cim">Add New Quest</h3>
-          
-          <input type="hidden" id="feladat-id" />
+        <details open class="todo-oldalsav">
+          <summary>Daily Path</summary>
+          <header>
+            <nav class="oldalso-menu">
+              <ul>
+                <li><a href="">Todo</a></li>
+                <li><a href="">Naptár</a></li>
+                <li><a href="">Achi</a></li>
+              </ul>
+            </nav>
+            <button id="uj-feladat-gomb" aria-label="Add New Quest">
+              + New Quest
+            </button>
+          </header>
 
-          <label for="urlap-cim">Quest Title:</label>
-          <input type="text" id="urlap-cim" required />
+          <article class="todo">
+            <ul class="feladat-lista">
+              <!-- A JavaScript ide generálja a feladatokat -->
+            </ul>
+          </article>
+          <article class="naptar" hidden></article>
+          <article class="achievements" hidden></article>
+        </details>
+      </section>
+    </main>
+    <dialog id="feladat-modal">
+      <form method="dialog" id="feladat-urlap">
+        <h3 id="modal-cim">Add New Quest</h3>
 
-          <label for="urlap-kategoria">Category:</label>
-          <select id="urlap-kategoria" required>
-            <option value="Logic">Logic</option>
-            <option value="Aesthetics">Aesthetics</option>
-            <option value="Fitness">Fitness</option>
-          </select>
+        <input type="hidden" id="feladat-id" />
 
-          <label for="urlap-xp">XP Reward:</label>
-          <input type="number" id="urlap-xp" min="0" required />
+        <label for="urlap-cim">Quest Title:</label>
+        <input type="text" id="urlap-cim" required />
 
-          <label for="urlap-coin">Coin Reward:</label>
-          <input type="number" id="urlap-coin" min="0" required />
+        <label for="urlap-kategoria">Category:</label>
+        <select id="urlap-kategoria" required>
+          <option value="Logic">Logic</option>
+          <option value="Aesthetics">Aesthetics</option>
+          <option value="Fitness">Fitness</option>
+        </select>
 
-          <label for="urlap-pont">Category Points:</label>
-          <input type="number" id="urlap-pont" min="0" required />
+        <label for="urlap-xp">XP Reward:</label>
+        <input type="number" id="urlap-xp" min="0" required />
 
-          <label for="urlap-hatarido">Deadline:</label>
-          <input type="date" id="urlap-hatarido" />
+        <label for="urlap-coin">Coin Reward:</label>
+        <input type="number" id="urlap-coin" min="0" required />
 
-          <div class="modal-gombok">
-            <button type="button" id="modal-megse">Cancel</button>
-            <button type="submit" id="modal-mentes">Save</button>
-          </div>
-        </form>
-      </dialog>
-  
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>
-  eruda.init();
-</script>
-  
-</body>
+        <label for="urlap-pont">Category Points:</label>
+        <input type="number" id="urlap-pont" min="0" required />
 
+        <label for="urlap-hatarido">Deadline:</label>
+        <input type="date" id="urlap-hatarido" />
+
+        <div class="modal-gombok">
+          <button type="button" id="modal-megse">Cancel</button>
+          <button type="submit" id="modal-mentes">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+      eruda.init();
+    </script>
+  </body>
 </html>
