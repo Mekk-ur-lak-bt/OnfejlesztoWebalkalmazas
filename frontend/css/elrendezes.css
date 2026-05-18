@@ -222,6 +222,55 @@ input[type="checkbox"]:checked::before {
   transform: rotate(-45deg) scale(1);
 }
 
+
+#uj-feladat-gomb {
+  align-self: stretch;
+  padding: var(--tavolsag-xs) var(--tavolsag-md);
+  border: 1px solid transparent;
+  border-radius: var(--sugar-lg);
+}
+
+.todo-oldalsav header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tavolsag-xs) 0;
+}
+
+#feladat-modal {
+  padding: var(--tavolsag-md);
+  width: 90vw;
+  max-width: 400px;
+  margin: auto;
+}
+
+#feladat-urlap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tavolsag-sm);
+}
+
+#feladat-urlap input,
+#feladat-urlap select {
+  width: 100%;
+  padding: var(--tavolsag-xs) var(--tavolsag-sm);
+  border: 1px solid transparent;
+  border-radius: var(--sugar-sm);
+}
+
+.modal-gombok {
+  display: flex;
+  gap: var(--tavolsag-sm);
+  justify-content: flex-end;
+  margin-top: var(--tavolsag-xs);
+}
+
+.modal-gombok button {
+  padding: var(--tavolsag-xs) var(--tavolsag-md);
+  border: 1px solid transparent;
+  border-radius: var(--sugar-lg);
+}
+
 /*-----------módisítandó*/
 
 @media (orientation: portrait) {
@@ -229,5 +278,19 @@ input[type="checkbox"]:checked::before {
     grid-template-columns: 1fr;
     gap: var(--tavolsag-md);
     padding: var(--tavolsag-sm);
+  }
+  
+  .todo-oldalsav header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--tavolsag-sm);
+  }
+
+  .modal-gombok {
+    flex-direction: column;
+  }
+
+  .modal-gombok button {
+    width: 100%;
   }
 }

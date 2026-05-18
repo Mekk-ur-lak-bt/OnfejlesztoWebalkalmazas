@@ -276,3 +276,73 @@ progress::-moz-progress-bar {
   background-color: var(--szin-kiemelt);
   border-radius: var(--sugar-sm);
 }
+
+#uj-feladat-gomb {
+  background: var(--szin-tema-kiemelt);
+  border-color: var(--szin-kozepes);
+  color: var(--szin-halvany);
+  cursor: pointer;
+  transition:
+    background var(--ido-gyors) var(--animacio-snap),
+    box-shadow var(--ido-gyors) var(--animacio-snap),
+    border-color var(--ido-gyors) var(--animacio-snap);
+}
+
+#uj-feladat-gomb:hover {
+  background: var(--szin-kiemelt);
+  border-color: var(--szin-vilagos);
+  box-shadow: var(--ragyogas);
+}
+
+#feladat-modal {
+  background: var(--szinatmenet);
+  border: 1px solid var(--szin-tema-szegely);
+  border-radius: var(--sugar-lg);
+}
+
+#feladat-urlap label {
+  color: var(--szoveg-alap);
+}
+
+#feladat-urlap input,
+#feladat-urlap select {
+  background: var(--szin-tema-hatter);
+  border-color: var(--szin-tema-szegely);
+  color: var(--szoveg-alap);
+  outline: none;
+  transition: border-color var(--ido-gyors), box-shadow var(--ido-gyors);
+}
+
+#feladat-urlap input:focus,
+#feladat-urlap select:focus {
+  border-color: var(--szin-kozepes);
+  box-shadow: var(--ragyogas);
+}
+
+#modal-megse {
+  background: transparent;
+  border-color: var(--szin-tema-szegely);
+  color: var(--szoveg-alap);
+  cursor: pointer;
+  transition: border-color var(--ido-gyors), color var(--ido-gyors);
+}
+
+#modal-megse:hover {
+  border-color: var(--szin-kozepes);
+  color: var(--szin-sotet);
+}
+
+#modal-mentes {
+  background: var(--szin-tema-kiemelt);
+  border-color: var(--szin-kozepes);
+  color: var(--szin-halvany);
+  cursor: pointer;
+  transition:
+    background var(--ido-gyors) var(--animacio-snap),
+    box-shadow var(--ido-gyors) var(--animacio-snap);
+}
+
+#modal-mentes:hover {
+  background: var(--szin-kiemelt);
+  box-shadow: var(--ragyogas);
+}

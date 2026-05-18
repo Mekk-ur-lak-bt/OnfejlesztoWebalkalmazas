@@ -114,4 +114,8 @@ p,
   .mini-kartya p {
     font-size: 18px;
   }
+  
+  .mini-kartya:nth-child(2) summary {
+    font-size: 12px;
+  }
 }

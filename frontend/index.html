@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Dashboard for tracking daily quests and statistics." />
   <title>Dream Team | Dashboard</title>
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/main.css?v=2" />
+  <script type="module" src="js/index.js"></script>
 </head>
 
 <body>
@@ -86,31 +87,12 @@
               <li><a href="">Achi</a></li>
             </ul>
           </nav>
+          <button id="uj-feladat-gomb" aria-label="Add New Quest">+ New Quest</button>
         </header>
 
         <article class="todo">
           <ul class="feladat-lista">
-            <li class="feladat">
-              <label>
-                <input type="checkbox" />
-                <span>Smarter Database Indexing</span>
-              </label>
-              <p>Skill: Logic • +50 XP</p>
-            </li>
-            <li class="feladat">
-              <label>
-                <input type="checkbox" />
-                <span>UI Animation Polish</span>
-              </label>
-              <p>Skill: Aesthetics • +30 XP</p>
-            </li>
-            <li class="feladat kesz">
-              <label>
-                <input type="checkbox" checked />
-                <span>Morning Yoga</span>
-              </label>
-              <p>COMPLETED</p>
-            </li>
+            <!-- A JavaScript ide generálja a feladatokat -->
           </ul>
         </article>
         <article class="naptar" hidden></article>
@@ -118,8 +100,47 @@
 
       </details>
     </section>
-
   </main>
+  <dialog id="feladat-modal">
+        <form method="dialog" id="feladat-urlap">
+          <h3 id="modal-cim">Add New Quest</h3>
+          
+          <input type="hidden" id="feladat-id" />
+
+          <label for="urlap-cim">Quest Title:</label>
+          <input type="text" id="urlap-cim" required />
+
+          <label for="urlap-kategoria">Category:</label>
+          <select id="urlap-kategoria" required>
+            <option value="Logic">Logic</option>
+            <option value="Aesthetics">Aesthetics</option>
+            <option value="Fitness">Fitness</option>
+          </select>
+
+          <label for="urlap-xp">XP Reward:</label>
+          <input type="number" id="urlap-xp" min="0" required />
+
+          <label for="urlap-coin">Coin Reward:</label>
+          <input type="number" id="urlap-coin" min="0" required />
+
+          <label for="urlap-pont">Category Points:</label>
+          <input type="number" id="urlap-pont" min="0" required />
+
+          <label for="urlap-hatarido">Deadline:</label>
+          <input type="date" id="urlap-hatarido" />
+
+          <div class="modal-gombok">
+            <button type="button" id="modal-megse">Cancel</button>
+            <button type="submit" id="modal-mentes">Save</button>
+          </div>
+        </form>
+      </dialog>
+  
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>
+  eruda.init();
+</script>
+  
 </body>
 
 </html>
