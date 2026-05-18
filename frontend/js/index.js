@@ -1,5 +1,6 @@
 import { Feladat, FeladatLista, FeladatModal } from './feladat.js';
-import { authUiInicializal } from "./auth-ui.js";
+import { authUiInicializal, profilFrissit } from './auth-ui.js';
+import { Auth } from './Auth.js';
 authUiInicializal();
 
 const modal = new FeladatModal('feladat-modal', 'feladat-urlap', (adatok) => {
@@ -22,7 +23,27 @@ document.getElementById('uj-feladat-gomb').addEventListener('click', () => {
 
 window.addEventListener('jutalomvaltozas', (e) => {
   const { xp, coin, kategoria, pont } = e.detail;
-  console.log('Jutalom változás:', { xp, coin, kategoria, pont });
+
+  const felhasznalo = Auth.aktualisFelhasznalo();
+
+  if (!felhasznalo) {
+    alert('Jutalom csak bejelentkezett felhasználónak jár!');
+    return;
+  }
+
+  felhasznalo.xpHozzaad(xp);
+  felhasznalo.coinHozzaad(coin);
+
+  Auth.aktualisFelhasznaloFrissit(felhasznalo);
+  profilFrissit();
+
+  console.log('Jutalom hozzáadva:', {
+    xp,
+    coin,
+    kategoria,
+    pont,
+    felhasznalo: felhasznalo.toJSON(),
+  });
 });
 
 /* TESZT:
