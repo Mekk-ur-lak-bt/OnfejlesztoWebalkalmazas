@@ -1,151 +1,289 @@
 const express = require("express");
+const db = require("../database");
 
 const router = express.Router();
 
-let feladatok = [
-  {
-    id: 1,
-    cim: "Backend route-ok megírása",
-    kategoria: "Backend",
-    xpJutalom: 50,
-    coinJutalom: 10,
-    kategoriaPont: 20,
-    teljesitve: false,
-    hatarido: "2026-05-20",
-  },
-  {
-    id: 2,
-    cim: "Frontend összekötése a backenddel",
-    kategoria: "Frontend",
-    xpJutalom: 80,
-    coinJutalom: 15,
-    kategoriaPont: 30,
-    teljesitve: false,
-    hatarido: "2026-05-22",
-  },
-];
+function feladatSorbolObjektum(sor) {
+  return {
+    id: sor.id,
+    felhasznaloId: sor.felhasznalo_id,
+    kategoriaId: sor.kategoria_id,
+    cim: sor.cim,
+    xpJutalom: sor.xp_jutalom,
+    coinJutalom: sor.coin_jutalom,
+    kategoriaPont: sor.kategoria_pont,
+    teljesitve: Boolean(sor.teljesitve),
+    hatarido: sor.hatarido,
+  };
+}
 
-let kovetkezoId = 3;
-
-
+// osszes adat lekerese
 router.get("/", (req, res) => {
-  res.json(feladatok);
+  const { felhasznaloId } = req.query;
+
+  let sorok;
+
+  if (felhasznaloId) {
+    sorok = db
+      .prepare(`
+        SELECT *
+        FROM feladat
+        WHERE felhasznalo_id = ?
+      `)
+      .all(Number(felhasznaloId));
+  } else {
+    sorok = db
+      .prepare(`
+        SELECT *
+        FROM feladat
+      `)
+      .all();
+  }
+
+  res.json(sorok.map(feladatSorbolObjektum));
 });
 
-/* lekeres id alapjan */
+// Egy feladat lekeres id alapjan
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const feladat = feladatok.find((f) => f.id === id);
+  const sor = db
+    .prepare(`
+      SELECT *
+      FROM feladat
+      WHERE id = ?
+    `)
+    .get(id);
 
-  if (!feladat) {
+  if (!sor) {
     return res.status(404).json({ uzenet: "Feladat nem található!" });
   }
 
-  res.json(feladat);
+  res.json(feladatSorbolObjektum(sor));
 });
 
-/* new task  */
+// uj feladat letrehozasa
 router.post("/", (req, res) => {
   const {
+    felhasznaloId,
+    kategoriaId,
     cim,
-    kategoria,
     xpJutalom,
     coinJutalom,
     kategoriaPont,
     hatarido,
   } = req.body;
 
-  if (!cim || !kategoria) {
+  if (!felhasznaloId || !kategoriaId || !cim) {
     return res.status(400).json({
-      uzenet: "A cím és a kategória megadása kötelező!",
+      uzenet: "A felhasználó, kategória és cím megadása kötelező!",
     });
   }
 
-  const ujFeladat = {
-    id: kovetkezoId++,
-    cim,
-    kategoria,
-    xpJutalom: xpJutalom ?? 0,
-    coinJutalom: coinJutalom ?? 0,
-    kategoriaPont: kategoriaPont ?? 0,
-    teljesitve: false,
-    hatarido: hatarido ?? "",
-  };
+  const felhasznalo = db
+    .prepare("SELECT id FROM felhasznalo WHERE id = ?")
+    .get(Number(felhasznaloId));
 
-  feladatok.push(ujFeladat);
+  if (!felhasznalo) {
+    return res.status(404).json({
+      uzenet: "A megadott felhasználó nem található!",
+    });
+  }
 
-  res.status(201).json(ujFeladat);
+  const kategoria = db
+    .prepare("SELECT id FROM kategoria WHERE id = ? AND felhasznalo_id = ?")
+    .get(Number(kategoriaId), Number(felhasznaloId));
+
+  if (!kategoria) {
+    return res.status(404).json({
+      uzenet: "A megadott kategória nem található ennél a felhasználónál!",
+    });
+  }
+
+  const eredmeny = db
+    .prepare(`
+      INSERT INTO feladat (
+        felhasznalo_id,
+        kategoria_id,
+        cim,
+        xp_jutalom,
+        coin_jutalom,
+        kategoria_pont,
+        teljesitve,
+        hatarido
+      )
+      VALUES (?, ?, ?, ?, ?, ?, 0, ?)
+    `)
+    .run(
+      Number(felhasznaloId),
+      Number(kategoriaId),
+      cim,
+      xpJutalom ?? 0,
+      coinJutalom ?? 0,
+      kategoriaPont ?? 0,
+      hatarido ?? null
+    );
+
+  const ujSor = db
+    .prepare(`
+      SELECT *
+      FROM feladat
+      WHERE id = ?
+    `)
+    .get(eredmeny.lastInsertRowid);
+
+  res.status(201).json(feladatSorbolObjektum(ujSor));
 });
 
-/* Feladat modositasa*/
+// feladat modositasa
 router.put("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const feladat = feladatok.find((f) => f.id === id);
+  const letezo = db
+    .prepare("SELECT * FROM feladat WHERE id = ?")
+    .get(id);
 
-  if (!feladat) {
+  if (!letezo) {
     return res.status(404).json({ uzenet: "Feladat nem található!" });
   }
 
   const {
+    kategoriaId,
     cim,
-    kategoria,
     xpJutalom,
     coinJutalom,
     kategoriaPont,
     hatarido,
   } = req.body;
 
-  feladat.cim = cim ?? feladat.cim;
-  feladat.kategoria = kategoria ?? feladat.kategoria;
-  feladat.xpJutalom = xpJutalom ?? feladat.xpJutalom;
-  feladat.coinJutalom = coinJutalom ?? feladat.coinJutalom;
-  feladat.kategoriaPont = kategoriaPont ?? feladat.kategoriaPont;
-  feladat.hatarido = hatarido ?? feladat.hatarido;
+  const ujKategoriaId = kategoriaId ?? letezo.kategoria_id;
 
-  res.json(feladat);
+  const kategoria = db
+    .prepare("SELECT id FROM kategoria WHERE id = ? AND felhasznalo_id = ?")
+    .get(Number(ujKategoriaId), letezo.felhasznalo_id);
+
+  if (!kategoria) {
+    return res.status(404).json({
+      uzenet: "A megadott kategória nem található ennél a felhasználónál!",
+    });
+  }
+
+  db.prepare(`
+    UPDATE feladat
+    SET
+      kategoria_id = ?,
+      cim = ?,
+      xp_jutalom = ?,
+      coin_jutalom = ?,
+      kategoria_pont = ?,
+      hatarido = ?
+    WHERE id = ?
+  `).run(
+    Number(ujKategoriaId),
+    cim ?? letezo.cim,
+    xpJutalom ?? letezo.xp_jutalom,
+    coinJutalom ?? letezo.coin_jutalom,
+    kategoriaPont ?? letezo.kategoria_pont,
+    hatarido ?? letezo.hatarido,
+    id
+  );
+
+  const frissitett = db
+    .prepare("SELECT * FROM feladat WHERE id = ?")
+    .get(id);
+
+  res.json(feladatSorbolObjektum(frissitett));
 });
 
-/* Feladat teljesito kapcsolo */
+// feladat teljesitese
 router.patch("/:id/teljesit", (req, res) => {
   const id = Number(req.params.id);
 
-  const feladat = feladatok.find((f) => f.id === id);
+  const feladat = db
+    .prepare("SELECT * FROM feladat WHERE id = ?")
+    .get(id);
 
   if (!feladat) {
     return res.status(404).json({ uzenet: "Feladat nem található!" });
   }
 
-  feladat.teljesitve = !feladat.teljesitve;
+  const ujTeljesitve = feladat.teljesitve ? 0 : 1;
+  const szorzo = ujTeljesitve ? 1 : -1;
 
-  const szorzo = feladat.teljesitve ? 1 : -1;
+  db.prepare(`
+    UPDATE feladat
+    SET teljesitve = ?
+    WHERE id = ?
+  `).run(ujTeljesitve, id);
+
+  db.prepare(`
+    UPDATE felhasznalo
+    SET
+      xp = xp + ?,
+      coin = coin + ?
+    WHERE id = ?
+  `).run(
+    feladat.xp_jutalom * szorzo,
+    feladat.coin_jutalom * szorzo,
+    feladat.felhasznalo_id
+  );
+
+  const frissitettFelhasznalo = db
+    .prepare("SELECT xp FROM felhasznalo WHERE id = ?")
+    .get(feladat.felhasznalo_id);
+
+  let ujSzint = 1;
+  if (frissitettFelhasznalo.xp >= 1000) ujSzint = 5;
+  else if (frissitettFelhasznalo.xp >= 500) ujSzint = 4;
+  else if (frissitettFelhasznalo.xp >= 250) ujSzint = 3;
+  else if (frissitettFelhasznalo.xp >= 100) ujSzint = 2;
+
+  db.prepare(`
+    UPDATE felhasznalo
+    SET szint = ?
+    WHERE id = ?
+  `).run(ujSzint, feladat.felhasznalo_id);
+
+  db.prepare(`
+    UPDATE kategoria
+    SET pontok = pontok + ?
+    WHERE id = ?
+  `).run(
+    feladat.kategoria_pont * szorzo,
+    feladat.kategoria_id
+  );
+
+  const frissitettFeladat = db
+    .prepare("SELECT * FROM feladat WHERE id = ?")
+    .get(id);
 
   res.json({
-    uzenet: feladat.teljesitve
+    uzenet: ujTeljesitve
       ? "Feladat teljesítve!"
       : "Feladat teljesítése visszavonva!",
-    feladat,
+    feladat: feladatSorbolObjektum(frissitettFeladat),
     jutalom: {
-      xp: feladat.xpJutalom * szorzo,
-      coin: feladat.coinJutalom * szorzo,
-      kategoria: feladat.kategoria,
-      kategoriaPont: feladat.kategoriaPont * szorzo,
+      xp: feladat.xp_jutalom * szorzo,
+      coin: feladat.coin_jutalom * szorzo,
+      kategoriaId: feladat.kategoria_id,
+      kategoriaPont: feladat.kategoria_pont * szorzo,
     },
   });
 });
 
-/* Feladat torlese */
+//feladat torlese
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const index = feladatok.findIndex((f) => f.id === id);
+  const feladat = db
+    .prepare("SELECT id FROM feladat WHERE id = ?")
+    .get(id);
 
-  if (index === -1) {
+  if (!feladat) {
     return res.status(404).json({ uzenet: "Feladat nem található!" });
   }
 
-  feladatok.splice(index, 1);
+  db.prepare("DELETE FROM feladat WHERE id = ?").run(id);
 
   res.json({ uzenet: "Feladat törölve!" });
 });
