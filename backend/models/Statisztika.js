@@ -25,7 +25,7 @@ class Statisztika {
   }
 
   static osszeallit(felhasznaloId) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 }
 

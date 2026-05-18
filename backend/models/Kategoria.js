@@ -33,19 +33,19 @@ class Kategoria {
   }
 
   static letrehoz(felhasznaloId, nev) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static keres(id) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static osszes(felhasznaloId) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static pontFrissit(id, mennyiseg) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 }
 

@@ -7,6 +7,7 @@ const feladatRoutes = require("./routes/feladat");
 const felhasznaloRoutes = require("./routes/felhasznalo");
 const kategoriaRoutes = require("./routes/kategoria");
 const authRoutes = require("./routes/auth");
+const statisztikaRoutes = require("./routes/statisztika");
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,7 @@ app.use("/api/feladatok", feladatRoutes);
 app.use("/api/felhasznalok", felhasznaloRoutes);
 app.use("/api/kategoriak", kategoriaRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/statisztika", statisztikaRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));

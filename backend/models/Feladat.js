@@ -37,7 +37,7 @@ class Feladat {
   }
 
   torol() {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   toJSON() {
@@ -74,19 +74,19 @@ class Feladat {
   }
 
   static keres(id) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static osszes(felhasznaloId) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static frissit(id, cim, kategoria, hatarido, kategoriaPont) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 
   static torol(id) {
-    //Database bekötés után
+// Jelenleg a database műveleteket a route-ok kezelik.
   }
 }
 
