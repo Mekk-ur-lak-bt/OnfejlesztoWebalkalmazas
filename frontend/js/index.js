@@ -22,3 +22,8 @@ window.addEventListener('jutalomvaltozas', (e) => {
   const { xp, coin, kategoria, pont } = e.detail;
   console.log('Jutalom változás:', { xp, coin, kategoria, pont });
 });
+
+/* TESZT:
+import { Auth } from "./Auth.js";
+console.log(Auth.regisztral("Teszt felhasználó"));
+console.log(Auth.aktualisFelhasznalo()); */
