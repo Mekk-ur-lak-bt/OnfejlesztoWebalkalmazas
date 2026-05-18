@@ -5,7 +5,8 @@ export class Auth {
   static AKTUALIS_FELHASZNALO_KULCS = "aktualisFelhasznaloId";
 
   static felhasznalokBetolt() {
-    const adatok = JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
+    const adatok =
+      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
 
     return adatok.map((adat) => Felhasznalo.fromJSON(adat));
   }
@@ -13,15 +14,15 @@ export class Auth {
   static felhasznalokMent(felhasznalok) {
     localStorage.setItem(
       Auth.FELHASZNALOK_KULCS,
-      JSON.stringify(felhasznalok.map((felhasznalo) => felhasznalo.toJSON()))
+      JSON.stringify(felhasznalok.map((felhasznalo) => felhasznalo.toJSON())),
     );
   }
 
-  static regisztral(nev, avatar = "img/avatar.jpg") {
+  static regisztral(nev, jelszo, avatar = "img/avatar.jpg") {
     const felhasznalok = Auth.felhasznalokBetolt();
 
     const letezik = felhasznalok.some(
-      (felhasznalo) => felhasznalo.nev.toLowerCase() === nev.toLowerCase()
+      (felhasznalo) => felhasznalo.nev.toLowerCase() === nev.toLowerCase(),
     );
 
     if (letezik) {
@@ -34,31 +35,39 @@ export class Auth {
       0,
       0,
       1,
-      avatar
+      avatar,
     );
 
-    felhasznalok.push(ujFelhasznalo);
-    Auth.felhasznalokMent(felhasznalok);
+    const mentendo = ujFelhasznalo.toJSON();
+    mentendo.jelszo = jelszo;
 
+    const nyersAdatok =
+      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
+    nyersAdatok.push(mentendo);
+
+    localStorage.setItem(Auth.FELHASZNALOK_KULCS, JSON.stringify(nyersAdatok));
     localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, ujFelhasznalo.id);
 
     return ujFelhasznalo;
   }
 
-  static bejelentkezik(nev) {
-    const felhasznalok = Auth.felhasznalokBetolt();
+  static bejelentkezik(nev, jelszo) {
+    const adatok =
+      JSON.parse(localStorage.getItem(Auth.FELHASZNALOK_KULCS)) || [];
 
-    const felhasznalo = felhasznalok.find(
-      (felhasznalo) => felhasznalo.nev.toLowerCase() === nev.toLowerCase()
+    const adat = adatok.find(
+      (felhasznalo) =>
+        felhasznalo.nev.toLowerCase() === nev.toLowerCase() &&
+        felhasznalo.jelszo === jelszo,
     );
 
-    if (!felhasznalo) {
-      throw new Error("Nincs ilyen felhasználó!");
+    if (!adat) {
+      throw new Error("Hibás felhasználónév vagy jelszó!");
     }
 
-    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, felhasznalo.id);
+    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, adat.id);
 
-    return felhasznalo;
+    return Felhasznalo.fromJSON(adat);
   }
 
   static kijelentkezik() {
@@ -74,7 +83,9 @@ export class Auth {
 
     const felhasznalok = Auth.felhasznalokBetolt();
 
-    return felhasznalok.find((felhasznalo) => felhasznalo.id === aktualisId) || null;
+    return (
+      felhasznalok.find((felhasznalo) => felhasznalo.id === aktualisId) || null
+    );
   }
 
   static beVanJelentkezve() {
@@ -85,7 +96,7 @@ export class Auth {
     const felhasznalok = Auth.felhasznalokBetolt();
 
     const index = felhasznalok.findIndex(
-      (aktualis) => aktualis.id === felhasznalo.id
+      (aktualis) => aktualis.id === felhasznalo.id,
     );
 
     if (index === -1) {

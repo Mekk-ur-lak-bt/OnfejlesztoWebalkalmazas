@@ -1,4 +1,6 @@
 import { Feladat, FeladatLista, FeladatModal } from './feladat.js';
+import { authUiInicializal } from "./auth-ui.js";
+authUiInicializal();
 
 const modal = new FeladatModal('feladat-modal', 'feladat-urlap', (adatok) => {
   if (adatok.id) {
@@ -27,3 +29,7 @@ window.addEventListener('jutalomvaltozas', (e) => {
 import { Auth } from "./Auth.js";
 console.log(Auth.regisztral("Teszt felhasználó"));
 console.log(Auth.aktualisFelhasznalo()); */
+/* 
+for (var i = 0; i < localStorage.length; i++){
+   console.log(localStorage.key(i));
+} */

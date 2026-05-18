@@ -168,6 +168,27 @@
         </div>
       </form>
     </dialog>
+    <dialog id="auth-modal">
+      <form method="dialog" id="auth-urlap">
+        <h3 id="auth-modal-cim">Login</h3>
+
+        <input type="hidden" id="auth-mod" />
+
+        <label for="auth-nev">Username:</label>
+        <input type="text" id="auth-nev" required />
+
+        <label for="auth-jelszo">Password:</label>
+        <input type="password" id="auth-jelszo" required />
+
+        <label for="auth-avatar" id="auth-avatar-label">Avatar URL:</label>
+        <input type="text" id="auth-avatar" placeholder="img/avatar.jpg" />
+
+        <div class="modal-gombok">
+          <button type="button" id="auth-megse">Cancel</button>
+          <button type="submit" id="auth-mentes">Save</button>
+        </div>
+      </form>
+    </dialog>
 
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
