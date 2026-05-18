@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
+const db = require("./database");
 const feladatRoutes = require("./routes/feladat");
 const felhasznaloRoutes = require("./routes/felhasznalo");
 const kategoriaRoutes = require("./routes/kategoria");

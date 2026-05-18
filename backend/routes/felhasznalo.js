@@ -1,24 +1,22 @@
 const express = require("express");
-const Felhasznalo = require("../models/Felhasznalo");
+const db = require("../database");
 
 const router = express.Router();
 
-let felhasznalok = [
-  new Felhasznalo(1, "teszt felhasznalo", 120, 30, 2, "avatar-1.png"),
-];
-
-let kovetkezoId = 2;
-
-// fewlhasznalo lekérése id alapján
 router.get("/", (req, res) => {
+  const felhasznalok = db
+    .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo")
+    .all();
+
   res.json(felhasznalok);
 });
 
-// egy felh lekeres id alapjan
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const felhasznalo = felhasznalok.find((f) => f.id === id);
+  const felhasznalo = db
+    .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+    .get(id);
 
   if (!felhasznalo) {
     return res.status(404).json({ uzenet: "Felhasználó nem található!" });
@@ -27,73 +25,103 @@ router.get("/:id", (req, res) => {
   res.json(felhasznalo);
 });
 
-// uj felh letrehoz.
 router.post("/", (req, res) => {
-  const { nev, avatar } = req.body;
+  const { nev, jelszo, avatar } = req.body;
 
-  if (!nev) {
+  if (!nev || !jelszo) {
     return res.status(400).json({
-      uzenet: "A név megadása kötelező!",
+      uzenet: "A név és a jelszó megadása kötelező!",
     });
   }
 
-  const ujFelhasznalo = Felhasznalo.letrehoz(nev, avatar ?? "");
+  try {
+    const eredmeny = db
+      .prepare(`
+        INSERT INTO felhasznalo (nev, jelszo, xp, coin, szint, avatar)
+        VALUES (?, ?, 0, 0, 1, ?)
+      `)
+      .run(nev, jelszo, avatar || "img/avatar.jpg");
 
-  ujFelhasznalo.id = kovetkezoId;
-  kovetkezoId++;
+    const ujFelhasznalo = db
+      .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+      .get(eredmeny.lastInsertRowid);
 
-  felhasznalok.push(ujFelhasznalo);
-
-  res.status(201).json(ujFelhasznalo);
+    res.status(201).json(ujFelhasznalo);
+  } catch (error) {
+    res.status(400).json({
+      uzenet: "Nem sikerült létrehozni a felhasználót!",
+      hiba: error.message,
+    });
+  }
 });
 
-// XP hozzaad felh.
 router.patch("/:id/xp", (req, res) => {
   const id = Number(req.params.id);
   const { mennyiseg } = req.body;
 
-  const felhasznalo = felhasznalok.find((f) => f.id === id);
-
-  if (!felhasznalo) {
-    return res.status(404).json({ uzenet: "Felhasználó nem található!" });
-  }
-
   if (typeof mennyiseg !== "number") {
     return res.status(400).json({
       uzenet: "A mennyiségnek számnak kell lennie!",
     });
   }
 
-  felhasznalo.xpHozzaad(mennyiseg);
+  const felhasznalo = db
+    .prepare("SELECT * FROM felhasznalo WHERE id = ?")
+    .get(id);
+
+  if (!felhasznalo) {
+    return res.status(404).json({ uzenet: "Felhasználó nem található!" });
+  }
+
+  const ujXp = felhasznalo.xp + mennyiseg;
+
+  let ujSzint = 1;
+  if (ujXp >= 1000) ujSzint = 5;
+  else if (ujXp >= 500) ujSzint = 4;
+  else if (ujXp >= 250) ujSzint = 3;
+  else if (ujXp >= 100) ujSzint = 2;
+
+  db.prepare("UPDATE felhasznalo SET xp = ?, szint = ? WHERE id = ?")
+    .run(ujXp, ujSzint, id);
+
+  const frissitett = db
+    .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+    .get(id);
 
   res.json({
     uzenet: "XP hozzáadva!",
-    felhasznalo,
+    felhasznalo: frissitett,
   });
 });
 
-// Coin hozzaad felh.
 router.patch("/:id/coin", (req, res) => {
   const id = Number(req.params.id);
   const { mennyiseg } = req.body;
 
-  const felhasznalo = felhasznalok.find((f) => f.id === id);
-
-  if (!felhasznalo) {
-    return res.status(404).json({ uzenet: "Felhasználó nem található!" });
-  }
-
   if (typeof mennyiseg !== "number") {
     return res.status(400).json({
       uzenet: "A mennyiségnek számnak kell lennie!",
     });
   }
 
-  felhasznalo.coinHozzaad(mennyiseg);
+  const felhasznalo = db
+    .prepare("SELECT * FROM felhasznalo WHERE id = ?")
+    .get(id);
+
+  if (!felhasznalo) {
+    return res.status(404).json({ uzenet: "Felhasználó nem található!" });
+  }
+
+  db.prepare("UPDATE felhasznalo SET coin = coin + ? WHERE id = ?")
+    .run(mennyiseg, id);
+
+  const frissitett = db
+    .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+    .get(id);
 
   res.json({
     uzenet: "Coin hozzáadva!",
-    felhasznalo,
+    felhasznalo: frissitett,
   });
 });
 
