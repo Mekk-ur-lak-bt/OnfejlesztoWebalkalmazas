@@ -26,7 +26,8 @@ main {
   grid-template-columns: 1fr 3fr 1fr;
   gap: var(--tavolsag-md);
   margin: auto;
-  padding: var(--tavolsag-lg) var(--tavolsag-lg) var(--tavolsag-lg) var(--tavolsag-md);
+  padding: var(--tavolsag-lg) var(--tavolsag-lg) var(--tavolsag-lg)
+    var(--tavolsag-md);
 }
 
 .oszlop-bal,
@@ -194,7 +195,10 @@ input[type="checkbox"] {
   display: inline-grid;
   place-content: center;
   position: relative;
-  transition: background-color var(--ido-gyors), border-color var(--ido-gyors), box-shadow var(--ido-gyors);
+  transition:
+    background-color var(--ido-gyors),
+    border-color var(--ido-gyors),
+    box-shadow var(--ido-gyors);
 }
 
 input[type="checkbox"]::before {
@@ -222,7 +226,6 @@ input[type="checkbox"]:checked::before {
   transform: rotate(-45deg) scale(1);
 }
 
-
 #uj-feladat-gomb {
   align-self: stretch;
   padding: var(--tavolsag-xs) var(--tavolsag-md);
@@ -237,14 +240,16 @@ input[type="checkbox"]:checked::before {
   padding: var(--tavolsag-xs) 0;
 }
 
-#feladat-modal {
+#feladat-modal,
+#auth-modal {
   padding: var(--tavolsag-md);
   width: 90vw;
   max-width: 400px;
   margin: auto;
 }
 
-#feladat-urlap {
+#feladat-urlap,
+#auth-urlap {
   display: flex;
   flex-direction: column;
   gap: var(--tavolsag-sm);
@@ -279,7 +284,7 @@ input[type="checkbox"]:checked::before {
     gap: var(--tavolsag-md);
     padding: var(--tavolsag-sm);
   }
-  
+
   .todo-oldalsav header {
     flex-direction: column;
     align-items: stretch;

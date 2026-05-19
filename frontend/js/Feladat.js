@@ -1,10 +1,32 @@
-export class Feladat {
-  #id; #cim; #kategoria; #xpJutalom; #coinJutalom; #kategoriaPont; #teljesitve; #hatarido;
+const API = "/api/feladatok";
+const KATEGORIA_API = "/api/kategoriak";
 
-  constructor(id, cim, kategoria, xpJutalom, coinJutalom, kategoriaPont, teljesitve = false, hatarido = '') {
+export class Feladat {
+  #id;
+  #felhasznaloId;
+  #kategoriaId;
+  #cim;
+  #xpJutalom;
+  #coinJutalom;
+  #kategoriaPont;
+  #teljesitve;
+  #hatarido;
+
+  constructor(
+    id,
+    felhasznaloId,
+    kategoriaId,
+    cim,
+    xpJutalom,
+    coinJutalom,
+    kategoriaPont,
+    teljesitve = false,
+    hatarido = "",
+  ) {
     this.#id = id;
+    this.#felhasznaloId = felhasznaloId;
+    this.#kategoriaId = kategoriaId;
     this.#cim = cim;
-    this.#kategoria = kategoria;
     this.#xpJutalom = xpJutalom;
     this.#coinJutalom = coinJutalom;
     this.#kategoriaPont = kategoriaPont;
@@ -12,85 +34,154 @@ export class Feladat {
     this.#hatarido = hatarido;
   }
 
-  get id() { return this.#id; }
-  get cim() { return this.#cim; }
-  get kategoria() { return this.#kategoria; }
-  get xpJutalom() { return this.#xpJutalom; }
-  get coinJutalom() { return this.#coinJutalom; }
-  get kategoriaPont() { return this.#kategoriaPont; }
-  get teljesitve() { return this.#teljesitve; }
-  get hatarido() { return this.#hatarido; }
-
-  teljesit() {
-    this.#teljesitve = !this.#teljesitve;
-    Feladat.frissit(this);
-    const szorzo = this.#teljesitve ? 1 : -1;
-    return {
-      xp: this.#xpJutalom * szorzo,
-      coin: this.#coinJutalom * szorzo,
-      kategoria: this.#kategoria,
-      pont: this.#kategoriaPont * szorzo
-    };
+  get id() {
+    return this.#id;
+  }
+  get felhasznaloId() {
+    return this.#felhasznaloId;
+  }
+  get kategoriaId() {
+    return this.#kategoriaId;
+  }
+  get cim() {
+    return this.#cim;
+  }
+  get xpJutalom() {
+    return this.#xpJutalom;
+  }
+  get coinJutalom() {
+    return this.#coinJutalom;
+  }
+  get kategoriaPont() {
+    return this.#kategoriaPont;
+  }
+  get teljesitve() {
+    return this.#teljesitve;
+  }
+  get hatarido() {
+    return this.#hatarido;
   }
 
-  szerkeszt(cim, kategoria, hatarido, kategoriaPont, xpJutalom, coinJutalom) {
-    this.#cim = cim;
-    this.#kategoria = kategoria;
-    this.#hatarido = hatarido;
-    this.#kategoriaPont = kategoriaPont;
-    this.#xpJutalom = xpJutalom;
-    this.#coinJutalom = coinJutalom;
-    Feladat.frissit(this);
+  async teljesit() {
+    const valasz = await fetch(`${API}/${this.#id}/teljesit`, {
+      method: "PATCH",
+    });
+    if (!valasz.ok) throw new Error("Nem sikerült teljesíteni a feladatot!");
+    const adat = await valasz.json();
+    this.#teljesitve = adat.feladat.teljesitve;
+    return adat.jutalom;
+  }
+
+  async szerkeszt(
+    cim,
+    kategoriaId,
+    hatarido,
+    kategoriaPont,
+    xpJutalom,
+    coinJutalom,
+  ) {
+    const valasz = await fetch(`${API}/${this.#id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        kategoriaId,
+        cim,
+        xpJutalom,
+        coinJutalom,
+        kategoriaPont,
+        hatarido,
+      }),
+    });
+    if (!valasz.ok) throw new Error("Nem sikerült módosítani a feladatot!");
+    const adat = await valasz.json();
+    this.#cim = adat.cim;
+    this.#kategoriaId = adat.kategoriaId;
+    this.#hatarido = adat.hatarido;
+    this.#kategoriaPont = adat.kategoriaPont;
+    this.#xpJutalom = adat.xpJutalom;
+    this.#coinJutalom = adat.coinJutalom;
   }
 
   toJSON() {
     return {
       id: this.#id,
+      felhasznaloId: this.#felhasznaloId,
+      kategoriaId: this.#kategoriaId,
       cim: this.#cim,
-      kategoria: this.#kategoria,
       xpJutalom: this.#xpJutalom,
       coinJutalom: this.#coinJutalom,
       kategoriaPont: this.#kategoriaPont,
       teljesitve: this.#teljesitve,
-      hatarido: this.#hatarido
+      hatarido: this.#hatarido,
     };
   }
 
-  static letrehoz(cim, kategoria, xpJutalom, coinJutalom, kategoriaPont, hatarido) {
-    const uj = new Feladat(Date.now().toString(), cim, kategoria, xpJutalom, coinJutalom, kategoriaPont, false, hatarido);
-    const lista = Feladat.osszes();
-    lista.push(uj);
-    localStorage.setItem('feladatok', JSON.stringify(lista.map(f => f.toJSON())));
-    return uj;
-  }
-
-  static osszes() {
-    return (JSON.parse(localStorage.getItem('feladatok')) || []).map(f =>
-      new Feladat(f.id, f.cim, f.kategoria, f.xpJutalom, f.coinJutalom, f.kategoriaPont, f.teljesitve, f.hatarido)
+  static #sorbolObjektum(adat) {
+    return new Feladat(
+      adat.id,
+      adat.felhasznaloId,
+      adat.kategoriaId,
+      adat.cim,
+      adat.xpJutalom,
+      adat.coinJutalom,
+      adat.kategoriaPont,
+      adat.teljesitve,
+      adat.hatarido,
     );
   }
 
-  static frissit(modositott) {
-    const lista = Feladat.osszes();
-    const index = lista.findIndex(f => f.id === modositott.id);
-    if (index !== -1) {
-      lista[index] = modositott;
-      localStorage.setItem('feladatok', JSON.stringify(lista.map(f => f.toJSON())));
-    }
+  static async letrehoz(
+    felhasznaloId,
+    kategoriaId,
+    cim,
+    xpJutalom,
+    coinJutalom,
+    kategoriaPont,
+    hatarido,
+  ) {
+    const valasz = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        felhasznaloId,
+        kategoriaId,
+        cim,
+        xpJutalom,
+        coinJutalom,
+        kategoriaPont,
+        hatarido,
+      }),
+    });
+    if (!valasz.ok) throw new Error("Nem sikerült létrehozni a feladatot!");
+    const adat = await valasz.json();
+    return Feladat.#sorbolObjektum(adat);
   }
 
-  static torol(id) {
-    const szurt = Feladat.osszes().filter(f => f.id !== id);
-    localStorage.setItem('feladatok', JSON.stringify(szurt.map(f => f.toJSON())));
+  static async osszes(felhasznaloId = null) {
+    const url = felhasznaloId ? `${API}?felhasznaloId=${felhasznaloId}` : API;
+    const valasz = await fetch(url);
+    if (!valasz.ok) throw new Error("Nem sikerült lekérni a feladatokat!");
+    const adatok = await valasz.json();
+    return adatok.map(Feladat.#sorbolObjektum);
   }
 
-  static keres(id) {
-    return Feladat.osszes().find(f => f.id === id) || null;
+  static async keres(id) {
+    const valasz = await fetch(`${API}/${id}`);
+    if (!valasz.ok) return null;
+    const adat = await valasz.json();
+    return Feladat.#sorbolObjektum(adat);
+  }
+
+  static async torol(id) {
+    const valasz = await fetch(`${API}/${id}`, { method: "DELETE" });
+    if (!valasz.ok) throw new Error("Nem sikerült törölni a feladatot!");
   }
 }
 
 export class FeladatElem {
-  #adat; #nezet; #htmlElem;
+  #adat;
+  #nezet;
+  #htmlElem;
 
   constructor(feladat, nezet) {
     this.#adat = feladat;
@@ -98,18 +189,20 @@ export class FeladatElem {
     this.#htmlElem = this.#letrehozElem();
   }
 
-  get htmlElem() { return this.#htmlElem; }
+  get htmlElem() {
+    return this.#htmlElem;
+  }
 
   #letrehozElem() {
-    const li = document.createElement('li');
-    li.className = `feladat${this.#adat.teljesitve ? ' kesz' : ''}`;
+    const li = document.createElement("li");
+    li.className = `feladat${this.#adat.teljesitve ? " kesz" : ""}`;
     li.dataset.id = this.#adat.id;
     li.innerHTML = `
       <label>
-        <input type="checkbox" ${this.#adat.teljesitve ? 'checked' : ''} />
+        <input type="checkbox" ${this.#adat.teljesitve ? "checked" : ""} />
         <span>${this.#adat.cim}</span>
       </label>
-      <p class="feladat-info">${this.#adat.teljesitve ? 'COMPLETED' : `Skill: ${this.#adat.kategoria} • +${this.#adat.xpJutalom} XP`}</p>
+      <p class="feladat-info">${this.#adat.teljesitve ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`}</p>
       <div class="akciok">
         <button class="gomb-szerkeszt" type="button">✏️</button>
         <button class="gomb-torol" type="button">🗑️</button>
@@ -120,51 +213,92 @@ export class FeladatElem {
   }
 
   #esemenyek(li) {
-    li.querySelector('input[type="checkbox"]').addEventListener('change', () => {
-      const jutalom = this.#adat.teljesit();
-      li.className = `feladat${this.#adat.teljesitve ? ' kesz' : ''}`;
-      li.querySelector('.feladat-info').textContent = this.#adat.teljesitve
-        ? 'COMPLETED'
-        : `Skill: ${this.#adat.kategoria} • +${this.#adat.xpJutalom} XP`;
-      window.dispatchEvent(new CustomEvent('jutalomvaltozas', { detail: jutalom }));
+    const checkbox = li.querySelector('input[type="checkbox"]');
+
+    checkbox.addEventListener("change", async () => {
+      checkbox.disabled = true;
+      try {
+        const jutalom = await this.#adat.teljesit();
+        li.className = `feladat${this.#adat.teljesitve ? " kesz" : ""}`;
+        li.querySelector(".feladat-info").textContent = this.#adat.teljesitve
+          ? "COMPLETED"
+          : `+${this.#adat.xpJutalom} XP`;
+        window.dispatchEvent(
+          new CustomEvent("jutalomvaltozas", { detail: jutalom }),
+        );
+      } catch (e) {
+        checkbox.checked = !checkbox.checked;
+        console.error(e);
+      } finally {
+        checkbox.disabled = false;
+      }
     });
 
-    li.querySelector('.gomb-szerkeszt').addEventListener('click', () => {
+    li.querySelector(".gomb-szerkeszt").addEventListener("click", () => {
       this.#nezet.szerkeszt(this.#adat);
     });
 
-    li.querySelector('.gomb-torol').addEventListener('click', () => {
-      Feladat.torol(this.#adat.id);
-      li.remove();
+    li.querySelector(".gomb-torol").addEventListener("click", async () => {
+      try {
+        await Feladat.torol(this.#adat.id);
+        li.remove();
+      } catch (e) {
+        console.error(e);
+      }
     });
   }
 }
 
 export class FeladatModal {
-  #modal; #urlap; #rejtettId; #menteresCallback;
+  #modal;
+  #urlap;
+  #rejtettId;
+  #kategoriaSelect;
+  #menteresCallback;
 
   constructor(modalId, urlapId, menteresCallback) {
     this.#modal = document.getElementById(modalId);
     this.#urlap = document.getElementById(urlapId);
-    this.#rejtettId = document.getElementById('feladat-id');
+    this.#rejtettId = document.getElementById("feladat-id");
+    this.#kategoriaSelect = document.getElementById("urlap-kategoria");
     this.#menteresCallback = menteresCallback;
     this.#esemenyek();
+  }
+
+  async kategoriaFeltolt(felhasznaloId) {
+    if (!felhasznaloId) return;
+    try {
+      const valasz = await fetch(
+        `${KATEGORIA_API}?felhasznaloId=${felhasznaloId}`,
+      );
+      if (!valasz.ok) return;
+      const kategoriak = await valasz.json();
+      this.#kategoriaSelect.innerHTML = "";
+      kategoriak.forEach((k) => {
+        const option = document.createElement("option");
+        option.value = k.id;
+        option.textContent = k.nev;
+        this.#kategoriaSelect.appendChild(option);
+      });
+    } catch (e) {
+      console.error("Kategóriák betöltése sikertelen:", e);
+    }
   }
 
   megnyit(feladat = null) {
     this.#urlap.reset();
     if (feladat) {
-      document.getElementById('modal-cim').textContent = 'Edit Quest';
+      document.getElementById("modal-cim").textContent = "Edit Quest";
       this.#rejtettId.value = feladat.id;
-      document.getElementById('urlap-cim').value = feladat.cim;
-      document.getElementById('urlap-kategoria').value = feladat.kategoria;
-      document.getElementById('urlap-xp').value = feladat.xpJutalom;
-      document.getElementById('urlap-coin').value = feladat.coinJutalom;
-      document.getElementById('urlap-pont').value = feladat.kategoriaPont;
-      document.getElementById('urlap-hatarido').value = feladat.hatarido;
+      document.getElementById("urlap-cim").value = feladat.cim;
+      this.#kategoriaSelect.value = feladat.kategoriaId;
+      document.getElementById("urlap-xp").value = feladat.xpJutalom;
+      document.getElementById("urlap-coin").value = feladat.coinJutalom;
+      document.getElementById("urlap-pont").value = feladat.kategoriaPont;
+      document.getElementById("urlap-hatarido").value = feladat.hatarido ?? "";
     } else {
-      document.getElementById('modal-cim').textContent = 'Add New Quest';
-      this.#rejtettId.value = '';
+      document.getElementById("modal-cim").textContent = "Add New Quest";
+      this.#rejtettId.value = "";
     }
     this.#modal.showModal();
   }
@@ -174,38 +308,48 @@ export class FeladatModal {
   }
 
   #esemenyek() {
-    document.getElementById('modal-megse').addEventListener('click', () => this.bezar());
+    document
+      .getElementById("modal-megse")
+      .addEventListener("click", () => this.bezar());
 
-    this.#urlap.addEventListener('submit', (e) => {
+    this.#urlap.addEventListener("submit", (e) => {
       e.preventDefault();
       this.#menteresCallback({
         id: this.#rejtettId.value,
-        cim: document.getElementById('urlap-cim').value.trim(),
-        kategoria: document.getElementById('urlap-kategoria').value,
-        xp: parseInt(document.getElementById('urlap-xp').value, 10),
-        coin: parseInt(document.getElementById('urlap-coin').value, 10),
-        pont: parseInt(document.getElementById('urlap-pont').value, 10),
-        hatarido: document.getElementById('urlap-hatarido').value
+        cim: document.getElementById("urlap-cim").value.trim(),
+        kategoriaId: parseInt(this.#kategoriaSelect.value, 10),
+        xp: parseInt(document.getElementById("urlap-xp").value, 10),
+        coin: parseInt(document.getElementById("urlap-coin").value, 10),
+        pont: parseInt(document.getElementById("urlap-pont").value, 10),
+        hatarido: document.getElementById("urlap-hatarido").value,
       });
-      this.bezar();
     });
   }
 }
 
 export class FeladatLista {
-  #kontener; #modalKezelo;
+  #kontener;
+  #modalKezelo;
+  #felhasznaloId;
 
-  constructor(szelektor, modalKezelo) {
+  constructor(szelektor, modalKezelo, felhasznaloId = null) {
     this.#kontener = document.querySelector(szelektor);
     this.#modalKezelo = modalKezelo;
+    this.#felhasznaloId = felhasznaloId;
     this.frissit();
   }
 
-  frissit() {
-    this.#kontener.innerHTML = '';
-    Feladat.osszes().forEach(f => {
+  felhasznaloIdBeallitas(felhasznaloId) {
+    this.#felhasznaloId = felhasznaloId;
+  }
+
+  async frissit() {
+    this.#kontener.innerHTML = "";
+    if (!this.#felhasznaloId) return;
+    const feladatok = await Feladat.osszes(this.#felhasznaloId);
+    feladatok.forEach((f) => {
       const elem = new FeladatElem(f, {
-        szerkeszt: (feladat) => this.#modalKezelo.megnyit(feladat)
+        szerkeszt: (feladat) => this.#modalKezelo.megnyit(feladat),
       });
       this.#kontener.appendChild(elem.htmlElem);
     });

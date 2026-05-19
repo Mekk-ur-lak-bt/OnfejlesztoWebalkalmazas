@@ -47,6 +47,16 @@ CREATE TABLE IF NOT EXISTS feladat (
     REFERENCES kategoria(id)
     ON DELETE CASCADE
 );
+
+CREATE TRIGGER IF NOT EXISTS alapkategoriak_letrehozasa
+AFTER INSERT ON felhasznalo
+BEGIN
+  INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (NEW.id, 'Logic', 0);
+  INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (NEW.id, 'Creativity', 0);
+  INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (NEW.id, 'Health', 0);
+  INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (NEW.id, 'Social', 0);
+  INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (NEW.id, 'Soul', 0);
+END;
 `);
 
 module.exports = db;

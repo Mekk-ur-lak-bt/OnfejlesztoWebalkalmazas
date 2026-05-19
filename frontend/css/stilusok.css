@@ -111,7 +111,12 @@ img {
 }
 
 .feladat::before {
-  background: linear-gradient(180deg, transparent, var(--szin-sotet), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--szin-sotet),
+    transparent
+  );
 }
 
 .feladat:hover {
@@ -144,13 +149,23 @@ img {
 }
 
 .feladat.kesz::before {
-  background: linear-gradient(180deg, transparent, var(--szin-kiemelt), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--szin-kiemelt),
+    transparent
+  );
   border-radius: 0 2px 2px 0;
   transition: background var(--ido-kozep) var(--animacio-snap);
 }
 
 .feladat.kesz:hover::before {
-  background: linear-gradient(180deg, transparent, var(--szin-vilagos), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--szin-vilagos),
+    transparent
+  );
 }
 
 .feladat.kesz::after {
@@ -169,10 +184,16 @@ img {
 
 .grafikon-kartya {
   background:
-    radial-gradient(ellipse 70% 70% at center,
+    radial-gradient(
+      ellipse 70% 70% at center,
       rgba(224, 57, 90, 0.04) 0%,
-      transparent 70%),
-    linear-gradient(145deg, var(--szin-tema-mely) 0%, var(--szin-tema-hatter-eltero) 100%);
+      transparent 70%
+    ),
+    linear-gradient(
+      145deg,
+      var(--szin-tema-mely) 0%,
+      var(--szin-tema-hatter-eltero) 100%
+    );
   border: 1px solid var(--szin-tema-hatter);
   border-radius: var(--sugar-sm);
   box-shadow: var(--arnyek-lg);
@@ -265,10 +286,12 @@ progress::-webkit-progress-value {
   background-color: var(--szin-kiemelt);
   border-radius: var(--sugar-sm);
   position: relative;
-  background-image: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.4),
-      transparent);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   background-size: 200% 100%;
 }
 
@@ -294,23 +317,29 @@ progress::-moz-progress-bar {
   box-shadow: var(--ragyogas);
 }
 
-#feladat-modal {
+#feladat-modal,
+#auth-modal {
   background: var(--szinatmenet);
   border: 1px solid var(--szin-tema-szegely);
   border-radius: var(--sugar-lg);
 }
 
-#feladat-urlap label {
+#feladat-urlap label,
+#auth-urlap label {
   color: var(--szoveg-alap);
 }
 
 #feladat-urlap input,
-#feladat-urlap select {
+#feladat-urlap select,
+#auth-urlap input,
+#auth-urlap select {
   background: var(--szin-tema-hatter);
   border-color: var(--szin-tema-szegely);
   color: var(--szoveg-alap);
   outline: none;
-  transition: border-color var(--ido-gyors), box-shadow var(--ido-gyors);
+  transition:
+    border-color var(--ido-gyors),
+    box-shadow var(--ido-gyors);
 }
 
 #feladat-urlap input:focus,
@@ -324,7 +353,9 @@ progress::-moz-progress-bar {
   border-color: var(--szin-tema-szegely);
   color: var(--szoveg-alap);
   cursor: pointer;
-  transition: border-color var(--ido-gyors), color var(--ido-gyors);
+  transition:
+    border-color var(--ido-gyors),
+    color var(--ido-gyors);
 }
 
 #modal-megse:hover {
