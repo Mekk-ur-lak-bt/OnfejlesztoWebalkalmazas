@@ -72,6 +72,12 @@ export class Feladat {
     return adat.jutalom;
   }
 
+  async reset() {
+    const valasz = await fetch(`${API}/${this.#id}/reset`, { method: "PATCH" });
+    if (!valasz.ok) throw new Error("Nem sikerült visszaállítani a feladatot!");
+    this.#teljesitve = false;
+  }
+
   async szerkeszt(
     cim,
     kategoriaId,
@@ -193,18 +199,19 @@ export class FeladatElem {
   }
 
   #letrehozElem() {
+    const kesz = this.#adat.teljesitve;
     const li = document.createElement("li");
-    li.className = `feladat${this.#adat.teljesitve ? " kesz" : ""}`;
+    li.className = `feladat${kesz ? " kesz" : ""}`;
     li.dataset.id = this.#adat.id;
     li.innerHTML = `
       <label>
-        <input type="checkbox" ${this.#adat.teljesitve ? "checked" : ""} />
+        <input type="checkbox" ${kesz ? "checked" : ""} />
         <span>${this.#adat.cim}</span>
       </label>
       <p class="feladat-info">${
-        this.#adat.teljesitve ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`
+        kesz ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`
       }</p>
-      <div class="akciok"${this.#adat.teljesitve ? " hidden" : ""}>
+      <div class="akciok"${kesz ? " hidden" : ""}>
         <button class="gomb-szerkeszt" type="button">✏️</button>
         <button class="gomb-torol" type="button">🗑️</button>
       </div>
@@ -271,6 +278,14 @@ export class FeladatLista {
 
   felhasznaloIdBeallitas(felhasznaloId) {
     this.#felhasznaloId = felhasznaloId ? Number(felhasznaloId) : null;
+  }
+
+  #napiResetSzukseges() {
+    const kulcs = `napiReset_${this.#felhasznaloId}`;
+    const ma = new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem(kulcs) === ma) return false;
+    localStorage.setItem(kulcs, ma);
+    return true;
   }
 
   async #kategoriaFeltolt() {
@@ -364,6 +379,11 @@ export class FeladatLista {
     this.#kontener.innerHTML = "";
     if (!this.#felhasznaloId) return;
     const feladatok = await Feladat.osszes(this.#felhasznaloId);
+    if (this.#napiResetSzukseges()) {
+      await Promise.all(
+        feladatok.filter((f) => f.teljesitve).map((f) => f.reset())
+      );
+    }
     feladatok.forEach((f) => {
       const elem = new FeladatElem(f, {
         szerkeszt: (feladat) => this.megnyit(feladat),
