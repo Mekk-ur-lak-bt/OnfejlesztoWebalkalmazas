@@ -1,5 +1,6 @@
 # Függőségek
 backend/node_modules/
+teszt/node_modules/
 
 # Adatbázis
 backend/database.sqlite
