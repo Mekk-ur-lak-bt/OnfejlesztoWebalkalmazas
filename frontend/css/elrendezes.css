@@ -1,3 +1,10 @@
+/*
+
+Kb 760px alatt, amíg még mindig landscape a képernyő: 
+reszponzivitási probléma, de legalább overflow hidden
+
+*/
+
 *,
 *::before,
 *::after {
@@ -94,7 +101,7 @@ summary {
 .chart {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 420px;
   margin: 0 auto;
 }
 
@@ -195,7 +202,9 @@ input[type="checkbox"] {
   display: inline-grid;
   place-content: center;
   position: relative;
-  transition: background-color var(--ido-gyors), border-color var(--ido-gyors),
+  transition:
+    background-color var(--ido-gyors),
+    border-color var(--ido-gyors),
     box-shadow var(--ido-gyors);
 }
 
@@ -226,6 +235,7 @@ input[type="checkbox"]:checked::before {
 
 #uj-feladat-gomb {
   width: 100%;
+  margin: var(--tavolsag-md) 0 var(--tavolsag-sm) 0;
   padding: var(--tavolsag-xs) var(--tavolsag-md);
   border: 1px solid transparent;
   border-radius: var(--sugar-lg);
@@ -244,7 +254,8 @@ input[type="checkbox"]:checked::before {
 }
 
 #feladat-modal,
-#auth-modal {
+#auth-modal,
+#kategoria-modal {
   padding: var(--tavolsag-md);
   width: 90vw;
   max-width: 400px;
@@ -286,11 +297,6 @@ input[type="checkbox"]:checked::before {
     grid-template-columns: 1fr;
     gap: var(--tavolsag-md);
     padding: var(--tavolsag-sm);
-  }
-
-  #uj-feladat-gomb {
-    width: 50%;
-    align-self: center;
   }
 
   .modal-gombok {

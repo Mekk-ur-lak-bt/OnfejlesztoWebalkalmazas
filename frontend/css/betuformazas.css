@@ -85,7 +85,6 @@ p,
 }
 
 @media (max-width: 600px) {
-
   .profil-oldalsav header h2,
   .todo-oldalsav header h2 {
     font-size: 11px;
@@ -114,7 +113,7 @@ p,
   .mini-kartya p {
     font-size: 18px;
   }
-  
+
   .mini-kartya:nth-child(2) summary {
     font-size: 12px;
   }

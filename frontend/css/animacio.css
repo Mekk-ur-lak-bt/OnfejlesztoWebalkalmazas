@@ -198,7 +198,7 @@
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
   animation:
-    draw-polygon 1.2s var(--animacio-snap) 0.5s forwards,
+    draw-polygon 1.2s var(--animacio-snap) 0.75s forwards,
     radar-pulse 4s ease-in-out 1.8s infinite;
 }
 

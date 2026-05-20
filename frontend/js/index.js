@@ -1,11 +1,13 @@
-import { Feladat, FeladatLista } from "./Feladat.js";
-import { MiniKartya, RadarDiagram } from "./Statisztika.js";
-import { Auth } from "./Auth.js";
-import { authUiInicializal, profilFrissit } from "./auth-ui.js";
+import { Feladat, FeladatLista } from "./osztalyok/Feladat.js";
+import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
+import { Auth } from "./osztalyok/Auth.js";
+import { KategoriaModal } from "./osztalyok/Kategoria.js";
+import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
 
 const radar = new RadarDiagram(".radar-diagram", Auth.aktualisFelhasznaloId());
 const lista = new FeladatLista(".feladat-lista", Auth.aktualisFelhasznaloId());
 const miniKartya = new MiniKartya(Auth.aktualisFelhasznaloId());
+const kategoriaModal = new KategoriaModal(Auth.aktualisFelhasznaloId());
 
 document
   .getElementById("uj-feladat-gomb")
@@ -23,11 +25,16 @@ window.addEventListener("jutalomvaltozas", async (e) => {
   await radar.frissit();
 });
 
+window.addEventListener("kategoriaValtozas", async () => {
+  await radar.frissit();
+});
+
 window.addEventListener("authValtozas", async () => {
   const felhasznaloId = Auth.aktualisFelhasznaloId();
   lista.felhasznaloIdBeallitas(felhasznaloId);
   radar.felhasznaloIdBeallitas(felhasznaloId);
   miniKartya.felhasznaloIdBeallitas(felhasznaloId);
+  kategoriaModal.felhasznaloIdBeallitas(felhasznaloId);
   await lista.frissit();
   await radar.frissit();
 });
@@ -38,5 +45,6 @@ const felhasznaloId = Auth.aktualisFelhasznaloId();
 lista.felhasznaloIdBeallitas(felhasznaloId);
 radar.felhasznaloIdBeallitas(felhasznaloId);
 miniKartya.felhasznaloIdBeallitas(felhasznaloId);
+kategoriaModal.felhasznaloIdBeallitas(felhasznaloId);
 await lista.frissit();
 await radar.frissit();

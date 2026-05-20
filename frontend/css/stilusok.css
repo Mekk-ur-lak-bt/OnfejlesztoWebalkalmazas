@@ -350,7 +350,8 @@ progress::-moz-progress-bar {
 }
 
 #feladat-modal,
-#auth-modal {
+#auth-modal,
+#kategoria-modal {
   background: var(--szinatmenet);
   border: 1px solid var(--szin-tema-szegely);
   border-radius: var(--sugar-lg);

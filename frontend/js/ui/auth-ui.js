@@ -1,4 +1,4 @@
-import { Auth } from "./Auth.js";
+import { Auth } from "../osztalyok/Auth.js";
 
 function authValtozastKiald() {
   window.dispatchEvent(new CustomEvent("authValtozas"));

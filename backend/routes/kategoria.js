@@ -35,18 +35,22 @@ router.get("/", (req, res) => {
 
   if (felhasznaloId) {
     kategoriak = db
-      .prepare(`
+      .prepare(
+        `
         SELECT id, felhasznalo_id, nev, pontok
         FROM kategoria
         WHERE felhasznalo_id = ?
-      `)
+      `,
+      )
       .all(Number(felhasznaloId));
   } else {
     kategoriak = db
-      .prepare(`
+      .prepare(
+        `
         SELECT id, felhasznalo_id, nev, pontok
         FROM kategoria
-      `)
+      `,
+      )
       .all();
   }
 
@@ -58,11 +62,13 @@ router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
 
   const kategoria = db
-    .prepare(`
+    .prepare(
+      `
       SELECT id, felhasznalo_id, nev, pontok
       FROM kategoria
       WHERE id = ?
-    `)
+    `,
+    )
     .get(id);
 
   if (!kategoria) {
@@ -93,21 +99,52 @@ router.post("/", (req, res) => {
   }
 
   const eredmeny = db
-    .prepare(`
+    .prepare(
+      `
       INSERT INTO kategoria (felhasznalo_id, nev, pontok)
       VALUES (?, ?, 0)
-    `)
+    `,
+    )
     .run(Number(felhasznaloId), nev);
 
   const ujKategoria = db
-    .prepare(`
+    .prepare(
+      `
       SELECT id, felhasznalo_id, nev, pontok
       FROM kategoria
       WHERE id = ?
-    `)
+    `,
+    )
     .get(eredmeny.lastInsertRowid);
 
   res.status(201).json(kategoriaSorbolObjektum(ujKategoria));
+});
+
+// By Fru: szia, át akarom nevezni a kategórianeveket szóval ezt hozzáadtam, szia
+router.put("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const { nev } = req.body;
+
+  if (!nev) {
+    return res.status(400).json({ uzenet: "A kategória neve kötelező!" });
+  }
+
+  const kategoria = db.prepare("SELECT * FROM kategoria WHERE id = ?").get(id);
+  if (!kategoria) {
+    return res.status(404).json({ uzenet: "Kategória nem található!" });
+  }
+
+  db.prepare("UPDATE kategoria SET nev = ? WHERE id = ?").run(nev, id);
+
+  res.json(
+    kategoriaSorbolObjektum(
+      db
+        .prepare(
+          "SELECT id, felhasznalo_id, nev, pontok FROM kategoria WHERE id = ?",
+        )
+        .get(id),
+    ),
+  );
 });
 
 //kategoria pont frissitese
@@ -121,26 +158,28 @@ router.patch("/:id/pont", (req, res) => {
     });
   }
 
-  const kategoria = db
-    .prepare("SELECT * FROM kategoria WHERE id = ?")
-    .get(id);
+  const kategoria = db.prepare("SELECT * FROM kategoria WHERE id = ?").get(id);
 
   if (!kategoria) {
     return res.status(404).json({ uzenet: "Kategória nem található!" });
   }
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE kategoria
     SET pontok = pontok + ?
     WHERE id = ?
-  `).run(mennyiseg, id);
+  `,
+  ).run(mennyiseg, id);
 
   const frissitett = db
-    .prepare(`
+    .prepare(
+      `
       SELECT id, felhasznalo_id, nev, pontok
       FROM kategoria
       WHERE id = ?
-    `)
+    `,
+    )
     .get(id);
 
   const kategoriaObjektum = kategoriaSorbolObjektum(frissitett);
@@ -156,9 +195,7 @@ router.patch("/:id/pont", (req, res) => {
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const kategoria = db
-    .prepare("SELECT id FROM kategoria WHERE id = ?")
-    .get(id);
+  const kategoria = db.prepare("SELECT id FROM kategoria WHERE id = ?").get(id);
 
   if (!kategoria) {
     return res.status(404).json({ uzenet: "Kategória nem található!" });
