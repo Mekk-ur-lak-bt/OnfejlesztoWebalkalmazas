@@ -4,6 +4,38 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+::selection {
+  background-color: var(--szin-tema-mely);
+  color: var(--szin-kozepes);
+}
+
+::-moz-selection {
+  background-color: var(--szin-tema-mely);
+  color: var(--szin-kozepes);
+}
+
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  position: relative;
+  box-shadow: inset 0 0 0 9999px
+    color-mix(in srgb, var(--szin-kiemelt) 30%, transparent);
+  border-radius: 4px;
+}
+
+*:focus-visible::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -12px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--szin-kiemelt);
+  border-radius: 50%;
+}
+
 html {
   scroll-behavior: smooth;
 }
