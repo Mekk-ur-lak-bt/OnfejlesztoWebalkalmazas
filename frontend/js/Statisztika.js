@@ -18,6 +18,10 @@ function pontokraVektor(csuccs, arany) {
   return `${x.toFixed(2)},${y.toFixed(2)}`;
 }
 
+function maiDatum() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export class RadarDiagram {
   #svg;
   #terulet;
@@ -39,35 +43,29 @@ export class RadarDiagram {
       this.#alaphelyzet();
       return;
     }
-
     try {
       const valasz = await fetch(
-        `${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`,
+        `${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`
       );
       if (!valasz.ok) {
         this.#alaphelyzet();
         return;
       }
       const kategoriak = await valasz.json();
-
       const pontTerkep = {};
       kategoriak.forEach((k) => {
         pontTerkep[k.nev] = k.pontok;
       });
-
       const maxPont = Math.max(1, ...Object.values(pontTerkep));
-
       const sokszogPontok = RADAR_NEVSOR.map((nev, i) => {
         const arany = Math.min(1, (pontTerkep[nev] ?? 0) / maxPont);
         const minimum = 0.05;
         return pontokraVektor(
           RADAR_CSUCCSOK[i],
-          minimum + arany * (1 - minimum),
+          minimum + arany * (1 - minimum)
         );
       });
-
       this.#terulet.setAttribute("points", sokszogPontok.join(" "));
-
       this.#cimkekFrissit(pontTerkep);
     } catch (e) {
       console.error("Radar diagram frissítése sikertelen:", e);
@@ -86,14 +84,73 @@ export class RadarDiagram {
       const elem = document.querySelector(`.cimke.${cimkeOsztalyok[i]}`);
       if (elem) {
         const pont = pontTerkep[nev] ?? 0;
-        elem.textContent = `${nev.toUpperCase()}${pont > 0 ? ` · ${pont}` : ""}`;
+        elem.textContent = `${nev.toUpperCase()}${
+          pont > 0 ? ` · ${pont}` : ""
+        }`;
       }
     });
   }
 }
 
 export class MiniKartya {
-  constructor() {
+  #felhasznaloId;
+
+  constructor(felhasznaloId = null) {
+    this.#felhasznaloId = felhasznaloId ? Number(felhasznaloId) : null;
+    this.#toggleEsemeny();
+    this.#streakEllenorzes();
+    this.#streakMegjelenit();
+  }
+
+  felhasznaloIdBeallitas(felhasznaloId) {
+    this.#felhasznaloId = felhasznaloId ? Number(felhasznaloId) : null;
+    this.#streakEllenorzes();
+    this.#streakMegjelenit();
+  }
+
+  streakNapotRogzit() {
+    if (!this.#felhasznaloId) return;
+    const kulcs = `streak_${this.#felhasznaloId}`;
+    const ma = maiDatum();
+    const mentett = JSON.parse(localStorage.getItem(kulcs)) ?? {
+      count: 0,
+      lastDate: null,
+    };
+    if (mentett.lastDate === ma) return;
+    mentett.count += 1;
+    mentett.lastDate = ma;
+    localStorage.setItem(kulcs, JSON.stringify(mentett));
+    this.#streakMegjelenit();
+  }
+
+  #streakEllenorzes() {
+    if (!this.#felhasznaloId) return;
+    const kulcs = `streak_${this.#felhasznaloId}`;
+    const mentett = JSON.parse(localStorage.getItem(kulcs));
+    if (!mentett?.lastDate) return;
+    const utolso = new Date(mentett.lastDate);
+    const ma = new Date(maiDatum());
+    const kulonbseg = (ma - utolso) / (1000 * 60 * 60 * 24);
+    if (kulonbseg > 1) {
+      localStorage.setItem(kulcs, JSON.stringify({ count: 0, lastDate: null }));
+    }
+  }
+
+  #streakMegjelenit() {
+    const elem = document.querySelector(
+      ".statisztika-racs .mini-kartya:first-child p"
+    );
+    if (!elem) return;
+    if (!this.#felhasznaloId) {
+      elem.textContent = "0 Days";
+      return;
+    }
+    const kulcs = `streak_${this.#felhasznaloId}`;
+    const mentett = JSON.parse(localStorage.getItem(kulcs)) ?? { count: 0 };
+    elem.textContent = `${mentett.count} Day${mentett.count !== 1 ? "s" : ""}`;
+  }
+
+  #toggleEsemeny() {
     document
       .querySelectorAll(".statisztika-racs details")
       .forEach((details) => {
@@ -102,9 +159,7 @@ export class MiniKartya {
           document
             .querySelectorAll(".statisztika-racs details")
             .forEach((el) => {
-              if (el.open !== state) {
-                el.open = state;
-              }
+              if (el.open !== state) el.open = state;
             });
         });
       });

@@ -18,3 +18,7 @@ Thumbs.db
 # Logok
 *.log
 npm-debug.log*
+
+# Ideiglenes npm és rendszer mappák (Helyi javítás miatt)
+.npm-cache/
+tmp/

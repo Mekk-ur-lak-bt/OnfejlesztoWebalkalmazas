@@ -1,5 +1,9 @@
 import { Auth } from "./Auth.js";
 
+function authValtozastKiald() {
+  window.dispatchEvent(new CustomEvent("authValtozas"));
+}
+
 export async function authUiInicializal() {
   const regisztracioLink = document.getElementById("regisztracio-link");
   const bejelentkezesLink = document.getElementById("bejelentkezes-link");
@@ -19,39 +23,30 @@ export async function authUiInicializal() {
 
   regisztracioLink.addEventListener("click", (event) => {
     event.preventDefault();
-
     authUrlap.reset();
-
     authMod.value = "registration";
     authModalCim.textContent = "Registration";
-
     authAvatar.hidden = false;
     authAvatarLabel.hidden = false;
-
     authModal.showModal();
   });
 
   bejelentkezesLink.addEventListener("click", (event) => {
     event.preventDefault();
-
     authUrlap.reset();
-
     authMod.value = "login";
     authModalCim.textContent = "Login";
-
     authAvatar.hidden = true;
     authAvatarLabel.hidden = true;
-
     authModal.showModal();
   });
 
   kijelentkezesLink.addEventListener("click", async (event) => {
     event.preventDefault();
-
     Auth.kijelentkezik();
-
     await profilFrissit();
     menuFrissit();
+    authValtozastKiald();
   });
 
   authMegse.addEventListener("click", () => {
@@ -60,7 +55,6 @@ export async function authUiInicializal() {
 
   authUrlap.addEventListener("submit", async (event) => {
     event.preventDefault();
-
     const nev = authNev.value.trim();
     const jelszo = authJelszo.value.trim();
     const avatar = authAvatar.value.trim() || "img/avatar.jpg";
@@ -69,7 +63,6 @@ export async function authUiInicializal() {
       alert("A felhasználónév nem lehet üres!");
       return;
     }
-
     if (!jelszo) {
       alert("A jelszó nem lehet üres!");
       return;
@@ -80,16 +73,14 @@ export async function authUiInicializal() {
         await Auth.regisztral(nev, jelszo, avatar);
         alert("Sikeres regisztráció!");
       }
-
       if (authMod.value === "login") {
         await Auth.bejelentkezik(nev, jelszo);
         alert("Sikeres bejelentkezés!");
       }
-
       await profilFrissit();
       menuFrissit();
-
       authModal.close();
+      authValtozastKiald();
     } catch (error) {
       alert(error.message);
     }
@@ -128,15 +119,12 @@ export async function profilFrissit() {
 
 function menuFrissit() {
   const beVanJelentkezve = Auth.beVanJelentkezve();
-
   document
     .getElementById("regisztracio-li")
     .classList.toggle("hidden", beVanJelentkezve);
-
   document
     .getElementById("bejelentkezes-li")
     .classList.toggle("hidden", beVanJelentkezve);
-
   document
     .getElementById("kijelentkezes-li")
     .classList.toggle("hidden", !beVanJelentkezve);
