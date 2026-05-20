@@ -195,9 +195,7 @@ input[type="checkbox"] {
   display: inline-grid;
   place-content: center;
   position: relative;
-  transition:
-    background-color var(--ido-gyors),
-    border-color var(--ido-gyors),
+  transition: background-color var(--ido-gyors), border-color var(--ido-gyors),
     box-shadow var(--ido-gyors);
 }
 
@@ -227,7 +225,7 @@ input[type="checkbox"]:checked::before {
 }
 
 #uj-feladat-gomb {
-  align-self: stretch;
+  width: 100%;
   padding: var(--tavolsag-xs) var(--tavolsag-md);
   border: 1px solid transparent;
   border-radius: var(--sugar-lg);
@@ -235,8 +233,13 @@ input[type="checkbox"]:checked::before {
 
 .todo-oldalsav header {
   display: flex;
+  flex-direction: column;
+}
+
+.todo-oldalsav nav ul {
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: var(--tavolsag-xs) 0;
 }
 
@@ -285,10 +288,9 @@ input[type="checkbox"]:checked::before {
     padding: var(--tavolsag-sm);
   }
 
-  .todo-oldalsav header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--tavolsag-sm);
+  #uj-feladat-gomb {
+    width: 50%;
+    align-self: center;
   }
 
   .modal-gombok {
