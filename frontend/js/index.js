@@ -3,15 +3,12 @@ import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
 import { Auth } from "./osztalyok/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
-<<<<<<< HEAD
 import { Naptar } from "./osztalyok/Naptar.js";
 
 const naptar = new Naptar("#naptar-lista");
 const feladatok = await Feladat.osszes();
 naptar.megjelenit(feladatok);
-=======
 import { modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
->>>>>>> ec88a0247001f7d64c8f70f6625d49695904cd8b
 
 const radar = new RadarDiagram(".radar-diagram", Auth.aktualisFelhasznaloId());
 const lista = new FeladatLista(".feladat-lista", Auth.aktualisFelhasznaloId());
