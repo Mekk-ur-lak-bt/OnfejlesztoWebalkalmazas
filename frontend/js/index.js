@@ -3,6 +3,11 @@ import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
 import { Auth } from "./osztalyok/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
+import { Naptar } from "./osztalyok/Naptar.js";
+
+const naptar = new Naptar("#naptar-lista");
+const feladatok = await Feladat.osszes();
+naptar.megjelenit(feladatok);
 
 const radar = new RadarDiagram(".radar-diagram", Auth.aktualisFelhasznaloId());
 const lista = new FeladatLista(".feladat-lista", Auth.aktualisFelhasznaloId());

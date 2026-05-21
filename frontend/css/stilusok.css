@@ -410,3 +410,102 @@ progress::-moz-progress-bar {
   background: var(--szin-kiemelt);
   box-shadow: var(--ragyogas);
 }
+
+
+
+/* naptar stilus */
+.naptar {
+  padding: 0.45rem;
+  overflow: hidden;
+}
+
+.naptar-fejlec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.naptar-fejlec h4 {
+  margin: 0;
+  font-size: 0.7rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.naptar-fejlec button {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid rgba(130, 40, 70, 0.35);
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 0.45rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.naptar-het-napjai {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.12rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.5rem;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.naptar-racs {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.12rem;
+}
+
+.naptar-cella {
+  position: relative;
+  min-height: 1.55rem;
+  border: 1px solid rgba(120, 40, 70, 0.2);
+  border-radius: 0.3rem;
+  padding: 0.1rem;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+.naptar-cella.ures {
+  opacity: 0.2;
+  background: transparent;
+  border-style: dashed;
+}
+
+.naptar-cella.ma {
+  outline: 1.5px solid rgba(255, 80, 130, 0.8);
+}
+
+.naptar-nap-szam {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.naptar-feladat {
+  width: 0.35rem;
+  height: 0.35rem;
+  margin: 0.12rem auto 0;
+  border-radius: 999px;
+  background: rgba(255, 80, 130, 0.9);
+  font-size: 0;
+}
+
+.naptar-feladat.kesz {
+  opacity: 0.45;
+}
+
+.naptar-tobb {
+  position: absolute;
+  right: 0.12rem;
+  bottom: 0.05rem;
+  font-size: 0.45rem;
+  opacity: 0.75;
+}
