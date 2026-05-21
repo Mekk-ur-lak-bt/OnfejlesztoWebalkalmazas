@@ -3,6 +3,7 @@ import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
 import { Auth } from "./osztalyok/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
+import { modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
 
 const radar = new RadarDiagram(".radar-diagram", Auth.aktualisFelhasznaloId());
 const lista = new FeladatLista(".feladat-lista", Auth.aktualisFelhasznaloId());
@@ -48,3 +49,6 @@ miniKartya.felhasznaloIdBeallitas(felhasznaloId);
 kategoriaModal.felhasznaloIdBeallitas(felhasznaloId);
 await lista.frissit();
 await radar.frissit();
+
+modalHatterInicializal();
+navigacioInicializal();
