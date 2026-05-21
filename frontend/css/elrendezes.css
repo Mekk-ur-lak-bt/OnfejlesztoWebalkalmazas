@@ -290,6 +290,14 @@ input[type="checkbox"]:checked::before {
   border-radius: var(--sugar-lg);
 }
 
+#modal-hatter {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+}
+
 /*-----------módisítandó*/
 
 @media (orientation: portrait) {
@@ -305,5 +313,17 @@ input[type="checkbox"]:checked::before {
 
   .modal-gombok button {
     width: 100%;
+  }
+
+  /*THIS DOESNT SHOW UP*/
+  .bejelentkez-menu {
+    position: absolute;
+    top: 10px;
+    left: 20vw;
+    z-index: 1000;
+  }
+
+  .oszlop-bal {
+    padding-top: 70px;
   }
 }
