@@ -1,14 +1,19 @@
 export function modalHatterInicializal() {
   const hatter = document.getElementById("modal-hatter");
+  const body = document.body;
 
   document.querySelectorAll("dialog").forEach((dialog) => {
-    dialog.addEventListener("open", () => (hatter.style.display = "block"));
+    dialog.addEventListener("open", () => {
+      hatter.style.display = "block";
+      body.style.overflow = "hidden"; 
+    });
 
     const observer = new MutationObserver(() => {
       const vanNyitott = [...document.querySelectorAll("dialog")].some(
         (d) => d.open,
       );
       hatter.style.display = vanNyitott ? "block" : "none";
+      body.style.overflow = vanNyitott ? "hidden" : "";
     });
 
     observer.observe(dialog, { attributes: true, attributeFilter: ["open"] });
@@ -19,7 +24,7 @@ export function navigacioInicializal() {
   const linkek = document.querySelectorAll(".oldalso-menu a");
   const cikkek = {
     todo: document.querySelector(".todo"),
-    naptar: document.querySelector("article.naptar"),
+    naptar: document.querySelector("article.naptar-article"),
     achievements: document.querySelector(".achievements"),
   };
 

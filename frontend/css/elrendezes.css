@@ -292,10 +292,13 @@ input[type="checkbox"]:checked::before {
 
 #modal-hatter {
   display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.541);
 }
 
 /*-----------módisítandó*/
@@ -315,15 +318,29 @@ input[type="checkbox"]:checked::before {
     width: 100%;
   }
 
-  /*THIS DOESNT SHOW UP*/
-  .bejelentkez-menu {
+  .utvonal-szekcio {
     position: absolute;
-    top: 10px;
-    left: 20vw;
-    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--szin-hatter);
+    padding: var(--tavolsag-xs) var(--tavolsag-md);
+  }
+
+  .todo-oldalsav {
+    display: none;
+  }
+
+  .bejelentkez-menu {
+    position: static;
+  }
+
+  .bejelentkez-menu ul li {
+    width: 20vw;
   }
 
   .oszlop-bal {
-    padding-top: 70px;
+    padding-top: 60px;
   }
 }

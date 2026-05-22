@@ -4,7 +4,30 @@ function authValtozastKiald() {
   window.dispatchEvent(new CustomEvent("authValtozas"));
 }
 
+function megjelenit() {
+  document.body.insertAdjacentHTML("beforeend", `
+    <dialog id="auth-modal">
+      <form id="auth-urlap">
+        <h3 id="auth-modal-cim">Login</h3>
+        <input type="hidden" id="auth-mod" />
+        <label for="auth-nev">Username:</label>
+        <input type="text" id="auth-nev" required />
+        <label for="auth-jelszo">Password:</label>
+        <input type="password" id="auth-jelszo" required />
+        <label for="auth-avatar" id="auth-avatar-label">Avatar URL:</label>
+        <input type="text" id="auth-avatar" placeholder="img/avatar.jpg" />
+        <div class="modal-gombok">
+          <button type="button" id="auth-megse">Cancel</button>
+          <button type="submit" id="auth-mentes">Save</button>
+        </div>
+      </form>
+    </dialog>
+  `);
+}
+
 export async function authUiInicializal() {
+  megjelenit();
+
   const regisztracioLink = document.getElementById("regisztracio-link");
   const bejelentkezesLink = document.getElementById("bejelentkezes-link");
   const kijelentkezesLink = document.getElementById("kijelentkezes-link");
@@ -18,8 +41,6 @@ export async function authUiInicializal() {
   const authJelszo = document.getElementById("auth-jelszo");
   const authAvatar = document.getElementById("auth-avatar");
   const authAvatarLabel = document.getElementById("auth-avatar-label");
-
-  const authMegse = document.getElementById("auth-megse");
 
   regisztracioLink.addEventListener("click", (event) => {
     event.preventDefault();
@@ -49,7 +70,7 @@ export async function authUiInicializal() {
     authValtozastKiald();
   });
 
-  authMegse.addEventListener("click", () => {
+  document.getElementById("auth-megse").addEventListener("click", () => {
     authModal.close();
   });
 
@@ -119,13 +140,7 @@ export async function profilFrissit() {
 
 function menuFrissit() {
   const beVanJelentkezve = Auth.beVanJelentkezve();
-  document
-    .getElementById("regisztracio-li")
-    .classList.toggle("hidden", beVanJelentkezve);
-  document
-    .getElementById("bejelentkezes-li")
-    .classList.toggle("hidden", beVanJelentkezve);
-  document
-    .getElementById("kijelentkezes-li")
-    .classList.toggle("hidden", !beVanJelentkezve);
+  document.getElementById("regisztracio-li").classList.toggle("hidden", beVanJelentkezve);
+  document.getElementById("bejelentkezes-li").classList.toggle("hidden", beVanJelentkezve);
+  document.getElementById("kijelentkezes-li").classList.toggle("hidden", !beVanJelentkezve);
 }

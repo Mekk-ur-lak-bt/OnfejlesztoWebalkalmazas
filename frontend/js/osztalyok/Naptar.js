@@ -1,25 +1,27 @@
 export class Naptar {
-  #kontener;
+  #kontenerek; 
   #aktualisDatum;
 
   constructor(szelektor) {
-    this.#kontener = document.querySelector(szelektor);
+    this.#kontenerek = document.querySelectorAll(szelektor);
     this.#aktualisDatum = new Date();
   }
 
   megjelenit(feladatok) {
-    this.#kontener.innerHTML = "";
+    this.#kontenerek.forEach((kontener) => {
+      kontener.innerHTML = "";
 
-    const ev = this.#aktualisDatum.getFullYear();
-    const honap = this.#aktualisDatum.getMonth();
+      const ev = this.#aktualisDatum.getFullYear();
+      const honap = this.#aktualisDatum.getMonth();
 
-    const fejlec = this.#fejlecLetrehoz(ev, honap, feladatok);
-    const hetNapjai = this.#hetNapjaiLetrehoz();
-    const racs = this.#naptarRacsLetrehoz(ev, honap, feladatok);
+      const fejlec = this.#fejlecLetrehoz(ev, honap, feladatok);
+      const hetNapjai = this.#hetNapjaiLetrehoz();
+      const racs = this.#naptarRacsLetrehoz(ev, honap, feladatok);
 
-    this.#kontener.appendChild(fejlec);
-    this.#kontener.appendChild(hetNapjai);
-    this.#kontener.appendChild(racs);
+      kontener.appendChild(fejlec);
+      kontener.appendChild(hetNapjai);
+      kontener.appendChild(racs);
+    });
   }
 
   #fejlecLetrehoz(ev, honap, feladatok) {
@@ -39,7 +41,7 @@ export class Naptar {
 
     elozoGomb.addEventListener("click", () => {
       this.#aktualisDatum = new Date(ev, honap - 1, 1);
-      this.megjelenit(feladatok);
+      this.megjelenit(feladatok); 
     });
 
     kovetkezoGomb.addEventListener("click", () => {

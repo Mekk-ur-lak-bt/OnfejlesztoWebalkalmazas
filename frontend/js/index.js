@@ -5,7 +5,7 @@ import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
 import { Naptar } from "./osztalyok/Naptar.js";
 
-const naptar = new Naptar("#naptar-lista");
+const naptar = new Naptar(".naptar");
 const feladatok = await Feladat.osszes();
 naptar.megjelenit(feladatok);
 import { modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
