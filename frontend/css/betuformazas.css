@@ -117,4 +117,8 @@ p,
   .mini-kartya:nth-child(2) summary {
     font-size: 12px;
   }
+
+  .bejelentkez-menu ul li {
+    text-align: center; 
+  }
 }

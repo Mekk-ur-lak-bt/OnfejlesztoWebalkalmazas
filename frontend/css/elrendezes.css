@@ -302,7 +302,6 @@ input[type="checkbox"]:checked::before {
 }
 
 /*-----------módisítandó*/
-
 @media (orientation: portrait) {
   main {
     grid-template-columns: 1fr;
@@ -318,29 +317,27 @@ input[type="checkbox"]:checked::before {
     width: 100%;
   }
 
-  .utvonal-szekcio {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: var(--szin-hatter);
-    padding: var(--tavolsag-xs) var(--tavolsag-md);
+  .oszlop-jobb {
+    order: -1;
   }
 
-  .todo-oldalsav {
-    display: none;
+  .bejelentkez-menu ul {
+    flex-direction: column;
+    width: 100%;
   }
 
   .bejelentkez-menu {
-    position: static;
+    padding: var(--tavolsag-md); 
+    align-items: stretch;       
   }
 
   .bejelentkez-menu ul li {
-    width: 20vw;
+    width: 100%;
   }
 
-  .oszlop-bal {
-    padding-top: 60px;
+  nav ul li a {
+    display: block;
+    width: 100%;
+    padding: var(--tavolsag-sm) 0;
   }
 }
