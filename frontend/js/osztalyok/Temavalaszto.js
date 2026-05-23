@@ -23,6 +23,7 @@ const TEMAK = {
     "--betu-serif": '"Noto Serif SC", serif',
     "--betu-sans": '"Rajdhani", sans-serif',
     "--betu-mono": '"Share Tech Mono", monospace',
+    "--szegely": "1px solid",
   },
   elegans: {
     "--szin-tema-hatter": "#0a0d14",
@@ -42,10 +43,11 @@ const TEMAK = {
     "--szoveg-alap": "#c8b99a",
     "--szoveg-alcim": "#a89070",
     "--szoveg-kiemelt": "#f5d060",
-    "--betu-dekor": '"Cinzel Decorative", serif',
-    "--betu-serif": '"Noto Serif SC", serif',
-    "--betu-sans": '"Rajdhani", sans-serif',
+    "--betu-dekor": '"Cormorant Garamond", serif',
+    "--betu-serif": '"Cormorant Garamond", serif',
+    "--betu-sans": '"Montserrat", sans-serif',
     "--betu-mono": '"Share Tech Mono", monospace',
+    "--szegely": "1px solid",
   },
   termeszet: {
     "--szin-tema-hatter": "#1a2e1e",
@@ -65,10 +67,11 @@ const TEMAK = {
     "--szoveg-alap": "#a8c9b0",
     "--szoveg-alcim": "#8aad92",
     "--szoveg-kiemelt": "#6dd48a",
-    "--betu-dekor": '"Cinzel Decorative", serif',
-    "--betu-serif": '"Noto Serif SC", serif',
-    "--betu-sans": '"Rajdhani", sans-serif',
+    "--betu-dekor": '"Lora", serif',
+    "--betu-serif": '"Lora", serif',
+    "--betu-sans": '"DM Sans", sans-serif',
     "--betu-mono": '"Share Tech Mono", monospace',
+    "--szegely": "1px solid",
   },
   gamer: {
     "--szin-tema-hatter": "#000000",
@@ -83,16 +86,16 @@ const TEMAK = {
     "--szin-kiemelt": "#ff0000",
     "--szinatmenet":
       "linear-gradient(180deg, rgb(0 0 0 / 97%) 0%, rgb(26 0 0 / 94%) 100%)",
-    /* "linear-gradient(135deg, rgb(255 0 0) 0%, rgb(255 165 0) 17%, rgb(255 255 0) 33%, rgb(0 255 0) 50%, rgb(0 0 255) 67%, rgb(75 0 130) 83%, rgb(238 130 238) 100%)", */
     "--szinatmenet-hatter":
       "radial-gradient(circle at center, rgb(0 0 0 / 97%) 90%, rgb(10 0 0 / 94%) 100%)",
     "--szoveg-alap": "#ff4444",
     "--szoveg-alcim": "#cc2222",
     "--szoveg-kiemelt": "#ff0000",
-    "--betu-dekor": '"Cinzel Decorative", serif',
-    "--betu-serif": '"Noto Serif SC", serif',
-    "--betu-sans": '"Rajdhani", sans-serif',
+    "--betu-dekor": '"Orbitron", sans-serif',
+    "--betu-serif": '"Orbitron", sans-serif',
+    "--betu-sans": '"Orbitron", sans-serif',
     "--betu-mono": '"Share Tech Mono", monospace',
+    "--szegely": "1px solid",
   },
 };
 
