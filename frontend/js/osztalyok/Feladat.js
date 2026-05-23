@@ -21,7 +21,7 @@ export class Feladat {
     coinJutalom,
     kategoriaPont,
     teljesitve = false,
-    hatarido = ""
+    hatarido = "",
   ) {
     this.#id = id;
     this.#felhasznaloId = felhasznaloId;
@@ -84,7 +84,7 @@ export class Feladat {
     hatarido,
     kategoriaPont,
     xpJutalom,
-    coinJutalom
+    coinJutalom,
   ) {
     const valasz = await fetch(`${API}/${this.#id}`, {
       method: "PUT",
@@ -132,7 +132,7 @@ export class Feladat {
       adat.coinJutalom,
       adat.kategoriaPont,
       adat.teljesitve,
-      adat.hatarido
+      adat.hatarido,
     );
   }
 
@@ -143,7 +143,7 @@ export class Feladat {
     xpJutalom,
     coinJutalom,
     kategoriaPont,
-    hatarido
+    hatarido,
   ) {
     const valasz = await fetch(API, {
       method: "POST",
@@ -212,8 +212,16 @@ export class FeladatElem {
         kesz ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`
       }</p>
       <div class="akciok"${kesz ? " hidden" : ""}>
-        <button class="gomb-szerkeszt" type="button">✏️</button>
-        <button class="gomb-torol" type="button">🗑️</button>
+        <button class="gomb-szerkeszt" type="button">
+          <span class="material-symbols-outlined">
+            edit
+          </span>
+        </button>
+        <button class="gomb-torol" type="button">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </button>
       </div>
     `;
     this.#esemenyek(li);
@@ -233,7 +241,7 @@ export class FeladatElem {
           : `+${this.#adat.xpJutalom} XP`;
         li.querySelector(".akciok").hidden = this.#adat.teljesitve;
         window.dispatchEvent(
-          new CustomEvent("jutalomvaltozas", { detail: jutalom })
+          new CustomEvent("jutalomvaltozas", { detail: jutalom }),
         );
       } catch (e) {
         checkbox.checked = !checkbox.checked;
@@ -244,7 +252,7 @@ export class FeladatElem {
     });
 
     li.querySelector(".gomb-szerkeszt").addEventListener("click", () =>
-      this.#nezet.szerkeszt(this.#adat)
+      this.#nezet.szerkeszt(this.#adat),
     );
 
     li.querySelector(".gomb-torol").addEventListener("click", async () => {
@@ -291,7 +299,7 @@ export class FeladatLista {
   async #kategoriaFeltolt() {
     if (!this.#felhasznaloId) return;
     const valasz = await fetch(
-      `${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`
+      `${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`,
     );
     if (!valasz.ok) return;
     const kategoriak = await valasz.json();
@@ -354,7 +362,7 @@ export class FeladatLista {
               adatok.hatarido,
               adatok.pont,
               adatok.xp,
-              adatok.coin
+              adatok.coin,
             );
         } else {
           await Feladat.letrehoz(
@@ -364,7 +372,7 @@ export class FeladatLista {
             adatok.xp,
             adatok.coin,
             adatok.pont,
-            adatok.hatarido
+            adatok.hatarido,
           );
         }
         this.bezar();
@@ -381,7 +389,7 @@ export class FeladatLista {
     const feladatok = await Feladat.osszes(this.#felhasznaloId);
     if (this.#napiResetSzukseges()) {
       await Promise.all(
-        feladatok.filter((f) => f.teljesitve).map((f) => f.reset())
+        feladatok.filter((f) => f.teljesitve).map((f) => f.reset()),
       );
     }
     feladatok.forEach((f) => {

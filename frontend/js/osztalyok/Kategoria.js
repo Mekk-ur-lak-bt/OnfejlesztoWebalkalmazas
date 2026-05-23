@@ -38,9 +38,8 @@ export class KategoriaModal {
     const kontener = document.querySelector(".grafikon-kartya");
     const gomb = document.createElement("button");
     gomb.type = "button";
-    gomb.textContent = "✏️";
-    gomb.style.cssText =
-      "position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:1rem;";
+    gomb.innerHTML = `<span class="material-symbols-outlined">edit</span>`;
+    gomb.classList.add("gomb-atnevez");
     kontener.style.position = "relative";
     kontener.appendChild(gomb);
     return gomb;

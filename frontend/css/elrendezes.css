@@ -189,6 +189,12 @@ summary {
   left: 12%;
 }
 
+.gomb-atnevez {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
 /*módisítandó--------------*/
 input[type="checkbox"] {
   -webkit-appearance: none;
@@ -327,8 +333,8 @@ input[type="checkbox"]:checked::before {
   }
 
   .bejelentkez-menu {
-    padding: var(--tavolsag-md); 
-    align-items: stretch;       
+    padding: var(--tavolsag-md);
+    align-items: stretch;
   }
 
   .bejelentkez-menu ul li {

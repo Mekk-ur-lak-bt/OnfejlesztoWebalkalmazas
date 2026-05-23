@@ -3,11 +3,6 @@ export function modalHatterInicializal() {
   const body = document.body;
 
   document.querySelectorAll("dialog").forEach((dialog) => {
-    dialog.addEventListener("open", () => {
-      hatter.style.display = "block";
-      body.style.overflow = "hidden"; 
-    });
-
     const observer = new MutationObserver(() => {
       const vanNyitott = [...document.querySelectorAll("dialog")].some(
         (d) => d.open,
@@ -15,26 +10,29 @@ export function modalHatterInicializal() {
       hatter.style.display = vanNyitott ? "block" : "none";
       body.style.overflow = vanNyitott ? "hidden" : "";
     });
-
     observer.observe(dialog, { attributes: true, attributeFilter: ["open"] });
   });
 }
 
-export function navigacioInicializal() {
+export function navigacioInicializal(cikkNaptar, feladatok) {
   const linkek = document.querySelectorAll(".oldalso-menu a");
-  const cikkek = {
-    todo: document.querySelector(".todo"),
-    naptar: document.querySelector("article.naptar-article"),
-    achievements: document.querySelector(".achievements"),
-  };
+  const cikkek = [
+    document.querySelector(".todo"),
+    document.querySelector(".naptar-article"),
+    document.querySelector(".achievements"),
+  ];
 
-  const cikkTerkep = [cikkek.todo, cikkek.naptar, cikkek.achievements];
+  let naptarBetoltve = false;
 
   linkek.forEach((link, i) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      cikkTerkep.forEach((c) => (c.hidden = true));
-      cikkTerkep[i].hidden = false;
+      cikkek.forEach((c) => c.classList.add("hidden"));
+      cikkek[i].classList.remove("hidden");
+      if (i === 1 && !naptarBetoltve) {
+        cikkNaptar.megjelenit(feladatok);
+        naptarBetoltve = true;
+      }
     });
   });
 }

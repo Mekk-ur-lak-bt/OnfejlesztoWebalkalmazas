@@ -411,7 +411,20 @@ progress::-moz-progress-bar {
   box-shadow: var(--ragyogas);
 }
 
+.gomb-szerkeszt,
+.gomb-torol,
+.gomb-atnevez {
+  background-color: transparent;
+  border: none;
+}
 
+.gomb-szerkeszt span,
+.gomb-torol span,
+.gomb-atnevez span {
+  color: var(--szin-vilagos);
+  text-shadow: 0 0 2px var(--szin-kiemelt);
+  cursor: pointer;
+}
 
 /* naptar stilus */
 .naptar {
