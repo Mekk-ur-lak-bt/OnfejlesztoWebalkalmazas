@@ -3,6 +3,7 @@ import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
 import { Auth } from "./osztalyok/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { Naptar } from "./osztalyok/Naptar.js";
+import { TemaValaszto } from "./osztalyok/TemaValaszto.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
 import { modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
 
@@ -12,6 +13,7 @@ const miniKartya = new MiniKartya(Auth.aktualisFelhasznaloId());
 const kategoriaModal = new KategoriaModal(Auth.aktualisFelhasznaloId());
 const oldalsavNaptar = new Naptar(".naptar-oldalsav .naptar");
 const cikkNaptar = new Naptar("#naptar-lista");
+new TemaValaszto();
 
 document
   .getElementById("uj-feladat-gomb")
@@ -58,6 +60,5 @@ const feladatok = Auth.beVanJelentkezve()
   : [];
 
 oldalsavNaptar.megjelenit(feladatok);
-
 modalHatterInicializal();
 navigacioInicializal(cikkNaptar, feladatok);

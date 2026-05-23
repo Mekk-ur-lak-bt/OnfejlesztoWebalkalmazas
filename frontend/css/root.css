@@ -11,19 +11,41 @@
   --szin-halvany: #ffe5ec;
   --szin-kiemelt: #f12349;
 
-  --szinatmenet: linear-gradient(180deg,
-      rgb(255 255 255 / 97%) 0%,
-      rgb(253 129 154 / 94%) 100%);
-  --szinatmenet-hatter: radial-gradient(circle at center, rgb(222 209 229 / 97%) 90%, rgb(176 160 185 / 94%) 100%);
+  --szinatmenet: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 97%) 0%,
+    rgb(253 129 154 / 94%) 100%
+  );
+  --szinatmenet-hatter: radial-gradient(
+    circle at center,
+    rgb(222 209 229 / 97%) 90%,
+    rgb(176 160 185 / 94%) 100%
+  );
 
-  --arnyek-sm: 0 1px 3px rgba(180, 140, 150, 0.15), 0 0 0 1px var(--szin-tema-szegely);
-  --arnyek-lg: 0 4px 20px rgba(240, 224, 228, 0.103), 0 0 5px 1px var(--szin-tema-hatter-eltero);
+  --arnyek-sm:
+    0 1px 3px rgba(180, 140, 150, 0.15), 0 0 0 1px var(--szin-tema-szegely);
+  --arnyek-lg:
+    0 4px 20px rgba(240, 224, 228, 0.103),
+    0 0 5px 1px var(--szin-tema-hatter-eltero);
 
-  --ragyogas: 0 0 20px rgba(255, 143, 171, 0.3), 0 0 4px rgba(255, 143, 171, 0.5);
+  --ragyogas:
+    0 0 20px rgba(255, 143, 171, 0.3), 0 0 4px rgba(255, 143, 171, 0.5);
 
-  --szin-atlatszo-kiemelt: color-mix(in srgb, var(--szin-kiemelt) 20%, transparent);
-  --szin-atlatszo-kozepes: color-mix(in srgb, var(--szin-kozepes) 20%, transparent);
-  --szin-atlatszo-mely: color-mix(in srgb, var(--szin-tema-mely) 20%, transparent);
+  --szin-atlatszo-kiemelt: color-mix(
+    in srgb,
+    var(--szin-kiemelt) 20%,
+    transparent
+  );
+  --szin-atlatszo-kozepes: color-mix(
+    in srgb,
+    var(--szin-kozepes) 20%,
+    transparent
+  );
+  --szin-atlatszo-mely: color-mix(
+    in srgb,
+    var(--szin-tema-mely) 20%,
+    transparent
+  );
 
   --szoveg-alap: #5e4349;
   --szoveg-alcim: #603e45;
@@ -33,6 +55,8 @@
   --betu-serif: "Noto Serif SC", serif;
   --betu-sans: "Rajdhani", sans-serif;
   --betu-mono: "Share Tech Mono", monospace;
+
+  --szegely: 1px solid;
 
   --tavolsag-xs: 4px;
   --tavolsag-sm: 8px;

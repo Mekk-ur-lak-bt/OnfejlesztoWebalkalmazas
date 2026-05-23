@@ -1,3 +1,5 @@
+import { Modal } from "../ui/Modal.js";
+
 const API = "/api/feladatok";
 const KATEGORIA_API = "/api/kategoriak";
 
@@ -208,20 +210,10 @@ export class FeladatElem {
         <input type="checkbox" ${kesz ? "checked" : ""} />
         <span>${this.#adat.cim}</span>
       </label>
-      <p class="feladat-info">${
-        kesz ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`
-      }</p>
+      <p class="feladat-info">${kesz ? "COMPLETED" : `+${this.#adat.xpJutalom} XP`}</p>
       <div class="akciok"${kesz ? " hidden" : ""}>
-        <button class="gomb-szerkeszt" type="button">
-          <span class="material-symbols-outlined">
-            edit
-          </span>
-        </button>
-        <button class="gomb-torol" type="button">
-          <span class="material-symbols-outlined">
-            delete
-          </span>
-        </button>
+        <button class="gomb-szerkeszt" type="button"><span class="material-symbols-outlined">edit</span></button>
+        <button class="gomb-torol" type="button"><span class="material-symbols-outlined">delete</span></button>
       </div>
     `;
     this.#esemenyek(li);
@@ -230,7 +222,6 @@ export class FeladatElem {
 
   #esemenyek(li) {
     const checkbox = li.querySelector('input[type="checkbox"]');
-
     checkbox.addEventListener("change", async () => {
       checkbox.disabled = true;
       try {
@@ -250,11 +241,9 @@ export class FeladatElem {
         checkbox.disabled = false;
       }
     });
-
     li.querySelector(".gomb-szerkeszt").addEventListener("click", () =>
       this.#nezet.szerkeszt(this.#adat),
     );
-
     li.querySelector(".gomb-torol").addEventListener("click", async () => {
       try {
         await Feladat.torol(this.#adat.id);
@@ -270,17 +259,37 @@ export class FeladatLista {
   #kontener;
   #felhasznaloId;
   #modal;
-  #urlap;
-  #rejtettId;
   #kategoriaSelect;
 
   constructor(szelektor, felhasznaloId = null) {
     this.#kontener = document.querySelector(szelektor);
     this.#felhasznaloId = felhasznaloId ? Number(felhasznaloId) : null;
-    this.#modal = document.getElementById("feladat-modal");
-    this.#urlap = document.getElementById("feladat-urlap");
-    this.#rejtettId = document.getElementById("feladat-id");
-    this.#kategoriaSelect = document.getElementById("urlap-kategoria");
+    this.#modal = new Modal(
+      "feladat-modal",
+      `
+      <form id="feladat-urlap">
+        <h3 id="modal-cim">Add New Quest</h3>
+        <input type="hidden" id="feladat-id" />
+        <label for="urlap-cim">Quest Title:</label>
+        <input type="text" id="urlap-cim" required />
+        <label for="urlap-kategoria">Category:</label>
+        <select id="urlap-kategoria" required></select>
+        <label for="urlap-xp">XP Reward:</label>
+        <input type="number" id="urlap-xp" min="0" required />
+        <label for="urlap-coin">Coin Reward:</label>
+        <input type="number" id="urlap-coin" min="0" required />
+        <label for="urlap-pont">Category Points:</label>
+        <input type="number" id="urlap-pont" min="0" required />
+        <label for="urlap-hatarido">Deadline:</label>
+        <input type="date" id="urlap-hatarido" />
+        <div class="modal-gombok">
+          <button type="button" id="modal-megse">Cancel</button>
+          <button type="submit" id="modal-mentes">Save</button>
+        </div>
+      </form>
+    `,
+    );
+    this.#kategoriaSelect = this.#modal.keres("#urlap-kategoria");
     this.#urlapEsemeny();
   }
 
@@ -314,43 +323,44 @@ export class FeladatLista {
 
   async megnyit(feladat = null) {
     await this.#kategoriaFeltolt();
-    this.#urlap.reset();
+    this.#modal.urlap.reset();
+    const modalCim = this.#modal.keres("#modal-cim");
+    const rejtettId = this.#modal.keres("#feladat-id");
     if (feladat) {
-      document.getElementById("modal-cim").textContent = "Edit Quest";
-      this.#rejtettId.value = feladat.id;
-      document.getElementById("urlap-cim").value = feladat.cim;
+      modalCim.textContent = "Edit Quest";
+      rejtettId.value = feladat.id;
+      this.#modal.keres("#urlap-cim").value = feladat.cim;
       this.#kategoriaSelect.value = feladat.kategoriaId;
-      document.getElementById("urlap-xp").value = feladat.xpJutalom;
-      document.getElementById("urlap-coin").value = feladat.coinJutalom;
-      document.getElementById("urlap-pont").value = feladat.kategoriaPont;
-      document.getElementById("urlap-hatarido").value = feladat.hatarido ?? "";
+      this.#modal.keres("#urlap-xp").value = feladat.xpJutalom;
+      this.#modal.keres("#urlap-coin").value = feladat.coinJutalom;
+      this.#modal.keres("#urlap-pont").value = feladat.kategoriaPont;
+      this.#modal.keres("#urlap-hatarido").value = feladat.hatarido ?? "";
     } else {
-      document.getElementById("modal-cim").textContent = "Add New Quest";
-      this.#rejtettId.value = "";
+      modalCim.textContent = "Add New Quest";
+      rejtettId.value = "";
     }
-    this.#modal.showModal();
+    this.#modal.megnyit();
   }
 
   bezar() {
-    this.#modal.close();
+    this.#modal.bezar();
   }
 
   #urlapEsemeny() {
-    document
-      .getElementById("modal-megse")
+    this.#modal
+      .keres("#modal-megse")
       .addEventListener("click", () => this.bezar());
-
-    this.#urlap.addEventListener("submit", async (e) => {
+    this.#modal.urlap.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!this.#felhasznaloId) return;
       const adatok = {
-        id: this.#rejtettId.value,
-        cim: document.getElementById("urlap-cim").value.trim(),
+        id: this.#modal.keres("#feladat-id").value,
+        cim: this.#modal.keres("#urlap-cim").value.trim(),
         kategoriaId: parseInt(this.#kategoriaSelect.value, 10),
-        xp: parseInt(document.getElementById("urlap-xp").value, 10),
-        coin: parseInt(document.getElementById("urlap-coin").value, 10),
-        pont: parseInt(document.getElementById("urlap-pont").value, 10),
-        hatarido: document.getElementById("urlap-hatarido").value,
+        xp: parseInt(this.#modal.keres("#urlap-xp").value, 10),
+        coin: parseInt(this.#modal.keres("#urlap-coin").value, 10),
+        pont: parseInt(this.#modal.keres("#urlap-pont").value, 10),
+        hatarido: this.#modal.keres("#urlap-hatarido").value,
       };
       try {
         if (adatok.id) {

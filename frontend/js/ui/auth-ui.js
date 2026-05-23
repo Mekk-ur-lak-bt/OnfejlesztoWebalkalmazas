@@ -1,81 +1,76 @@
 import { Auth } from "../osztalyok/Auth.js";
+import { Modal } from "./Modal.js";
 
 function authValtozastKiald() {
   window.dispatchEvent(new CustomEvent("authValtozas"));
 }
 
-function megjelenit() {
-  document.body.insertAdjacentHTML("beforeend", `
-    <dialog id="auth-modal">
-      <form id="auth-urlap">
-        <h3 id="auth-modal-cim">Login</h3>
-        <input type="hidden" id="auth-mod" />
-        <label for="auth-nev">Username:</label>
-        <input type="text" id="auth-nev" required />
-        <label for="auth-jelszo">Password:</label>
-        <input type="password" id="auth-jelszo" required />
-        <label for="auth-avatar" id="auth-avatar-label">Avatar URL:</label>
-        <input type="text" id="auth-avatar" placeholder="img/avatar.jpg" />
-        <div class="modal-gombok">
-          <button type="button" id="auth-megse">Cancel</button>
-          <button type="submit" id="auth-mentes">Save</button>
-        </div>
-      </form>
-    </dialog>
-  `);
-}
-
 export async function authUiInicializal() {
-  megjelenit();
+  const modal = new Modal(
+    "auth-modal",
+    `
+    <form id="auth-urlap">
+      <h3 id="auth-modal-cim">Login</h3>
+      <input type="hidden" id="auth-mod" />
+      <label for="auth-nev">Username:</label>
+      <input type="text" id="auth-nev" required />
+      <label for="auth-jelszo">Password:</label>
+      <input type="password" id="auth-jelszo" required />
+      <label for="auth-avatar" id="auth-avatar-label">Avatar URL:</label>
+      <input type="text" id="auth-avatar" placeholder="img/avatar.jpg" />
+      <div class="modal-gombok">
+        <button type="button" id="auth-megse">Cancel</button>
+        <button type="submit" id="auth-mentes">Save</button>
+      </div>
+    </form>
+  `,
+  );
 
-  const regisztracioLink = document.getElementById("regisztracio-link");
-  const bejelentkezesLink = document.getElementById("bejelentkezes-link");
-  const kijelentkezesLink = document.getElementById("kijelentkezes-link");
+  const authModalCim = modal.keres("#auth-modal-cim");
+  const authMod = modal.keres("#auth-mod");
+  const authNev = modal.keres("#auth-nev");
+  const authJelszo = modal.keres("#auth-jelszo");
+  const authAvatar = modal.keres("#auth-avatar");
+  const authAvatarLabel = modal.keres("#auth-avatar-label");
 
-  const authModal = document.getElementById("auth-modal");
-  const authUrlap = document.getElementById("auth-urlap");
-  const authModalCim = document.getElementById("auth-modal-cim");
-  const authMod = document.getElementById("auth-mod");
+  document
+    .getElementById("regisztracio-link")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.urlap.reset();
+      authMod.value = "registration";
+      authModalCim.textContent = "Registration";
+      authAvatar.hidden = false;
+      authAvatarLabel.hidden = false;
+      modal.megnyit();
+    });
 
-  const authNev = document.getElementById("auth-nev");
-  const authJelszo = document.getElementById("auth-jelszo");
-  const authAvatar = document.getElementById("auth-avatar");
-  const authAvatarLabel = document.getElementById("auth-avatar-label");
+  document
+    .getElementById("bejelentkezes-link")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.urlap.reset();
+      authMod.value = "login";
+      authModalCim.textContent = "Login";
+      authAvatar.hidden = true;
+      authAvatarLabel.hidden = true;
+      modal.megnyit();
+    });
 
-  regisztracioLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    authUrlap.reset();
-    authMod.value = "registration";
-    authModalCim.textContent = "Registration";
-    authAvatar.hidden = false;
-    authAvatarLabel.hidden = false;
-    authModal.showModal();
-  });
+  document
+    .getElementById("kijelentkezes-link")
+    .addEventListener("click", async (e) => {
+      e.preventDefault();
+      Auth.kijelentkezik();
+      await profilFrissit();
+      menuFrissit();
+      authValtozastKiald();
+    });
 
-  bejelentkezesLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    authUrlap.reset();
-    authMod.value = "login";
-    authModalCim.textContent = "Login";
-    authAvatar.hidden = true;
-    authAvatarLabel.hidden = true;
-    authModal.showModal();
-  });
+  modal.keres("#auth-megse").addEventListener("click", () => modal.bezar());
 
-  kijelentkezesLink.addEventListener("click", async (event) => {
-    event.preventDefault();
-    Auth.kijelentkezik();
-    await profilFrissit();
-    menuFrissit();
-    authValtozastKiald();
-  });
-
-  document.getElementById("auth-megse").addEventListener("click", () => {
-    authModal.close();
-  });
-
-  authUrlap.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  modal.urlap.addEventListener("submit", async (e) => {
+    e.preventDefault();
     const nev = authNev.value.trim();
     const jelszo = authJelszo.value.trim();
     const avatar = authAvatar.value.trim() || "img/avatar.jpg";
@@ -100,7 +95,7 @@ export async function authUiInicializal() {
       }
       await profilFrissit();
       menuFrissit();
-      authModal.close();
+      modal.bezar();
       authValtozastKiald();
     } catch (error) {
       alert(error.message);
@@ -140,7 +135,13 @@ export async function profilFrissit() {
 
 function menuFrissit() {
   const beVanJelentkezve = Auth.beVanJelentkezve();
-  document.getElementById("regisztracio-li").classList.toggle("hidden", beVanJelentkezve);
-  document.getElementById("bejelentkezes-li").classList.toggle("hidden", beVanJelentkezve);
-  document.getElementById("kijelentkezes-li").classList.toggle("hidden", !beVanJelentkezve);
+  document
+    .getElementById("regisztracio-li")
+    .classList.toggle("hidden", beVanJelentkezve);
+  document
+    .getElementById("bejelentkezes-li")
+    .classList.toggle("hidden", beVanJelentkezve);
+  document
+    .getElementById("kijelentkezes-li")
+    .classList.toggle("hidden", !beVanJelentkezve);
 }

@@ -109,7 +109,7 @@
               <a href="#" id="kijelentkezes-link">Log out</a>
             </li>
             <li>
-              <a href="#" aria-label="Settings">
+              <a href="#" aria-label="Settings" id="beallitasok">
                 <span class="material-symbols-outlined">
                   landscape_2_edit
                 </span>
@@ -145,39 +145,5 @@
     </main>
 
     <div id="modal-hatter"></div>
-    <dialog id="feladat-modal">
-      <form method="dialog" id="feladat-urlap">
-        <h3 id="modal-cim">Add New Quest</h3>
-
-        <input type="hidden" id="feladat-id" />
-
-        <label for="urlap-cim">Quest Title:</label>
-        <input type="text" id="urlap-cim" required />
-
-        <label for="urlap-kategoria">Category:</label>
-        <select id="urlap-kategoria" required>
-          <option value="Logic">Logic</option>
-          <option value="Aesthetics">Aesthetics</option>
-          <option value="Fitness">Fitness</option>
-        </select>
-
-        <label for="urlap-xp">XP Reward:</label>
-        <input type="number" id="urlap-xp" min="0" required />
-
-        <label for="urlap-coin">Coin Reward:</label>
-        <input type="number" id="urlap-coin" min="0" required />
-
-        <label for="urlap-pont">Category Points:</label>
-        <input type="number" id="urlap-pont" min="0" required />
-
-        <label for="urlap-hatarido">Deadline:</label>
-        <input type="date" id="urlap-hatarido" />
-
-        <div class="modal-gombok">
-          <button type="button" id="modal-megse">Cancel</button>
-          <button type="submit" id="modal-mentes">Save</button>
-        </div>
-      </form>
-    </dialog>
   </body>
 </html>

@@ -261,7 +261,8 @@ input[type="checkbox"]:checked::before {
 
 #feladat-modal,
 #auth-modal,
-#kategoria-modal {
+#kategoria-modal,
+#tema-modal {
   padding: var(--tavolsag-md);
   width: 90vw;
   max-width: 400px;
