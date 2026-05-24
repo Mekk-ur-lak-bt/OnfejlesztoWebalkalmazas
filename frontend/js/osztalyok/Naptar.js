@@ -1,5 +1,5 @@
 export class Naptar {
-  #kontenerek; 
+  #kontenerek;
   #aktualisDatum;
 
   constructor(szelektor) {
@@ -41,7 +41,7 @@ export class Naptar {
 
     elozoGomb.addEventListener("click", () => {
       this.#aktualisDatum = new Date(ev, honap - 1, 1);
-      this.megjelenit(feladatok); 
+      this.megjelenit(feladatok);
     });
 
     kovetkezoGomb.addEventListener("click", () => {
@@ -57,7 +57,7 @@ export class Naptar {
   }
 
   #hetNapjaiLetrehoz() {
-    const napok = ["H", "K", "Sze", "Cs", "P", "Szo", "V"];
+    const napok = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
     const sor = document.createElement("div");
     sor.className = "naptar-het-napjai";
@@ -90,7 +90,8 @@ export class Naptar {
     for (let nap = 1; nap <= napokSzama; nap++) {
       const datum = this.#datumString(ev, honap, nap);
       const napiFeladatok = feladatok.filter(
-        (feladat) => feladat.hatarido && feladat.hatarido.split("T")[0] === datum
+        (feladat) =>
+          feladat.hatarido && feladat.hatarido.split("T")[0] === datum,
       );
 
       const cella = document.createElement("div");
@@ -145,7 +146,7 @@ export class Naptar {
   #honapNev(ev, honap) {
     const datum = new Date(ev, honap, 1);
 
-    return datum.toLocaleDateString("hu-HU", {
+    return datum.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
     });
@@ -155,9 +156,7 @@ export class Naptar {
     const ma = new Date();
 
     return (
-      ma.getFullYear() === ev &&
-      ma.getMonth() === honap &&
-      ma.getDate() === nap
+      ma.getFullYear() === ev && ma.getMonth() === honap && ma.getDate() === nap
     );
   }
 }

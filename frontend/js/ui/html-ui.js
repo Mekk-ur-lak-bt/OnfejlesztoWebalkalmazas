@@ -14,24 +14,27 @@ export function modalHatterInicializal() {
   });
 }
 
-export function navigacioInicializal(cikkNaptar, feladatok) {
+export function navigacioInicializal() {
   const linkek = document.querySelectorAll(".oldalso-menu a");
+
   const cikkek = [
     document.querySelector(".todo"),
     document.querySelector(".naptar-article"),
     document.querySelector(".achievements"),
   ];
 
-  let naptarBetoltve = false;
-
   linkek.forEach((link, i) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
-      cikkek.forEach((c) => c.classList.add("hidden"));
-      cikkek[i].classList.remove("hidden");
-      if (i === 1 && !naptarBetoltve) {
-        cikkNaptar.megjelenit(feladatok);
-        naptarBetoltve = true;
+
+      cikkek.forEach((cikk) => {
+        if (cikk) {
+          cikk.classList.add("hidden");
+        }
+      });
+
+      if (cikkek[i]) {
+        cikkek[i].classList.remove("hidden");
       }
     });
   });

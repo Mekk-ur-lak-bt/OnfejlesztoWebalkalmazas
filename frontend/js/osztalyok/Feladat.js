@@ -247,6 +247,7 @@ export class FeladatElem {
     li.querySelector(".gomb-torol").addEventListener("click", async () => {
       try {
         await Feladat.torol(this.#adat.id);
+        window.dispatchEvent(new CustomEvent("feladatValtozas"));
         li.remove();
       } catch (e) {
         console.error(e);
@@ -296,7 +297,9 @@ export class FeladatLista {
   felhasznaloIdBeallitas(felhasznaloId) {
     this.#felhasznaloId = felhasznaloId ? Number(felhasznaloId) : null;
   }
-
+  #feladatValtozastKiald() {
+    window.dispatchEvent(new CustomEvent("feladatValtozas"));
+  }
   #napiResetSzukseges() {
     const kulcs = `napiReset_${this.#felhasznaloId}`;
     const ma = new Date().toISOString().slice(0, 10);
@@ -387,6 +390,7 @@ export class FeladatLista {
         }
         this.bezar();
         await this.frissit();
+        this.#feladatValtozastKiald();
       } catch (e) {
         console.error("Mentés sikertelen:", e);
       }

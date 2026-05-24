@@ -43,6 +43,7 @@ window.addEventListener("authValtozas", async () => {
   kategoriaModal.felhasznaloIdBeallitas(felhasznaloId);
   await lista.frissit();
   await radar.frissit();
+  await naptarFrissit();
 });
 
 await authUiInicializal();
@@ -55,10 +56,20 @@ kategoriaModal.felhasznaloIdBeallitas(felhasznaloId);
 await lista.frissit();
 await radar.frissit();
 
-const feladatok = Auth.beVanJelentkezve()
-  ? await Feladat.osszes(Auth.aktualisFelhasznaloId())
-  : [];
+async function naptarFrissit() {
+  const feladatok = Auth.beVanJelentkezve()
+    ? await Feladat.osszes(Auth.aktualisFelhasznaloId())
+    : [];
 
-oldalsavNaptar.megjelenit(feladatok);
+  oldalsavNaptar.megjelenit(feladatok);
+  cikkNaptar.megjelenit(feladatok);
+}
+
+window.addEventListener("feladatValtozas", async () => {
+  await naptarFrissit();
+});
+
+await naptarFrissit();
+
 modalHatterInicializal();
-navigacioInicializal(cikkNaptar, feladatok);
+navigacioInicializal();
