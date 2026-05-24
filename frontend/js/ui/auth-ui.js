@@ -16,8 +16,8 @@ export async function authUiInicializal() {
       <input type="text" id="auth-nev" required />
       <label for="auth-jelszo">Password:</label>
       <input type="password" id="auth-jelszo" required />
-      <label for="auth-avatar" id="auth-avatar-label">Avatar URL:</label>
-      <input type="text" id="auth-avatar" placeholder="img/avatar.jpg" />
+      <label for="auth-avatar" id="auth-avatar-label">Profile picture:</label>
+      <input type="file" id="auth-avatar" accept="image/*" />
       <div class="modal-gombok">
         <button type="button" id="auth-megse">Cancel</button>
         <button type="submit" id="auth-mentes">Save</button>
@@ -73,7 +73,7 @@ export async function authUiInicializal() {
     e.preventDefault();
     const nev = authNev.value.trim();
     const jelszo = authJelszo.value.trim();
-    const avatar = authAvatar.value.trim() || "img/avatar.jpg";
+    const avatarFajl = authAvatar.files[0];
 
     if (!nev) {
       alert("A felhasználónév nem lehet üres!");
@@ -86,7 +86,12 @@ export async function authUiInicializal() {
 
     try {
       if (authMod.value === "registration") {
-        await Auth.regisztral(nev, jelszo, avatar);
+        await Auth.regisztral(nev, jelszo);
+
+        if (avatarFajl) {
+          await Auth.avatarFeltolt(Auth.aktualisFelhasznaloId(), avatarFajl);
+        }
+
         alert("Sikeres regisztráció!");
       }
       if (authMod.value === "login") {
@@ -104,6 +109,7 @@ export async function authUiInicializal() {
 
   await profilFrissit();
   menuFrissit();
+  profilkepModalInicializal();
 }
 
 export async function profilFrissit() {
@@ -116,9 +122,9 @@ export async function profilFrissit() {
   const profilCoin = document.getElementById("profil-coin");
 
   if (!felhasznalo) {
-    profilNev.textContent = "Vendég";
+    profilNev.textContent = "Guest";
     profilAvatar.src = "img/avatar.jpg";
-    profilAvatar.alt = "Vendég avatarja";
+    profilAvatar.alt = "Guest avatar";
     profilSzint.textContent = "LVL 1 EXPLORER";
     profilProgress.value = 0;
     profilCoin.textContent = "0";
@@ -127,10 +133,66 @@ export async function profilFrissit() {
 
   profilNev.textContent = felhasznalo.nev;
   profilAvatar.src = felhasznalo.avatar;
-  profilAvatar.alt = `${felhasznalo.nev} avatarja`;
+  profilAvatar.alt = `${felhasznalo.nev} avatar`;
   profilSzint.textContent = `LVL ${felhasznalo.szint} EXPLORER`;
   profilProgress.value = felhasznalo.szintProgressz();
   profilCoin.textContent = felhasznalo.coin;
+}
+function profilkepModalInicializal() {
+  const modal = new Modal(
+    "profilkep-modal",
+    `
+    <form id="profilkep-urlap">
+      <h3>Change profile picture</h3>
+
+      <label for="profilkep-fajl">Profile picture:</label>
+      <input type="file" id="profilkep-fajl" accept="image/*" required />
+
+      <div class="modal-gombok">
+        <button type="button" id="profilkep-megse">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </form>
+    `,
+  );
+
+  const profilAvatar = document.getElementById("profil-avatar");
+  const profilkepFajl = modal.keres("#profilkep-fajl");
+
+  profilAvatar.style.cursor = "pointer";
+
+  profilAvatar.addEventListener("click", () => {
+    if (!Auth.beVanJelentkezve()) {
+      alert("You need to be logged in to change your profile picture!");
+      return;
+    }
+
+    modal.urlap.reset();
+    modal.megnyit();
+  });
+
+  modal.keres("#profilkep-megse").addEventListener("click", () => {
+    modal.bezar();
+  });
+
+  modal.urlap.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fajl = profilkepFajl.files[0];
+
+    if (!fajl) {
+      alert("Please choose an image!");
+      return;
+    }
+
+    try {
+      await Auth.avatarFeltolt(Auth.aktualisFelhasznaloId(), fajl);
+      await profilFrissit();
+      modal.bezar();
+    } catch (error) {
+      alert(error.message);
+    }
+  });
 }
 
 function menuFrissit() {

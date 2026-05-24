@@ -26,10 +26,7 @@ export class Auth {
 
     const felhasznalo = Felhasznalo.fromJSON(adat.felhasznalo);
 
-    localStorage.setItem(
-      Auth.AKTUALIS_FELHASZNALO_KULCS,
-      felhasznalo.id
-    );
+    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, felhasznalo.id);
 
     return felhasznalo;
   }
@@ -54,10 +51,7 @@ export class Auth {
 
     const felhasznalo = Felhasznalo.fromJSON(adat.felhasznalo);
 
-    localStorage.setItem(
-      Auth.AKTUALIS_FELHASZNALO_KULCS,
-      felhasznalo.id
-    );
+    localStorage.setItem(Auth.AKTUALIS_FELHASZNALO_KULCS, felhasznalo.id);
 
     return felhasznalo;
   }
@@ -101,5 +95,25 @@ export class Auth {
     }
 
     return felhasznalo;
+  }
+  static async avatarFeltolt(felhasznaloId, fajl) {
+    const formData = new FormData();
+    formData.append("avatar", fajl);
+
+    const valasz = await fetch(
+      `${API_URL}/felhasznalok/${felhasznaloId}/avatar`,
+      {
+        method: "PATCH",
+        body: formData,
+      },
+    );
+
+    const adat = await valasz.json();
+
+    if (!valasz.ok) {
+      throw new Error(adat.uzenet || "Nem sikerült feltölteni a profilképet!");
+    }
+
+    return Felhasznalo.fromJSON(adat.felhasznalo);
   }
 }
