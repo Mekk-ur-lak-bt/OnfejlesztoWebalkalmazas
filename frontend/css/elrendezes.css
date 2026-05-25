@@ -342,7 +342,7 @@ input[type="checkbox"]:checked::before {
     width: 100%;
   }
 
-  nav ul li a {
+  nav ul li button {
     display: block;
     width: 100%;
     padding: var(--tavolsag-sm) 0;

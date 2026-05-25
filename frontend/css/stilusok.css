@@ -54,13 +54,16 @@ nav ul {
   list-style: none;
 }
 
-nav ul li a {
+nav ul li button {
+  border: none;
   border-radius: 8px;
+  background-color: transparent;
   color: var(--szoveg-alap);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-nav ul li a:hover {
+nav ul li button:hover {
   background-color: var(--color-srgb-blush);
   color: var(--szin-tema-kiemelt);
 }

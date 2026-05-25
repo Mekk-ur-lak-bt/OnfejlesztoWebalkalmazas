@@ -5,7 +5,13 @@ import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { Naptar } from "./osztalyok/Naptar.js";
 import { TemaValaszto } from "./osztalyok/TemaValaszto.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
-import { modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
+import {
+  demoFigyelmeztetes,
+  modalHatterInicializal,
+  navigacioInicializal,
+} from "./ui/html-ui.js";
+
+demoFigyelmeztetes();
 
 const radar = new RadarDiagram(".radar-diagram", Auth.aktualisFelhasznaloId());
 const lista = new FeladatLista(".feladat-lista", Auth.aktualisFelhasznaloId());

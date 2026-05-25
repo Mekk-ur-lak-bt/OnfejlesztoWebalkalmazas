@@ -15,7 +15,7 @@ export function modalHatterInicializal() {
 }
 
 export function navigacioInicializal() {
-  const linkek = document.querySelectorAll(".oldalso-menu a");
+  const linkek = document.querySelectorAll(".oldalso-menu button");
 
   const cikkek = [
     document.querySelector(".todo"),
@@ -38,4 +38,30 @@ export function navigacioInicializal() {
       }
     });
   });
+}
+
+export function demoFigyelmeztetes() {
+  const isLocal =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  if (isLocal) return;
+
+  const kod = `
+    <aside class="demo-warning-banner" role="note" aria-label="Demo notice">
+      <p>
+        <strong>This is a preview demo.</strong> To use the application with
+        full functionality, please download the repository and run the backend
+        locally (Read more about usage in the repo's readMe file):
+        <a
+          href="https://github.com/Mekk-ur-lak-bt/OnfejlesztoWebalkalmazas"
+          id="repo-letoltesi-link"
+          rel="noopener noreferrer">
+          Download GitHub Repository
+          </a>
+      </p>
+    </aside>
+  `;
+
+  document.body.insertAdjacentHTML("afterbegin", kod);
 }

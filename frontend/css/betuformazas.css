@@ -6,7 +6,7 @@
 h1,
 h2,
 summary,
-nav ul li a {
+nav ul li button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,7 +19,7 @@ h1 {
   text-align: center;
 }
 
-nav ul li a,
+nav ul li button,
 .mini-kartya summary,
 .todo-oldalsav h2 {
   text-decoration: none;
