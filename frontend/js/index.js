@@ -3,7 +3,7 @@ import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
 import { Auth } from "./osztalyok/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { Naptar } from "./osztalyok/Naptar.js";
-import { TemaValaszto } from "./osztalyok/TemaValaszto.js";
+import { Temavalaszto } from "./osztalyok/Temavalaszto.js";
 import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
 import {
   demoFigyelmeztetes,
