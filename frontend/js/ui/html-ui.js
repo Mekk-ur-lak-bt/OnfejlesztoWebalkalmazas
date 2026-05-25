@@ -41,9 +41,10 @@ export function navigacioInicializal() {
 }
 
 export function demoFigyelmeztetes() {
-  const isLocal =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+  const hostname = window.location.hostname;
+  const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+
+  console.log("Hostname:", hostname, "Is this a local usage?:", isLocal);
 
   if (isLocal) return;
 

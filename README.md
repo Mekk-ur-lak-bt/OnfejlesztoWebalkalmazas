@@ -1,64 +1,149 @@
-# Önfejlesztő Webalkalmazás
+# Dream Team Dashboard
 
-## Specifikáció
+**A gamified self-development web application** inspired by Notion templates, turning daily task management into an RPG experience. Users create tasks by category, earn XP and Coins on completion, level up, and track progress on a visual statistics dashboard.
 
-### Projekt leírás
-Notion gamify sablon által inspirált önfejlesztő webalkalmazás, amely a napi feladatvégzést játékos élménnyé alakítja. A felhasználó feladatokat vesz fel kategóriánként, teljesítésükért XP-t és Coint kap, szintet lép, és nyomon követheti fejlődését egy vizuális statisztika oldalon. Az alkalmazás hangulatát a Vibe Room funkció személyre szabhatóvá teszi – a felhasználó megválaszthatja a hátteret és a hangulati elemeket.
+---
 
-### Célközönség
-Diákok és fiatal felnőttek, akik szeretnék produktívabbá tenni a mindennapjaikat, de a hagyományos todo alkalmazások nem motiválják őket eléggé.
+## Features
 
-### Főbb funkciók
-- **Todo lista** A felhasználó feladatokat hozhat létre, szerkeszthet és törölhet. Minden feladathoz tartozik egy kategória, XP jutalom, Coin jutalom és kategóriaspecifikus pont. Teljesítéskor ezek automatikusan jóváíródnak.
-- **Scoreboard** A felhasználói kártyán megjelenik az összesített XP, Coin és az aktuális szint. A szintlépés XP küszöbértékek alapján történik, a következő szintig való haladás egy progress barral vizualizált.
-- **Statisztika** Egy 5 ágú radar chart mutatja a különböző kategóriákban elért pontokat. Minél több pontot gyűjt a felhasználó egy kategóriában, annál több csillagot kap.
-- **Vibe Room** A felhasználó személyre szabhatja az alkalmazás hátterét és hangulati elemeit. Választható háttérképek és opcionális háttérhangok teszik egyedivé az élményt.
+- **Gamified Todo List** — Create, edit, and delete daily tasks with custom XP, Coin, and category-specific point rewards. Tasks reset each day so rewards can be earned again.
+- **Scoreboard** — Real-time level tracking with a progress bar, total XP display, and collected currency.
+- **Radar Chart** — A 5-axis dynamic chart mapping progress across five attributes: Logic, Creativity, Health, Social, and Soul.
+- **Theme Selector** — Choose from multiple visual themes (GirliePop, Elegant, Nature, Game) that persist across sessions.
+- **Calendar** — View tasks with deadlines on a monthly calendar with navigation.
+- **Day Streak** — Tracks consecutive days with at least one completed task, resets if a day is skipped.
 
-### Továbbfejlesztési lehetőségek
-Az alkalmazás bővíthető architektúrával készül, mint az achievement rendszer, a naptár integráció, a badge shop és a felhasználói modul rendezhetősége – a kód módosítása nélkül illeszthetők be a meglévő osztályok mellé.
+---
+
+## Tech Stack
+
+| Layer    | Technology                            |
+| :------- | :------------------------------------ |
+| Frontend | HTML5, CSS3, JavaScript (ES6 Modules) |
+| Backend  | Node.js, Express.js                   |
+| Database | SQLite via better-sqlite3             |
+| Testing  | Cypress                               |
+
+---
+
+## Installation
+
+> **Requirements:** Node.js must be installed on your machine.
+> **Note for school or corporate computers:** Use Git Bash instead of PowerShell to avoid execution policy restrictions.
+
+**1. Open the project**
+Open the `/backend` folder in your code editor (e.g. VS Code).
+
+**2. Install dependencies**
+
+```bash
+npm install express better-sqlite3
+npm install multer
+```
+
+**3. Create database & Start the server**
+
+```bash
+node database.js
+node app.js
+```
+
+**4. Open the app**
+Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+> The SQLite database file is created automatically on first run. Do not delete `database.sqlite` — it stores all your local user data.
+
+---
+
+## Important Notes
+
+- All data is stored **locally** on your device. Registered users are not available on other machines.
+- The database persists across server restarts as long as `database.sqlite` is not deleted.
+
+---
+
+## Development Team
+
+Developed under **Mekk-ur-lak-bt** by:
+
+| Name                   | Role                                                                           |
+| :--------------------- | :----------------------------------------------------------------------------- |
+| Huszár Fruzsina Anna   | Frontend (Tasks, Statistics), UI/UX Design, Prototyping, Documentation, README |
+| Horváth Levente Roland | Backend Logic, API Development, Frontend (User Module), Project Management     |
+| Harnos Vanda Alina     | Database Management, Testing, Frontend (Category Module), UML Design           |
+
+---
+
+# Önfejlesztő webakalmazás — Magyar leírás
+
+**Gamifikált önfejlesztő webalkalmazás** Notion sablonok által inspirálva, amely a napi feladatvégzést RPG-élménnyé alakítja. A felhasználó feladatokat hoz létre kategóriánként, teljesítésükért XP-t és Coint kap, szintet lép, és vizuális statisztikán követi fejlődését.
+
+---
+
+## Főbb funkciók
+
+- **Gamifikált teendőlista** — Napi feladatok létrehozása, szerkesztése és törlése egyéni XP, Coin és kategóriapontok jutalommal. A feladatok minden nap visszaállnak, így a jutalmak naponta újra megszerezhetők.
+- **Scoreboard** — Valós idejű szintkövetés progress barral, összesített XP-vel és gyűjtött valutával.
+- **Radar diagram** — 5 tengelyes dinamikus diagram, amely öt attribútumban mutatja a fejlődést: Logic, Creativity, Health, Social, Soul.
+- **Témavälasztó** — Több vizuális téma közül lehet választani (GirliePop, Elegant, Nature, Game), a választás munkameneteken átívelően megmarad.
+- **Naptár** — Határidős feladatok megtekintése havi nézetben, navigációval.
+- **Napi streak** — Nyomon követi az egymást követő napokat, amikor legalább egy feladatot teljesítettél; kihagyott nap esetén nulláról indul.
+
+---
 
 ## Technológiák
-**Frontend** HTML, CSS, JavaScript
-**Backend** Node.js, Express.js
-**Adatbázis** SQLite, better-sqlite3
-**Tesztelés** Cypress
-**Verziókövetés** GitHub Organization
-**Projektmenedzsment** Trello
 
-## Csapat és szerepek 
-**Huszár Fruzsina Anna** Frontend fejlesztés(Feladat, Statisztika) és UI kialakítás, Prototípus, Funkciólista, Dokumentáció(mindenki a saját részét írja le), README.md formázás.
-**Horváth Levente Roland** Backend logika és API fejlesztés, Frontend(Felhasznalo), Projektmenedzsment(Trello), Funkciólista, Dokumentáció(mindenki a saját részét írja le), Specifikáció.
-**Harnos Vanda Alina** Adatbázis kezelés, tesztelés, Frontend(Kategoria), UML Tervezés, Funkciólista, Dokumentáció(mindenki a saját részét írja le), Specifikáció.
+| Réteg     | Technológia                           |
+| :-------- | :------------------------------------ |
+| Frontend  | HTML5, CSS3, JavaScript (ES6 Modules) |
+| Backend   | Node.js, Express.js                   |
+| Adatbázis | SQLite, better-sqlite3                |
+| Tesztelés | Cypress                               |
 
-## Mappastruktúra 
-project/
-│
-├── frontend/
-│   ├── index.html
-│   ├── css/
-│   │   ├── root.css
-│   │   ├── stilusok.css
-│   │   ├── elrendezes.css
-│   │   ├── betutipus.css
-│   │   ├── animacio.css
-│   │   └── statisztika.css
-│   └── js/
-│       ├── index.js
-│       ├── Felhasznalo.js
-│       ├── Feladat.js
-│       ├── Kategoria.js
-│       └── Statisztika.js
-│
-└── backend/
-    ├── app.js
-    ├── database.js
-    ├── database.db
-    ├── models/
-    │   ├── Felhasznalo.js
-    │   ├── Feladat.js
-    │   ├── Kategoria.js
-    │   └── Statisztika.js
-    └── routes/
-        ├── felhasznalo.js
-        ├── feladat.js
-        └── kategoria.js
+---
+
+## Telepítés
+
+> **Előfeltétel:** A Node.js legyen telepítve a gépen.
+> **Iskolai vagy céges számítógépen:** PowerShell helyett használj Git Bash terminált a végrehajtási korlátozások elkerülése érdekében.
+
+**1. Nyisd meg a projektet**
+Nyisd meg a `/backend` mappát a kódszerkesztőben (pl. VS Code).
+
+**2. Függőségek telepítése**
+
+```bash
+npm install express better-sqlite3
+npm install multer
+```
+
+**3. Adatbázis létrehozása & Szerver indítása**
+
+```bash
+node database.js
+node app.js
+```
+
+**4. Az alkalmazás megnyitása**
+Nyisd meg a böngészőt, és lépj a következő címre: [http://localhost:3000](http://localhost:3000)
+
+> Az SQLite adatbázisfájl az első indításkor automatikusan létrejön. Ne töröld a `database.sqlite` fájlt — ebben tárolódnak a helyi felhasználói adatok.
+
+---
+
+## Fontos tudnivalók
+
+- Minden adat **helyileg** tárolódik az eszközödön. A regisztrált felhasználók más gépeken nem érhetők el.
+- Az adatbázis szerver-újraindítások között is megmarad, amíg a `database.sqlite` fájlt nem törlöd.
+
+---
+
+## Fejlesztőcsapat
+
+Fejlesztette a **Mekk-ur-lak-bt** csapata:
+
+| Név                    | Szerep                                                                             |
+| :--------------------- | :--------------------------------------------------------------------------------- |
+| Huszár Fruzsina Anna   | Frontend (Feladat, Statisztika), UI/UX tervezés, Prototípus, Dokumentáció, README  |
+| Horváth Levente Roland | Backend logika és API fejlesztés, Frontend (Felhasználó modul), Projektmenedzsment |
+| Harnos Vanda Alina     | Adatbázis-kezelés, tesztelés, Frontend (Kategória modul), UML tervezés             |
