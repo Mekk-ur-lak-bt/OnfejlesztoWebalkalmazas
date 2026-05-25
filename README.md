@@ -66,15 +66,15 @@ Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
 Developed under **Mekk-ur-lak-bt** by:
 
-| Name                   | Role                                                                           |
-| :--------------------- | :----------------------------------------------------------------------------- |
-| Huszár Fruzsina Anna   | Frontend (Tasks, Statistics), UI/UX Design, Prototyping, Documentation, README |
-| Horváth Levente Roland | Backend Logic, API Development, Frontend (User Module), Project Management     |
-| Harnos Vanda Alina     | Database Management, Testing, Frontend (Category Module), UML Design           |
+| Name                   | Role                                                                                                       |
+| :--------------------- | :--------------------------------------------------------------------------------------------------------- |
+| Fruzsina Anna Huszár   | Frontend, UI/UX Design, Prototype, Documentation, README                                                   |
+| Levente Roland Horváth | Backend Logic and API Development, Frontend (User, Auth, Calendar), Project Management, Documentation      |
+| Vanda Alina Harnos     | Database Management, Testing, UML Design, Documentation                                                    |
 
 ---
 
-# Önfejlesztő webakalmazás — Magyar leírás
+# Önfejlesztő webalkalmazás — Magyar leírás
 
 **Gamifikált önfejlesztő webalkalmazás** Notion sablonok által inspirálva, amely a napi feladatvégzést RPG-élménnyé alakítja. A felhasználó feladatokat hoz létre kategóriánként, teljesítésükért XP-t és Coint kap, szintet lép, és vizuális statisztikán követi fejlődését.
 
@@ -85,7 +85,7 @@ Developed under **Mekk-ur-lak-bt** by:
 - **Gamifikált teendőlista** — Napi feladatok létrehozása, szerkesztése és törlése egyéni XP, Coin és kategóriapontok jutalommal. A feladatok minden nap visszaállnak, így a jutalmak naponta újra megszerezhetők.
 - **Scoreboard** — Valós idejű szintkövetés progress barral, összesített XP-vel és gyűjtött valutával.
 - **Radar diagram** — 5 tengelyes dinamikus diagram, amely öt attribútumban mutatja a fejlődést: Logic, Creativity, Health, Social, Soul.
-- **Témavälasztó** — Több vizuális téma közül lehet választani (GirliePop, Elegant, Nature, Game), a választás munkameneteken átívelően megmarad.
+- **Témaválasztó** — Több vizuális téma közül lehet választani (GirliePop, Elegant, Nature, Game), a választás munkameneteken átívelően megmarad.
 - **Naptár** — Határidős feladatok megtekintése havi nézetben, navigációval.
 - **Napi streak** — Nyomon követi az egymást követő napokat, amikor legalább egy feladatot teljesítettél; kihagyott nap esetén nulláról indul.
 
@@ -142,8 +142,8 @@ Nyisd meg a böngészőt, és lépj a következő címre: [http://localhost:3000
 
 Fejlesztette a **Mekk-ur-lak-bt** csapata:
 
-| Név                    | Szerep                                                                             |
-| :--------------------- | :--------------------------------------------------------------------------------- |
-| Huszár Fruzsina Anna   | Frontend (Feladat, Statisztika), UI/UX tervezés, Prototípus, Dokumentáció, README  |
-| Horváth Levente Roland | Backend logika és API fejlesztés, Frontend (Felhasználó modul), Projektmenedzsment |
-| Harnos Vanda Alina     | Adatbázis-kezelés, tesztelés, Frontend (Kategória modul), UML tervezés             |
+| Név                    | Szerep                                                                                                   |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- |
+| Huszár Fruzsina Anna   | Frontend, UI/UX tervezés, Prototípus, Dokumentáció, README                                               |
+| Horváth Levente Roland | Backend logika és API fejlesztés, Frontend (Felhasználó, Auth, Naptár), Projektmenedzsment, Dokumentáció |
+| Harnos Vanda Alina     | Adatbázis-kezelés, tesztelés, UML tervezés, Dokumentáció                                                 |
