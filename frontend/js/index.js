@@ -19,7 +19,7 @@ const miniKartya = new MiniKartya(Auth.aktualisFelhasznaloId());
 const kategoriaModal = new KategoriaModal(Auth.aktualisFelhasznaloId());
 const oldalsavNaptar = new Naptar(".naptar-oldalsav .naptar");
 const cikkNaptar = new Naptar("#naptar-lista");
-new TemaValaszto();
+new Temavalaszto();
 
 document
   .getElementById("uj-feladat-gomb")

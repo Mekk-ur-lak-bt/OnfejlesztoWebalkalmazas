@@ -7,14 +7,16 @@
   "background_color": "#0f172a",
   "icons": [
     {
-      "src": "/frontend/img/favicon/android-chrome-192x192.png",
+      "src": "https://mekk-ur-lak-bt.github.io/OnfejlesztoWebalkalmazas/frontend/img/favicon/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/frontend/img/favicon/android-chrome-512x512.png",
+      "src": "https://mekk-ur-lak-bt.github.io/OnfejlesztoWebalkalmazas/frontend/img/favicon/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
