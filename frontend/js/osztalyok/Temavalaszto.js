@@ -101,7 +101,7 @@ const TEMAK = {
 
 const TEMA_KULCS = "tema";
 
-export class TemaValaszto {
+export class Temavalaszto {
   #modal;
 
   constructor() {
