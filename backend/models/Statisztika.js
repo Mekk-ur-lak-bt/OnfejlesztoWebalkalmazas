@@ -1,31 +1,55 @@
+const db = require("../database");
+const Kategoria = require("./Kategoria");
+
+const SZINT_HATAROK = [
+  { hatar: 1000, kovetkezo: Infinity },
+  { hatar: 500, kovetkezo: 1000 },
+  { hatar: 250, kovetkezo: 500 },
+  { hatar: 100, kovetkezo: 250 },
+  { hatar: 0, kovetkezo: 100 },
+];
+
 class Statisztika {
-  constructor(felhasznalo, kategoriak) {
-    this.felhasznalo = felhasznalo;
-    this.kategoriak = kategoriak;
-  }
-
-  getScoreboard() {
-    return {
-      xp: this.felhasznalo.xp,
-      coin: this.felhasznalo.coin,
-      szint: this.felhasznalo.szint,
-      szintProgressz: this.felhasznalo.szintProgressz(),
-    };
-  }
-
-  getKategoriaChart() {
-    const eredmeny = [];
-    for (let i = 0; i < this.kategoriak.length; i++) {
-      eredmeny.push({
-        nev: this.kategoriak[i].nev,
-        csillag: this.kategoriak[i].csillagErtek(),
-      });
-    }
-    return eredmeny;
+  static #szintProgressz(xp) {
+    const szint = SZINT_HATAROK.find((s) => xp >= s.hatar);
+    if (szint.kovetkezo === Infinity) return 100;
+    return Math.floor(((xp - szint.hatar) / (szint.kovetkezo - szint.hatar)) * 100);
   }
 
   static osszeallit(felhasznaloId) {
-// Jelenleg a database műveleteket a route-ok kezelik.
+    const felhasznalo = db
+      .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+      .get(felhasznaloId);
+
+    if (!felhasznalo) return null;
+
+    const kategoriak = db
+      .prepare("SELECT id, nev, pontok FROM kategoria WHERE felhasznalo_id = ?")
+      .all(felhasznaloId);
+
+    const { darab: osszes } = db
+      .prepare("SELECT COUNT(*) AS darab FROM feladat WHERE felhasznalo_id = ?")
+      .get(felhasznaloId);
+
+    const { darab: teljesitett } = db
+      .prepare("SELECT COUNT(*) AS darab FROM feladat WHERE felhasznalo_id = ? AND teljesitve = 1")
+      .get(felhasznaloId);
+
+    return {
+      scoreboard: {
+        xp: felhasznalo.xp,
+        coin: felhasznalo.coin,
+        szint: felhasznalo.szint,
+        szintProgressz: Statisztika.#szintProgressz(felhasznalo.xp),
+      },
+      kategoriak: kategoriak.map((k) => ({
+        id: k.id,
+        nev: k.nev,
+        pontok: k.pontok,
+        csillag: Kategoria.csillagErtek(k.pontok),
+      })),
+      feladatok: { osszes, teljesitett },
+    };
   }
 }
 

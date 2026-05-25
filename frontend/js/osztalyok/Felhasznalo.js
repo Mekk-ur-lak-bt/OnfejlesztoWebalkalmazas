@@ -1,3 +1,5 @@
+const SZINT_HATAROK = [0, 100, 250, 500, 1000];
+
 export class Felhasznalo {
   #id;
   #nev;
@@ -15,56 +17,18 @@ export class Felhasznalo {
     this.#avatar = avatar;
   }
 
-  get id() {
-    return this.#id;
-  }
-
-  get nev() {
-    return this.#nev;
-  }
-
-  get xp() {
-    return this.#xp;
-  }
-
-  get coin() {
-    return this.#coin;
-  }
-
-  get szint() {
-    return this.#szint;
-  }
-
-  get avatar() {
-    return this.#avatar;
-  }
-
-  xpHozzaad(mennyiseg) {
-    this.#xp += mennyiseg;
-    this.#szint = this.szintKiszamit();
-  }
-
-  coinHozzaad(mennyiseg) {
-    this.#coin += mennyiseg;
-  }
-
-  szintKiszamit() {
-    switch (true) {
-      case this.#xp >= 1000:
-        return 5;
-      case this.#xp >= 500:
-        return 4;
-      case this.#xp >= 250:
-        return 3;
-      case this.#xp >= 100:
-        return 2;
-      default:
-        return 1;
-    }
-  }
+  get id() { return this.#id; }
+  get nev() { return this.#nev; }
+  get xp() { return this.#xp; }
+  get coin() { return this.#coin; }
+  get szint() { return this.#szint; }
+  get avatar() { return this.#avatar; }
 
   szintProgressz() {
-    return this.#xp % 100;
+    const aktualisHatar = SZINT_HATAROK[this.#szint - 1];
+    const kovetkezoHatar = SZINT_HATAROK[this.#szint] ?? this.#xp;
+    if (kovetkezoHatar === aktualisHatar) return 100;
+    return Math.floor(((this.#xp - aktualisHatar) / (kovetkezoHatar - aktualisHatar)) * 100);
   }
 
   toJSON() {
@@ -78,14 +42,7 @@ export class Felhasznalo {
     };
   }
 
-  static fromJSON(adat) {
-    return new Felhasznalo(
-      adat.id,
-      adat.nev,
-      adat.xp,
-      adat.coin,
-      adat.szint,
-      adat.avatar
-    );
+  static fromJSON({ id, nev, xp, coin, szint, avatar }) {
+    return new Felhasznalo(id, nev, xp, coin, szint, avatar);
   }
 }

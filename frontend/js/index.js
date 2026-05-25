@@ -1,15 +1,12 @@
-import { Feladat, FeladatLista } from "./osztalyok/Feladat.js";
+import { Feladat } from "./feladat/Feladat.js";
+import { FeladatLista } from "./feladat/FeladatLista.js";
 import { MiniKartya, RadarDiagram } from "./osztalyok/Statisztika.js";
-import { Auth } from "./osztalyok/Auth.js";
+import { Auth } from "./auth/Auth.js";
 import { KategoriaModal } from "./osztalyok/Kategoria.js";
 import { Naptar } from "./osztalyok/Naptar.js";
 import { Temavalaszto } from "./osztalyok/Temavalaszto.js";
-import { authUiInicializal, profilFrissit } from "./ui/auth-ui.js";
-import {
-  demoFigyelmeztetes,
-  modalHatterInicializal,
-  navigacioInicializal,
-} from "./ui/html-ui.js";
+import { authUiInicializal, profilFrissit } from "./auth/auth-ui.js";
+import { demoFigyelmeztetes, modalHatterInicializal, navigacioInicializal } from "./ui/html-ui.js";
 
 demoFigyelmeztetes();
 
@@ -21,15 +18,13 @@ const oldalsavNaptar = new Naptar(".naptar-oldalsav .naptar");
 const cikkNaptar = new Naptar("#naptar-lista");
 new Temavalaszto();
 
-document
-  .getElementById("uj-feladat-gomb")
-  .addEventListener("click", async () => {
-    if (!Auth.beVanJelentkezve()) {
-      alert("A feladatok kezeléséhez be kell jelentkezned!");
-      return;
-    }
-    await lista.megnyit();
-  });
+document.getElementById("uj-feladat-gomb").addEventListener("click", async () => {
+  if (!Auth.beVanJelentkezve()) {
+    alert("A feladatok kezeléséhez be kell jelentkezned!");
+    return;
+  }
+  await lista.megnyit();
+});
 
 window.addEventListener("jutalomvaltozas", async (e) => {
   if (e.detail.xp > 0) miniKartya.streakNapotRogzit();
@@ -66,7 +61,6 @@ async function naptarFrissit() {
   const feladatok = Auth.beVanJelentkezve()
     ? await Feladat.osszes(Auth.aktualisFelhasznaloId())
     : [];
-
   oldalsavNaptar.megjelenit(feladatok);
   cikkNaptar.megjelenit(feladatok);
 }

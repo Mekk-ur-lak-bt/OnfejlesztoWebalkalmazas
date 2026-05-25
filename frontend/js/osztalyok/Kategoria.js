@@ -32,6 +32,8 @@ export class KategoriaModal {
 
   #gombLetrehoz() {
     const kontener = document.querySelector(".grafikon-kartya");
+    const letezo = kontener.querySelector(".gomb-atnevez");
+    if (letezo) return letezo;
     const gomb = document.createElement("button");
     gomb.type = "button";
     gomb.innerHTML = `<span class="material-symbols-outlined">edit</span>`;
@@ -42,9 +44,7 @@ export class KategoriaModal {
 
   #esemenyek() {
     this.#gomb.addEventListener("click", () => this.#megnyit());
-    this.#modal
-      .keres("#kategoria-megse")
-      .addEventListener("click", () => this.#modal.bezar());
+    this.#modal.keres("#kategoria-megse").addEventListener("click", () => this.#modal.bezar());
     this.#modal.urlap.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!this.#felhasznaloId) return;
@@ -56,10 +56,8 @@ export class KategoriaModal {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ nev: input.value.trim() }),
-            }).then((v) => {
-              if (!v.ok) throw new Error("Mentés sikertelen!");
-            }),
-          ),
+            }).then((v) => { if (!v.ok) throw new Error("Mentés sikertelen!"); })
+          )
         );
         this.#modal.bezar();
         window.dispatchEvent(new CustomEvent("kategoriaValtozas"));
@@ -80,14 +78,12 @@ export class KategoriaModal {
       const label = document.createElement("label");
       label.setAttribute("for", `input-${k.id}`);
       label.textContent = k.nev;
-
       const input = document.createElement("input");
       input.type = "text";
       input.id = `input-${k.id}`;
       input.dataset.id = k.id;
       input.value = k.nev;
       input.required = true;
-
       lista.appendChild(label);
       lista.appendChild(input);
     });

@@ -9,23 +9,21 @@ const RADAR_CSUCCSOK = [
 ];
 
 const RADAR_KOZEPPONT = { x: 50, y: 50 };
-const RADAR_CIMKE_OSZTALYOK = [
-  "logic",
-  "creativity",
-  "health",
-  "social",
-  "soul",
-];
+const RADAR_CIMKE_OSZTALYOK = ["logic", "creativity", "health", "social", "soul"];
+
+function maiDatum() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function datumString(datum) {
+  return `${datum.getFullYear()}-${String(datum.getMonth() + 1).padStart(2, "0")}-${String(datum.getDate()).padStart(2, "0")}`;
+}
 
 function pontokraVektor(csuccs, arany) {
   const x = RADAR_KOZEPPONT.x + (csuccs.cx - RADAR_KOZEPPONT.x) * arany;
   const y = RADAR_KOZEPPONT.y + (csuccs.cy - RADAR_KOZEPPONT.y) * arany;
   return `${x.toFixed(2)},${y.toFixed(2)}`;
-}
-
-function maiDatum() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
 export class RadarDiagram {
@@ -45,32 +43,19 @@ export class RadarDiagram {
 
   async frissit() {
     if (!this.#svg || !this.#terulet) return;
-    if (!this.#felhasznaloId) {
-      this.#alaphelyzet();
-      return;
-    }
+    if (!this.#felhasznaloId) return this.#alaphelyzet();
     try {
-      const valasz = await fetch(
-        `${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`,
-      );
-      if (!valasz.ok) {
-        this.#alaphelyzet();
-        return;
-      }
+      const valasz = await fetch(`${KATEGORIA_API}?felhasznaloId=${this.#felhasznaloId}`);
+      if (!valasz.ok) return this.#alaphelyzet();
       const kategoriak = await valasz.json();
       const maxPont = Math.max(1, ...kategoriak.map((k) => k.pontok));
       const sokszogPontok = kategoriak.map((k, i) => {
         const arany = Math.min(1, k.pontok / maxPont);
-        const minimum = 0.05;
-        return pontokraVektor(
-          RADAR_CSUCCSOK[i],
-          minimum + arany * (1 - minimum),
-        );
+        return pontokraVektor(RADAR_CSUCCSOK[i], 0.05 + arany * 0.95);
       });
       this.#terulet.setAttribute("points", sokszogPontok.join(" "));
       this.#cimkekFrissit(kategoriak);
-    } catch (e) {
-      console.error("Radar diagram frissítése sikertelen:", e);
+    } catch {
       this.#alaphelyzet();
     }
   }
@@ -112,10 +97,7 @@ export class MiniKartya {
     if (!this.#felhasznaloId) return;
     const kulcs = `streak_${this.#felhasznaloId}`;
     const ma = maiDatum();
-    const mentett = JSON.parse(localStorage.getItem(kulcs)) ?? {
-      count: 0,
-      lastDate: null,
-    };
+    const mentett = JSON.parse(localStorage.getItem(kulcs)) ?? { count: 0, lastDate: null };
     if (mentett.lastDate === ma) return;
     mentett.count += 1;
     mentett.lastDate = ma;
@@ -128,41 +110,32 @@ export class MiniKartya {
     const kulcs = `streak_${this.#felhasznaloId}`;
     const mentett = JSON.parse(localStorage.getItem(kulcs));
     if (!mentett?.lastDate) return;
-    const ma = maiDatum();
     const tegnap = new Date();
     tegnap.setDate(tegnap.getDate() - 1);
-    const tegnapStr = `${tegnap.getFullYear()}-${String(tegnap.getMonth() + 1).padStart(2, "0")}-${String(tegnap.getDate()).padStart(2, "0")}`;
-    if (mentett.lastDate < tegnapStr) {
+    if (mentett.lastDate < datumString(tegnap)) {
       localStorage.setItem(kulcs, JSON.stringify({ count: 0, lastDate: null }));
     }
   }
 
   #streakMegjelenit() {
-    const elem = document.querySelector(
-      ".statisztika-racs .mini-kartya:first-child p",
-    );
+    const elem = document.querySelector(".statisztika-racs .mini-kartya:first-child p");
     if (!elem) return;
     if (!this.#felhasznaloId) {
       elem.textContent = "0 Days";
       return;
     }
-    const kulcs = `streak_${this.#felhasznaloId}`;
-    const mentett = JSON.parse(localStorage.getItem(kulcs)) ?? { count: 0 };
-    elem.textContent = `${mentett.count} Day${mentett.count !== 1 ? "s" : ""}`;
+    const { count = 0 } = JSON.parse(localStorage.getItem(`streak_${this.#felhasznaloId}`)) ?? {};
+    elem.textContent = `${count} Day${count !== 1 ? "s" : ""}`;
   }
 
   #toggleEsemeny() {
-    document
-      .querySelectorAll(".statisztika-racs details")
-      .forEach((details) => {
-        details.addEventListener("toggle", (e) => {
-          const state = e.target.open;
-          document
-            .querySelectorAll(".statisztika-racs details")
-            .forEach((el) => {
-              if (el.open !== state) el.open = state;
-            });
+    document.querySelectorAll(".statisztika-racs details").forEach((details) => {
+      details.addEventListener("toggle", (e) => {
+        const state = e.target.open;
+        document.querySelectorAll(".statisztika-racs details").forEach((el) => {
+          if (el.open !== state) el.open = state;
         });
       });
+    });
   }
 }

@@ -1,5 +1,5 @@
-import { Auth } from "../osztalyok/Auth.js";
-import { Modal } from "./Modal.js";
+import { Auth } from "./Auth.js";
+import { Modal } from "../ui/Modal.js";
 
 function authValtozastKiald() {
   window.dispatchEvent(new CustomEvent("authValtozas"));

@@ -1,54 +1,67 @@
+const db = require("../database");
+
+const SZINT_HATAROK = [1000, 500, 250, 100];
+
 class Felhasznalo {
-  constructor(id, nev, xp, coin, szint, avatar) {
-    this.id = id;
-    this.nev = nev;
-    this.xp = xp;
-    this.coin = coin;
-    this.szint = szint;
-    this.avatar = avatar;
+  static #szintKiszamit(xp) {
+    const index = SZINT_HATAROK.findIndex((h) => xp >= h);
+    return index === -1 ? 1 : 5 - index;
   }
 
-  xpHozzaad(mennyiseg) {
-    this.xp += mennyiseg;
-    this.szint = this.szintKiszamit();
-  }
-
-  coinHozzaad(mennyiseg) {
-    this.coin += mennyiseg;
-  }
-
-  szintKiszamit() {
-    switch (true) {
-      case this.xp >= 1000:
-        return 5;
-      case this.xp >= 500:
-        return 4;
-      case this.xp >= 250:
-        return 3;
-      case this.xp >= 100:
-        return 2;
-      default:
-        return 1;
-    }
-  }
-  /*Majd még módosítunk rajta ha meglesz a végleges xp határ*/
-  szintProgressz() {
-    return this.xp % 100;
-  }
-
-  toJSON() {
+  static #sorbolObjektum(sor) {
     return {
-      id: this.id,
-      nev: this.nev,
-      xp: this.xp,
-      coin: this.coin,
-      szint: this.szint,
-      avatar: this.avatar,
+      id: sor.id,
+      nev: sor.nev,
+      xp: sor.xp,
+      coin: sor.coin,
+      szint: sor.szint,
+      avatar: sor.avatar,
     };
   }
 
-  static letrehoz(nev, avatar) {
-    return new Felhasznalo(null, nev, 0, 0, 1, avatar);
+  static osszes() {
+    return db
+      .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo")
+      .all();
+  }
+
+  static keres(id) {
+    return db
+      .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
+      .get(id);
+  }
+
+  static keresByNev(nev) {
+    return db.prepare("SELECT * FROM felhasznalo WHERE nev = ?").get(nev);
+  }
+
+  static letrehoz(nev, jelszo, avatar = "img/avatar.jpg") {
+    const eredmeny = db
+      .prepare("INSERT INTO felhasznalo (nev, jelszo, xp, coin, szint, avatar) VALUES (?, ?, 0, 0, 1, ?)")
+      .run(nev, jelszo, avatar);
+    return Felhasznalo.keres(eredmeny.lastInsertRowid);
+  }
+
+  static avatarFrissit(id, avatarUtvonal) {
+    db.prepare("UPDATE felhasznalo SET avatar = ? WHERE id = ?").run(avatarUtvonal, id);
+    return Felhasznalo.keres(id);
+  }
+
+  static xpHozzaad(id, mennyiseg) {
+    const felhasznalo = db.prepare("SELECT xp FROM felhasznalo WHERE id = ?").get(id);
+    const ujXp = felhasznalo.xp + mennyiseg;
+    const ujSzint = Felhasznalo.#szintKiszamit(ujXp);
+    db.prepare("UPDATE felhasznalo SET xp = ?, szint = ? WHERE id = ?").run(ujXp, ujSzint, id);
+    return Felhasznalo.keres(id);
+  }
+
+  static coinHozzaad(id, mennyiseg) {
+    db.prepare("UPDATE felhasznalo SET coin = coin + ? WHERE id = ?").run(mennyiseg, id);
+    return Felhasznalo.keres(id);
+  }
+
+  static sorbolObjektum(sor) {
+    return Felhasznalo.#sorbolObjektum(sor);
   }
 }
 

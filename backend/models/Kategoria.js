@@ -1,51 +1,56 @@
+const db = require("../database");
+
 class Kategoria {
-  constructor(id, nev, pontok) {
-    this.id = id;
-    this.nev = nev;
-    this.pontok = pontok;
-  }
-
-  pontotAd(mennyiseg) {
-    this.pontok += mennyiseg;
-  }
-  /*Majd még módosítunk rajta ha meglesz a végleges xp határ*/
-  csillagErtek() {
-    switch (true) {
-      case this.pontok >= 1000:
-        return 5;
-      case this.pontok >= 500:
-        return 4;
-      case this.pontok >= 250:
-        return 3;
-      case this.pontok >= 100:
-        return 2;
-      default:
-        return 1;
-    }
-  }
-
-  toJSON() {
+  static #sorbolObjektum(sor) {
     return {
-      id: this.id,
-      nev: this.nev,
-      pontok: this.pontok,
+      id: sor.id,
+      felhasznaloId: sor.felhasznalo_id,
+      nev: sor.nev,
+      pontok: sor.pontok,
     };
   }
 
-  static letrehoz(felhasznaloId, nev) {
-// Jelenleg a database műveleteket a route-ok kezelik.
+  static csillagErtek(pontok) {
+    const hatarok = [1000, 500, 250, 100];
+    const index = hatarok.findIndex((h) => pontok >= h);
+    return index === -1 ? 1 : 5 - index;
+  }
+
+  static osszes(felhasznaloId = null) {
+    const sorok = felhasznaloId
+      ? db.prepare("SELECT id, felhasznalo_id, nev, pontok FROM kategoria WHERE felhasznalo_id = ?").all(Number(felhasznaloId))
+      : db.prepare("SELECT id, felhasznalo_id, nev, pontok FROM kategoria").all();
+    return sorok.map(Kategoria.#sorbolObjektum);
   }
 
   static keres(id) {
-// Jelenleg a database műveleteket a route-ok kezelik.
+    const sor = db.prepare("SELECT id, felhasznalo_id, nev, pontok FROM kategoria WHERE id = ?").get(Number(id));
+    return sor ? Kategoria.#sorbolObjektum(sor) : null;
   }
 
-  static osszes(felhasznaloId) {
-// Jelenleg a database műveleteket a route-ok kezelik.
+  static felhasznaloLetezik(felhasznaloId) {
+    return !!db.prepare("SELECT id FROM felhasznalo WHERE id = ?").get(Number(felhasznaloId));
+  }
+
+  static letrehoz(felhasznaloId, nev) {
+    const eredmeny = db
+      .prepare("INSERT INTO kategoria (felhasznalo_id, nev, pontok) VALUES (?, ?, 0)")
+      .run(Number(felhasznaloId), nev);
+    return Kategoria.keres(eredmeny.lastInsertRowid);
+  }
+
+  static atnevez(id, nev) {
+    db.prepare("UPDATE kategoria SET nev = ? WHERE id = ?").run(nev, Number(id));
+    return Kategoria.keres(id);
   }
 
   static pontFrissit(id, mennyiseg) {
-// Jelenleg a database műveleteket a route-ok kezelik.
+    db.prepare("UPDATE kategoria SET pontok = pontok + ? WHERE id = ?").run(mennyiseg, Number(id));
+    return Kategoria.keres(id);
+  }
+
+  static torol(id) {
+    db.prepare("DELETE FROM kategoria WHERE id = ?").run(Number(id));
   }
 }
 
