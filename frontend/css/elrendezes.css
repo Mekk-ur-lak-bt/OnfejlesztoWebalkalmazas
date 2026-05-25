@@ -262,7 +262,8 @@ input[type="checkbox"]:checked::before {
 #feladat-modal,
 #auth-modal,
 #kategoria-modal,
-#tema-modal {
+#tema-modal,
+#profilkep-modal {
   padding: var(--tavolsag-md);
   width: 90vw;
   max-width: 400px;
@@ -270,18 +271,24 @@ input[type="checkbox"]:checked::before {
 }
 
 #feladat-urlap,
-#auth-urlap {
+#auth-urlap,
+#tema-urlap,
+#profilkep-urlap {
   display: flex;
   flex-direction: column;
-  gap: var(--tavolsag-sm);
+  gap: 0px;
 }
 
-#feladat-urlap input,
-#feladat-urlap select {
+input,
+select {
   width: 100%;
   padding: var(--tavolsag-xs) var(--tavolsag-sm);
   border: 1px solid transparent;
   border-radius: var(--sugar-sm);
+}
+
+label {
+  padding-top: var(--tavolsag-sm);
 }
 
 .modal-gombok {
@@ -306,6 +313,11 @@ input[type="checkbox"]:checked::before {
   height: 100vh;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.541);
+}
+
+.demo-figyelmeztetes p {
+  width: 100vw;
+  padding: var(--tavolsag-md);
 }
 
 /*-----------módisítandó*/

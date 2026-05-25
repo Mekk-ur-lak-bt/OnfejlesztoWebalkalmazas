@@ -49,7 +49,7 @@ export function demoFigyelmeztetes() {
   if (isLocal) return;
 
   const kod = `
-    <aside class="demo-warning-banner" role="note" aria-label="Demo notice">
+    <aside class="demo-figyelmeztetes" role="note" aria-label="Demo notice">
       <p>
         <strong>This is a preview demo.</strong> To use the application with
         full functionality, please download the repository and run the backend

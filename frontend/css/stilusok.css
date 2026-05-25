@@ -355,21 +355,19 @@ progress::-moz-progress-bar {
 #feladat-modal,
 #auth-modal,
 #kategoria-modal,
-#tema-modal {
+#tema-modal,
+#profilkep-modal {
   background: var(--szinatmenet);
   border: var(--szegely) var(--szin-tema-szegely);
   border-radius: var(--sugar-lg);
 }
 
-#feladat-urlap label,
-#auth-urlap label {
+label {
   color: var(--szoveg-alap);
 }
 
-#feladat-urlap input,
-#feladat-urlap select,
-#auth-urlap input,
-#auth-urlap select {
+input,
+select {
   background: var(--szin-tema-hatter);
   border-color: var(--szin-tema-szegely);
   color: var(--szoveg-alap);
@@ -379,8 +377,8 @@ progress::-moz-progress-bar {
     box-shadow var(--ido-gyors);
 }
 
-#feladat-urlap input:focus,
-#feladat-urlap select:focus {
+input:focus,
+select:focus {
   border-color: var(--szin-kozepes);
   box-shadow: var(--ragyogas);
 }

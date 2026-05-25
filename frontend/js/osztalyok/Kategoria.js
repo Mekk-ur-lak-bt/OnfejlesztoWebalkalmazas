@@ -78,12 +78,18 @@ export class KategoriaModal {
     lista.innerHTML = "";
     kategoriak.forEach((k) => {
       const label = document.createElement("label");
-      label.innerHTML = `
-        <span>${k.nev}</span>
-        <input type="text" data-id="${k.id}" value="${k.nev}" required />
-        <br>
-      `;
+      label.setAttribute("for", `input-${k.id}`);
+      label.textContent = k.nev;
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.id = `input-${k.id}`;
+      input.dataset.id = k.id;
+      input.value = k.nev;
+      input.required = true;
+
       lista.appendChild(label);
+      lista.appendChild(input);
     });
     this.#modal.megnyit();
   }

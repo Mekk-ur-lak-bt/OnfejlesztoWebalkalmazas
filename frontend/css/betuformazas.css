@@ -87,6 +87,11 @@ p,
   text-align: center;
 }
 
+.demo-figyelmeztetes p {
+  white-space: wrap;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   .profil-oldalsav header h2,
   .todo-oldalsav header h2 {
