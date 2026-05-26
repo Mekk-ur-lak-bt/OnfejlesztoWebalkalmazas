@@ -1,11 +1,23 @@
 const db = require("../database");
 
-const SZINT_HATAROK = [1000, 500, 250, 100];
+const SZINT_HATAROK = [0, 100, 250, 1000, 5000, 12000, 25000, 42000, 75000, 120000];
 
 class Felhasznalo {
   static #szintKiszamit(xp) {
-    const index = SZINT_HATAROK.findIndex((h) => xp >= h);
-    return index === -1 ? 1 : 5 - index;
+    let szint = 1;
+    for (let i = 1; i < SZINT_HATAROK.length; i++) {
+      if (xp >= SZINT_HATAROK[i]) szint = i;
+      else break;
+    }
+    return szint;
+  }
+
+  static szintProgressz(xp) {
+    const szint = Felhasznalo.#szintKiszamit(xp);
+    const aktualisHatar = SZINT_HATAROK[szint];
+    const kovetkezoHatar = SZINT_HATAROK[szint + 1];
+    if (!kovetkezoHatar) return 100;
+    return Math.floor(((xp - aktualisHatar) / (kovetkezoHatar - aktualisHatar)) * 100);
   }
 
   static #sorbolObjektum(sor) {
@@ -15,6 +27,7 @@ class Felhasznalo {
       xp: sor.xp,
       coin: sor.coin,
       szint: sor.szint,
+      szintProgressz: Felhasznalo.szintProgressz(sor.xp),
       avatar: sor.avatar,
     };
   }
@@ -22,13 +35,15 @@ class Felhasznalo {
   static osszes() {
     return db
       .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo")
-      .all();
+      .all()
+      .map(Felhasznalo.#sorbolObjektum);
   }
 
   static keres(id) {
-    return db
+    const sor = db
       .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
       .get(id);
+    return sor ? Felhasznalo.#sorbolObjektum(sor) : null;
   }
 
   static keresByNev(nev) {
@@ -48,8 +63,8 @@ class Felhasznalo {
   }
 
   static xpHozzaad(id, mennyiseg) {
-    const felhasznalo = db.prepare("SELECT xp FROM felhasznalo WHERE id = ?").get(id);
-    const ujXp = felhasznalo.xp + mennyiseg;
+    const sor = db.prepare("SELECT xp FROM felhasznalo WHERE id = ?").get(id);
+    const ujXp = sor.xp + mennyiseg;
     const ujSzint = Felhasznalo.#szintKiszamit(ujXp);
     db.prepare("UPDATE felhasznalo SET xp = ?, szint = ? WHERE id = ?").run(ujXp, ujSzint, id);
     return Felhasznalo.keres(id);

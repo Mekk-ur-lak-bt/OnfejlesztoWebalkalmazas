@@ -1,21 +1,8 @@
 const db = require("../database");
+const Felhasznalo = require("./Felhasznalo");
 const Kategoria = require("./Kategoria");
 
-const SZINT_HATAROK = [
-  { hatar: 1000, kovetkezo: Infinity },
-  { hatar: 500, kovetkezo: 1000 },
-  { hatar: 250, kovetkezo: 500 },
-  { hatar: 100, kovetkezo: 250 },
-  { hatar: 0, kovetkezo: 100 },
-];
-
 class Statisztika {
-  static #szintProgressz(xp) {
-    const szint = SZINT_HATAROK.find((s) => xp >= s.hatar);
-    if (szint.kovetkezo === Infinity) return 100;
-    return Math.floor(((xp - szint.hatar) / (szint.kovetkezo - szint.hatar)) * 100);
-  }
-
   static osszeallit(felhasznaloId) {
     const felhasznalo = db
       .prepare("SELECT id, nev, xp, coin, szint, avatar FROM felhasznalo WHERE id = ?")
@@ -40,7 +27,7 @@ class Statisztika {
         xp: felhasznalo.xp,
         coin: felhasznalo.coin,
         szint: felhasznalo.szint,
-        szintProgressz: Statisztika.#szintProgressz(felhasznalo.xp),
+        szintProgressz: Felhasznalo.szintProgressz(felhasznalo.xp),
       },
       kategoriak: kategoriak.map((k) => ({
         id: k.id,

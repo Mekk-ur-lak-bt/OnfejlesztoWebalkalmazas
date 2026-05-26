@@ -3,6 +3,7 @@
 @import url("stilusok.css");
 @import url("animacio.css");
 @import url("betuformazas.css");
+@import url("temak.css");
 
 .overlay {
   position: fixed;

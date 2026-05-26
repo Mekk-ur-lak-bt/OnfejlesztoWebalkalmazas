@@ -133,7 +133,7 @@ summary {
 }
 
 .oldalso-menu ul {
-  padding: var(--tavolsag-sm) var(--tavolsag-xs);
+  padding: var(--tavolsag-md) var(--tavolsag-xs);
 }
 
 .feladat-lista {
@@ -195,7 +195,6 @@ summary {
   right: 8px;
 }
 
-/*módisítandó--------------*/
 input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
@@ -256,7 +255,6 @@ input[type="checkbox"]:checked::before {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: var(--tavolsag-xs) 0;
 }
 
 #feladat-modal,
