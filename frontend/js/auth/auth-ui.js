@@ -135,7 +135,7 @@ export async function profilFrissit() {
   profilAvatar.src = felhasznalo.avatar;
   profilAvatar.alt = `${felhasznalo.nev} avatar`;
   profilSzint.textContent = `LVL ${felhasznalo.szint} EXPLORER`;
-  profilProgress.value = felhasznalo.szintProgressz();
+  profilProgress.value = felhasznalo.szintProgressz;
   profilCoin.textContent = felhasznalo.coin;
 }
 function profilkepModalInicializal() {

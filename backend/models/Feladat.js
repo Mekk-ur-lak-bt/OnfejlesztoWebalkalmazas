@@ -1,13 +1,7 @@
 const db = require("../database");
-
-const SZINT_HATAROK = [1000, 500, 250, 100];
+const Felhasznalo = require("./Felhasznalo");
 
 class Feladat {
-  static #szintKiszamit(xp) {
-    const index = SZINT_HATAROK.findIndex((h) => xp >= h);
-    return index === -1 ? 1 : 5 - index;
-  }
-
   static #sorbolObjektum(sor) {
     return {
       id: sor.id,
@@ -73,17 +67,17 @@ class Feladat {
 
     db.prepare("UPDATE feladat SET teljesitve = ? WHERE id = ?").run(ujTeljesitve, Number(id));
 
-    const ujXp = db.prepare("SELECT xp FROM felhasznalo WHERE id = ?").get(feladat.felhasznalo_id).xp + feladat.xp_jutalom * szorzo;
-    const ujSzint = Feladat.#szintKiszamit(ujXp);
+    const frissitettFelhasznalo = Felhasznalo.xpHozzaad(feladat.felhasznalo_id, feladat.xp_jutalom * szorzo);
 
-    db.prepare("UPDATE felhasznalo SET xp = xp + ?, coin = coin + ?, szint = ? WHERE id = ?")
-      .run(feladat.xp_jutalom * szorzo, feladat.coin_jutalom * szorzo, ujSzint, feladat.felhasznalo_id);
+    db.prepare("UPDATE felhasznalo SET coin = coin + ? WHERE id = ?")
+      .run(feladat.coin_jutalom * szorzo, feladat.felhasznalo_id);
 
     db.prepare("UPDATE kategoria SET pontok = pontok + ? WHERE id = ?")
       .run(feladat.kategoria_pont * szorzo, feladat.kategoria_id);
 
     return {
       feladat: Feladat.keres(id),
+      felhasznalo: frissitettFelhasznalo,
       jutalom: {
         xp: feladat.xp_jutalom * szorzo,
         coin: feladat.coin_jutalom * szorzo,
