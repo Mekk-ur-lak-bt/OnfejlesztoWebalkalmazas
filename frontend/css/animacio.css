@@ -64,12 +64,12 @@
 @keyframes radar-pulse {
   0%,
   100% {
-    fill: rgba(224, 57, 90, 0.1);
+    fill: color-mix(in srgb, var(--szin-kiemelt) 10%, transparent);
     stroke-opacity: 1;
   }
 
   50% {
-    fill: rgba(224, 57, 90, 0.22);
+    fill: color-mix(in srgb, var(--szin-kiemelt) 22%, transparent);
     stroke-opacity: 0.7;
   }
 }

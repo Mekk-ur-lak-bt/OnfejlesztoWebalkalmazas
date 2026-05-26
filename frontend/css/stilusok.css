@@ -47,7 +47,7 @@ body {
 }
 
 h1 {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 nav ul {
@@ -72,11 +72,11 @@ nav ul li button:hover {
   border-radius: var(--sugar-lg);
   background-color: var(--szin-tema-hatter-eltero);
   border: var(--szegely) var(--szin-tema-szegely);
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 .bejelentkez-menu ul li:last-child a {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 header h2,
@@ -103,12 +103,12 @@ img {
 }
 
 .erme-szamlalo {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
 
 .erme-szamlalo span {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
 
@@ -116,7 +116,7 @@ img {
   border: var(--szegely) var(--szin-kozepes);
   border-radius: var(--sugar-lg);
   background-color: var(--szin-tema-mely);
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 .feladat-lista {
@@ -155,9 +155,10 @@ img {
 }
 
 .feladat:hover {
-  border-color: rgba(224, 57, 90, 0.35);
+  border-color: color-mix(in srgb, var(--szin-kiemelt) 35%, transparent);
   background: var(--szin-tema-kiemelt);
-  box-shadow: 0 4px 22px rgba(224, 57, 90, 0.1);
+  box-shadow: 0 4px 22px
+    color-mix(in srgb, var(--szin-kiemelt) 10%, transparent);
 }
 
 .feladat span {
@@ -166,7 +167,7 @@ img {
 }
 
 .feladat p {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 .feladat.kesz {
@@ -175,7 +176,7 @@ img {
 }
 
 .feladat.kesz span {
-  text-decoration-color: var(--szin-sotet);
+  text-decoration-color: var(--szoveg-sotet);
   color: var(--szoveg-alap);
 }
 
@@ -204,11 +205,11 @@ img {
 }
 
 .feladat.kesz::after {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 .szint-szoveg {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
 
@@ -221,7 +222,7 @@ img {
   background:
     radial-gradient(
       ellipse 70% 70% at center,
-      rgba(224, 57, 90, 0.04) 0%,
+      color-mix(in srgb, var(--szin-kiemelt) 4%, transparent) 0%,
       transparent 70%
     ),
     linear-gradient(
@@ -247,7 +248,7 @@ img {
 }
 
 .grafikon-kartya summary {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
 
@@ -261,7 +262,9 @@ img {
 .radar-terulet {
   fill: var(--szin-atlatszo-kozepes);
   stroke: var(--szin-kozepes);
-  filter: drop-shadow(0 0 5px rgba(224, 57, 90, 0.45));
+  filter: drop-shadow(
+    0 0 5px color-mix(in srgb, var(--szin-kiemelt) 45%, transparent)
+  );
 }
 
 .mini-kartya {
@@ -298,7 +301,7 @@ img {
 }
 
 .mini-kartya p {
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
 
@@ -395,7 +398,7 @@ select:focus {
 
 #modal-megse:hover {
   border-color: var(--szin-kozepes);
-  color: var(--szin-sotet);
+  color: var(--szoveg-sotet);
 }
 
 #modal-mentes {
@@ -454,7 +457,8 @@ select:focus {
 .naptar-fejlec button {
   width: 1.25rem;
   height: 1.25rem;
-  border: var(--szegely) rgba(130, 40, 70, 0.35);
+  border: var(--szegely)
+    color-mix(in srgb, var(--szin-tema-kiemelt) 35%, transparent);
   background: rgba(255, 255, 255, 0.35);
   border-radius: 0.45rem;
   cursor: pointer;
@@ -481,7 +485,8 @@ select:focus {
 .naptar-cella {
   position: relative;
   min-height: 1.55rem;
-  border: var(--szegely) rgba(120, 40, 70, 0.2);
+  border: var(--szegely)
+    color-mix(in srgb, var(--szin-tema-kiemelt) 20%, transparent);
   border-radius: 0.3rem;
   padding: 0.1rem;
   background: rgba(255, 255, 255, 0.22);
@@ -495,7 +500,7 @@ select:focus {
 }
 
 .naptar-cella.ma {
-  outline: 1.5px solid rgba(255, 80, 130, 0.8);
+  outline: 1.5px solid color-mix(in srgb, var(--szin-kozepes) 80%, transparent);
 }
 
 .naptar-nap-szam {
@@ -510,7 +515,7 @@ select:focus {
   height: 0.35rem;
   margin: 0.12rem auto 0;
   border-radius: 999px;
-  background: rgba(255, 80, 130, 0.9);
+  background: color-mix(in srgb, var(--szin-kozepes) 90%, transparent);
   font-size: 0;
 }
 

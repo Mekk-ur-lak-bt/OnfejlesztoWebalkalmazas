@@ -1,0 +1,125 @@
+html.tema-girlipop progress::-webkit-progress-value {
+  background: linear-gradient(
+    90deg,
+    var(--szin-kozepes),
+    var(--szin-vilagos),
+    var(--szin-halvany),
+    var(--szin-vilagos),
+    var(--szin-kozepes)
+  );
+  background-size: 300% 100%;
+  animation: girlipop-shimmer 3s linear infinite;
+}
+
+html.tema-girlipop progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--szin-kozepes), var(--szin-vilagos));
+}
+
+@keyframes girlipop-shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+html.tema-elegans progress::-webkit-progress-value {
+  background: linear-gradient(
+    90deg,
+    var(--szin-kozepes),
+    var(--szin-kiemelt),
+    var(--szin-vilagos),
+    var(--szin-kiemelt),
+    var(--szin-kozepes)
+  );
+  background-size: 300% 100%;
+  animation: elegans-arany 4s ease-in-out infinite;
+}
+
+html.tema-elegans progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--szin-kozepes), var(--szin-kiemelt));
+}
+
+@keyframes elegans-arany {
+  0% {
+    background-position: 100% center;
+  }
+  50% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 100% center;
+  }
+}
+
+html.tema-elegans .aktival-szint {
+  background: linear-gradient(90deg, var(--szin-kozepes), var(--szin-kiemelt));
+  box-shadow: var(--ragyogas);
+}
+
+html.tema-termeszet progress::-webkit-progress-value {
+  background: linear-gradient(
+    90deg,
+    var(--szin-kozepes),
+    var(--szin-kiemelt),
+    var(--szin-kozepes)
+  );
+  background-size: 200% 100%;
+  animation: termeszet-grow 3.5s ease-in-out infinite;
+}
+
+html.tema-termeszet progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--szin-kozepes), var(--szin-kiemelt));
+}
+
+@keyframes termeszet-grow {
+  0% {
+    background-position: 100% center;
+  }
+  50% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 100% center;
+  }
+}
+
+html.tema-termeszet .aktival-szint {
+  background: linear-gradient(90deg, var(--szin-sotet), var(--szin-kiemelt));
+  box-shadow: var(--ragyogas);
+}
+
+html.tema-gamer progress {
+  border-color: transparent;
+  box-shadow: var(--ragyogas);
+}
+
+html.tema-gamer progress::-webkit-progress-bar {
+  background-color: var(--szin-tema-mely);
+}
+
+html.tema-gamer progress::-webkit-progress-value {
+  background: var(--szinatmenet-rgb);
+  background-size: 300% 100%;
+  animation: gamer-rgb 2.5s linear infinite;
+}
+
+html.tema-gamer progress::-moz-progress-bar {
+  background: var(--szinatmenet-rgb);
+}
+
+@keyframes gamer-rgb {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 300% center;
+  }
+}
+
+html.tema-gamer .aktival-szint {
+  background: var(--szinatmenet-rgb);
+  background-size: 300% 100%;
+  animation: gamer-rgb 2.5s linear infinite;
+}
