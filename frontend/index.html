@@ -7,35 +7,52 @@
       name="description"
       content="Dashboard for tracking daily quests and statistics."
     />
+
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://mekk-ur-lak-bt.github.io/OnfejlesztoWebalkalmazas/frontend/index.html"
+    />
+    <meta property="og:title" content="Dream Team | Dashboard" />
+    <meta
+      property="og:description"
+      content="Dashboard for tracking daily quests and statistics."
+    />
+    <meta property="og:image" content="img/avatar.jpg" />
+
     <title>Dream Team | Dashboard</title>
+
     <link rel="stylesheet" href="css/main.css?v=2" />
+
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/img/favicon/favicon-16x16.png"
+      href="img/favicon/favicon-16x16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="/img/favicon/favicon-32x32.png"
+      href="img/favicon/favicon-32x32.png"
     />
     <link
       rel="shortcut icon"
-      href="/img/favicon/favicon.ico"
+      href="img/favicon/favicon.ico"
       type="image/x-icon"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="/img/favicon/apple-touch-icon.png"
+      href="img/favicon/apple-touch-icon.png"
     />
     <link rel="manifest" href="./img/favicon/site.webmanifest" />
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=delete,edit,landscape_2_edit"
     />
+
     <script type="module" src="js/index.js"></script>
     <script type="application/ld+json">
       {
@@ -230,6 +247,62 @@
           <article class="achievements hidden">
             <h2>Achievements</h2>
           </article>
+        </details>
+
+        <details class="seo-hogyan-hasznald">
+          <summary>How to use</summary>
+          <p>
+            Users can create daily tasks by category, earn XP and Coins on
+            completion, level up, and track progress on a visual statistics
+            dashboard. The application includes a gamified todo list, a
+            scoreboard, a radar chart for five attributes, a theme selector, a
+            calendar, and a day streak counter. All user data is stored locally
+            via an SQLite database.
+          </p>
+          <br />
+          <p>
+            To run the application locally on your machine, make sure
+            <strong>Node.js</strong> is installed.<br />Download the project
+            from github, then open the backend folder in your file maganger.
+            <br />Next, open your <strong>terminal</strong> from this folder,
+            and install the required dependencies by running:<br />
+            <strong>npm install express better-sqlite3 multer</strong>
+          </p>
+          <br />
+          <p>
+            Finally, create the database and start the local server by
+            executing:<br />
+            <strong>node database.js</strong><br />followed by:<br /><strong
+              >node app.js</strong
+            ><br />
+            Once the server is running, open your web browser and navigate to
+            <strong>http://localhost:3000</strong>
+            to launch the application. The database file is created
+            automatically on the first run and persists across server restarts.
+          </p>
+          <br />
+          <p>
+            Use Git Bash instead of PowerShell on school computers to avoid
+            execution policy restrictions.
+          </p>
+        </details>
+
+        <details class="seo-rolunk">
+          <summary>About us</summary>
+          <p>
+            Dream Team Dashboard is a gamified self-development web application
+            inspired by Notion templates, turning daily task management into an
+            RPG experience. <br />
+            Our team engineered this platform to help users optimize their
+            routine through custom tasks, that reset daily. To explore the full
+            features, download our official
+            <a
+              href="https://github.com/Mekk-ur-lak-bt/OnfejlesztoWebalkalmazas"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitHub repository</a
+            >.
+          </p>
         </details>
       </div>
     </main>

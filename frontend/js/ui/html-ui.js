@@ -46,7 +46,11 @@ export function demoFigyelmeztetes() {
 
   console.log("Hostname:", hostname, "Is this a local usage?:", isLocal);
 
-  if (isLocal) return;
+  if (isLocal) {
+    document.querySelector(".seo-rolunk")?.remove();
+    document.querySelector(".seo-hogyan-hasznald")?.remove();
+    return;
+  }
 
   const kod = `
     <aside class="demo-figyelmeztetes" role="note" aria-label="Demo notice">

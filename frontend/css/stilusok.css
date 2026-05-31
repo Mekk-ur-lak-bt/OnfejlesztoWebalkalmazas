@@ -247,7 +247,9 @@ img {
   opacity: 0.5;
 }
 
-.grafikon-kartya summary {
+.grafikon-kartya summary,
+.seo-rolunk summary,
+.seo-hogyan-hasznald summary {
   color: var(--szoveg-sotet);
   text-shadow: var(--ragyogas);
 }
