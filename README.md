@@ -66,11 +66,11 @@ Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
 Developed under **Mekk-ur-lak-bt** by:
 
-| Name                   | Role                                                                                                       |
-| :--------------------- | :--------------------------------------------------------------------------------------------------------- |
-| Fruzsina Anna Huszár   | Frontend, UI/UX Design, Prototype, Documentation, README                                                   |
-| Levente Roland Horváth | Backend Logic and API Development, Frontend (User, Auth, Calendar), Project Management, Documentation      |
-| Vanda Alina Harnos     | Database Management, Testing, UML Design, Documentation                                                    |
+| Name                   | Role                                                                                                                |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| Fruzsina Anna Huszár   | Frontend, UI/UX Design, Prototype, Documentation, README, Testing                                                   |
+| Levente Roland Horváth | Backend Logic and API Development, Frontend (User, Auth, Calendar), Project Management, Documentation, Testing      |
+| Vanda Alina Harnos     | Database Management, UML Design, Documentation, Testing                                                             |
 
 ---
 
