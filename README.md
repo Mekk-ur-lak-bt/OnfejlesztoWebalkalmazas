@@ -142,8 +142,8 @@ Nyisd meg a böngészőt, és lépj a következő címre: [http://localhost:3000
 
 Fejlesztette a **Mekk-ur-lak-bt** csapata:
 
-| Név                    | Szerep                                                                                                   |
-| :--------------------- | :------------------------------------------------------------------------------------------------------- |
-| Huszár Fruzsina Anna   | Frontend, UI/UX tervezés, Prototípus, Dokumentáció, README                                               |
-| Horváth Levente Roland | Backend logika és API fejlesztés, Frontend (Felhasználó, Auth, Naptár), Projektmenedzsment, Dokumentáció |
-| Harnos Vanda Alina     | Adatbázis-kezelés, tesztelés, UML tervezés, Dokumentáció                                                 |
+| Név                    | Szerep                                                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| Huszár Fruzsina Anna   | Frontend, UI/UX tervezés, Prototípus, Dokumentáció, README, Tesztelés                                               |
+| Horváth Levente Roland | Backend logika és API fejlesztés, Frontend (Felhasználó, Auth, Naptár), Projektmenedzsment, Dokumentáció, Tesztelés |
+| Harnos Vanda Alina     | Adatbázis-kezelés, UML tervezés, Dokumentáció, Tesztelés                                                            |
